@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env PORT=10888 react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build"
   },
   "keywords": [],
@@ -31,5 +31,15 @@
     "react-yandex-maps": "^4.2.0",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0"
+  },
+  "browserslist": {
+    "production": [
+      "android >= 4.4",
+      "iOS >= 9"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 safari version"
+    ]
   }
 }
