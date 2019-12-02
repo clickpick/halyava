@@ -30,8 +30,7 @@ export default function useNavigation(initialActivePanel) {
         };
     }, [initialActivePanel]);
 
-    function goForward(e) {
-        const nextPanel = e.currentTarget.dataset.to;
+    function goForward(nextPanel) {
         const nextHistory = [...history, nextPanel];
 
         if (activePanel === initialActivePanel) {
