@@ -1,9 +1,12 @@
-export const USER_INITIAL_STATE = {
-    loading: false,
-    data: null,
-    error: false
+export const MAP_INITIAL_STATE = {
+    hasLayout: false,
+    state: {
+        center: [55.751574, 37.573856],
+        zoom: 14,
+        behaviors: ['default', 'scrollZoom'],
+    }
 };
 
 export const INITIAL_STATE = {
-    user: USER_INITIAL_STATE,
+    map: MAP_INITIAL_STATE
 };
