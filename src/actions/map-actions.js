@@ -1,4 +1,5 @@
 import * as types from 'constants/types';
+import API from 'services/api';
 
 const setLayoutMap = () => ({
     type: types.SET_LAYOUT_MAP
@@ -9,4 +10,16 @@ const setCenterMap = (center) => ({
     center
 });
 
-export { setLayoutMap, setCenterMap };
+const setFeatures = (features) => ({
+    type: types.SET_FEATURES,
+    features
+});
+
+const fetchFeatures = (topLeftLat, topLeftLng, botRightLat, botRightLng) => async (dispatch) => {
+    try {
+        const { features } = await API.map(topLeftLat, topLeftLng, botRightLat, botRightLng);
+        dispatch(setFeatures(features));
+    } catch (err) {}
+};
+
+export { setLayoutMap, setCenterMap, fetchFeatures };

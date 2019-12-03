@@ -18,6 +18,12 @@ export function mapReducer(state = MAP_INITIAL_STATE, action) {
                 }
             };
 
+        case types.SET_FEATURES:
+            return {
+                ...state,
+                features: action.features
+            };
+
         default:
             return state;
     }
@@ -25,3 +31,4 @@ export function mapReducer(state = MAP_INITIAL_STATE, action) {
 
 export const getMapState = (state) => state.map.state;
 export const getHasLayout = (state) => state.map.hasLayout;
+export const getMapFeatures = (state) => state.map.features;

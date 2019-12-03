@@ -4,7 +4,9 @@ export const MAP_INITIAL_STATE = {
         center: [55.751574, 37.573856],
         zoom: 14,
         behaviors: ['default', 'scrollZoom'],
-    }
+        controls: []
+    },
+    features: []
 };
 
 export const INITIAL_STATE = {
