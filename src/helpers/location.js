@@ -10,3 +10,13 @@ export const parseQueryString = (string) =>
 
             return query;
         }, {});
+
+export const getHash = (link) => {
+    const hash = link.split('#')[1];
+
+    if (hash) {
+        return hash.replace('#', '');
+    }
+
+    return '';
+};
