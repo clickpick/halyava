@@ -30,6 +30,18 @@ class API {
 
         return response.data.data;
     }
+
+    async order(orderId) {
+        const response = await get(`/vk-user/orders/${orderId}`);
+
+        return response.data.data;
+    }
+
+    async vkPayParams(orderId) {
+        const response = await get(`/vk-user/orders/${orderId}/pay-params`);
+
+        return response.data.data;
+    }
 }
 
 export default new API();
