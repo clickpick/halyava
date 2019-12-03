@@ -1,0 +1,74 @@
+.Button {
+    display: inline-block;
+
+    padding: 0 16px;
+
+    border: none;
+    border-radius: 16px;
+    
+    background-color: var(--button-default_background);
+    
+    font: inherit;
+    font-size: var(--font-size-13);
+    font-weight: var(--font-weight-semibold);
+    color: var(--button-default_color);
+    text-align: center;
+    text-decoration: none;
+    line-height: 30px;
+    
+    cursor: pointer;
+
+    transition: transform 150ms ease-in;
+}
+
+.Button:active:not([disabled]) {
+    transform: scale(0.95) translateY(1px);
+}
+
+/**
+ * Themes
+ */
+.Button.Button--primary {
+    background-color: var(--button-primary_background);
+    color: var(--button-primary_color);
+}
+
+/**
+ * Sizes
+ */
+.Button.Button--medium {
+    border-radius: 6px;
+
+    font-size: var(--font-size-15);
+    line-height: 24px;
+    padding: 12px 16px;
+}
+
+/**
+ * Options
+ */
+.Button.Button--with-before {
+    position: relative;
+    padding-left: 48px;
+}
+
+.Button.Button--full {
+    width: 100%;
+    max-width: 100%;
+}
+
+.Button.Button--backlight {
+    box-shadow: var(--button_backlight);
+}
+
+.Button svg {
+    width: 16px;
+    height: 16px;
+    fill: var(--button_svg-fill);
+}
+
+.Button__before {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+}
