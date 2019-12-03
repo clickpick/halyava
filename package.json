@@ -6,7 +6,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "proxy": "ssh -R 80:localhost:4500 ssh.localhost.run"
+    "proxy": "ssh -vnNT -R 3000:localhost:4500 forge@dev.ezavalishin.ru"
   },
   "keywords": [],
   "author": "",
