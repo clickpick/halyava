@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import connect from '@vkontakte/vk-connect';
 
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { setCenterMap } from 'actions/map-actions';
+import { getPopup } from 'reducers/popup-reducer';
+import { showPopup, closePopup } from 'actions/popup-actions';
+import * as POPUP from 'constants/popup';
 
 import { getOrderId } from 'helpers/order';
 
@@ -13,6 +16,9 @@ import Main from 'views/Main';
 import PayOrder from 'views/PayOrder';
 import Loader from 'views/Loader';
 
+import PopupContainer from 'components/PopupContainer';
+import Popup from 'components/Popup';
+
 import './App.css';
 
 import * as VIEWS from 'constants/views';
@@ -20,6 +26,8 @@ import * as VIEWS from 'constants/views';
 const App = () => {
 	const [activeView, setActiveView] = useState(VIEWS.LOADER);
 	const [activeOrder, setActiveOrder] = useState(null);
+
+	const popup = useSelector(getPopup);
 
 	const dispatch = useDispatch();
 
@@ -39,6 +47,20 @@ const App = () => {
 		setActiveOrder(orderId);
 		setActiveView(VIEWS.PAY_ORDER);
 	}, []);
+
+	useEffect(() => {
+		window.addEventListener('online', () => {
+			if (navigator.onLine) {
+				dispatch(closePopup());
+			}
+		});
+
+		window.addEventListener('offline', () => {
+			if (!navigator.onLine) {
+				dispatch(showPopup(POPUP.OFFLINE, {}, 0));
+			}
+		});
+	}, [dispatch]);
 
 	useEffect(() => {
 		const orderId = getOrderId(window.location.href);
@@ -66,13 +88,17 @@ const App = () => {
 		}
 	}, [activeView, dispatch]);
 
-	return (
+	return <>
 		<Root activeView={activeView}>
 			<Main id={VIEWS.MAIN} goOrder={goOrder} />
 			<PayOrder id={VIEWS.PAY_ORDER} orderId={activeOrder} goMain={goMain} />
 			<Loader id={VIEWS.LOADER} />
 		</Root>
-	);
+
+		<PopupContainer>
+			{(popup) && <Popup {...popup} onClose={() => dispatch(closePopup())} />}
+		</PopupContainer>
+	</>;
 }
 
 export default App;
