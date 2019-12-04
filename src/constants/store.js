@@ -1,10 +1,10 @@
 export const MAP_INITIAL_STATE = {
     hasLayout: false,
     state: {
-        center: [55.751574, 37.573856],
+        center: [53.210467, 50.183139],
         zoom: 14,
-        behaviors: ['default', 'scrollZoom'],
-        controls: []
+        // behaviors: ['default', 'scrollZoom'],
+        // controls: []
     },
     features: []
 };
