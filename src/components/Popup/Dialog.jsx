@@ -144,7 +144,7 @@ const Dialog = ({ className, disabled, onClose, animationType, type, title, mess
             {...handlers}
             style={{ top: `${top}px` }}>
             <div className="Dialog__wrapper" ref={wrapperRef}>
-                <h3 className="Dialog__title" children={title} />
+                {title && <h3 className="Dialog__title" children={title} />}
                 {message && <p className="Dialog__message" dangerouslySetInnerHTML={{ __html: message }} />}
                 {children}
 
@@ -159,7 +159,7 @@ Dialog.propTypes = {
     className: string,
     animationType: oneOf(['enter', 'leave']).isRequired,
     type: oneOf(['info', 'success', 'danger']),
-    title: string.isRequired,
+    title: string,
     message: string,
     actions: arrayOf(shape({
         theme: oneOf(['primary', 'secondary', 'info', 'link']),

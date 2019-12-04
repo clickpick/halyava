@@ -62,7 +62,7 @@ Popup.propTypes = {
     visible: bool,
     disabled: bool,
     type: oneOf(['info', 'success', 'danger']),
-    title: string.isRequired,
+    title: string,
     message: string,
     onClose: func,
     actions: arrayOf(shape({
