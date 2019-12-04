@@ -1,0 +1,53 @@
+.Gallery {
+    display: block;
+
+    width: 295px;
+    height: 95px;
+}
+
+.Gallery__preview {
+    display: inline-block;
+
+    width: 95px;
+    height: 95px;
+    margin-right: 5px;
+
+    border-radius: 6px;
+
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.Gallery__preview:last-child {
+    margin-right: 0;
+}
+
+.Gallery__preview img {
+    display: none;
+}
+
+.Gallery__preview--last {
+    position: relative;
+
+    overflow: hidden;
+}
+
+.Gallery__preview--last::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    content: 'ещё ' attr(data-rest-count) ' фото';
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 0, 0, 0.5);
+
+    font-size: var(--font-size-11);
+    color: var(--color-white);
+    letter-spacing: 0.07px;
+}
