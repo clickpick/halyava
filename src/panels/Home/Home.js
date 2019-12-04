@@ -34,7 +34,7 @@ const Home = ({ id, goShop, goOrder }) => {
 				goOrder(orderId);
 			}
 		} catch (e) {}
-	}, []);
+	}, [goOrder]);
 	
 	return (
 		<Panel id={id} className="Home">
