@@ -143,7 +143,6 @@ const Shop = ({ id, shop, goBack }) => {
                         </>}
 
                         {(group) && <>
-                        
                             {(group.site) &&
                                 <InfoRow className="Shop__InfoRow" title="Сайт">
                                     <a
@@ -158,20 +157,22 @@ const Shop = ({ id, shop, goBack }) => {
                                     className="Shop__InfoRow"
                                     title="Описание из группы"
                                     children={group.description} />}
-                        </>}
 
-                        <FixedLayout
-                            className="Shop__FixedLayout"
-                            vertical="bottom">
-                            <Button
-                                className="Shop__Button"
-                                theme="primary"
-                                size="medium"
-                                children="Написать сообщение"
-                                before={<IconVk />}
-                                full
-                                backlight />
-                        </FixedLayout>
+                            {(Boolean(group.can_message)) &&
+                                <FixedLayout
+                                    className="Shop__FixedLayout"
+                                    vertical="bottom">
+                                    <Button
+                                        className="Shop__Button"
+                                        theme="primary"
+                                        size="medium"
+                                        href={`https://vk.me/${group.screen_name}`}
+                                        children="Написать сообщение"
+                                        before={<IconVk />}
+                                        full
+                                        backlight />
+                                </FixedLayout>}
+                        </>}
                     </>}
             </Wrapper>
         </Panel>
