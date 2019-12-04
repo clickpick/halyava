@@ -43,7 +43,7 @@
 
 .Dialog__wrapper {
     max-height: 94vh;
-    padding-top: calc(30px + var(--safe-area-inset-top));
+    padding-top: calc(74px + var(--safe-area-inset-top));
     padding-right: 20px;
     padding-bottom: 30px;
     padding-left: 20px;
