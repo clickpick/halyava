@@ -1,0 +1,26 @@
+.loader {
+    position: relative;
+
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
+
+    font-size: 0;
+
+    overflow: hidden;
+
+    cursor: wait;
+}
+
+.Loader--is-center {
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.Loader--is-absolute-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
