@@ -99,18 +99,20 @@ export default function (timetable, timetableUtcOffset, localUtcOffset) {
         })[0];
     }
 
-    let diff = nextChangeDate - currentMinutes;
+    let diff;
+    if (nextChangeDate) {
+        diff = nextChangeDate - currentMinutes;
 
-    if (diff < 0) {
-        diff += MAX_WEEK_MIN;
+        if (diff < 0) {
+            diff += MAX_WEEK_MIN;
+        }
+
+        nextChangeDate = addMinutes(today, diff + utcShift);
     }
-
-
-    nextChangeDate = addMinutes(today, diff + utcShift);
 
     return {
         isOpened,
         nextChangeDate,
-        needShow: !isOpened || diff < 24 * 60
+        needShow: nextChangeDate ? (!isOpened || diff < 24 * 60) : false
     }
 }
