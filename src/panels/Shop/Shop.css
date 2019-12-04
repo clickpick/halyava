@@ -1,0 +1,43 @@
+.Shop__Wrapper {
+    padding-bottom: 90px !important;
+}
+
+.Shop__ShopCard,
+.Shop__Gallery {
+    margin-bottom: 20px;
+}
+
+.Shop__Gallery {
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.Shop__InfoRow {
+    margin-bottom: 10px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+
+    font-size: var(--font-size-17);
+}
+
+.Shop__InfoRow .InfoRow__title {
+    font-size: var(--font-size-11);
+    letter-spacing: 0.07px;
+}
+
+.Shop__Accordion {
+    margin-bottom: 10px;
+}
+
+.Shop__FixedLayout .FixedLayout__in {
+    padding-right: 40px;
+    padding-bottom: 16px;
+    padding-left: 40px;
+}
+
+@media (max-width: 360px) {
+    .Shop__FixedLayout .FixedLayout__in {
+        padding-right: 20px;
+        padding-left: 20px;
+    }
+}
