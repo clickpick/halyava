@@ -9,6 +9,9 @@ export const MAP_INITIAL_STATE = {
     features: []
 };
 
+export const POPUP_INITIAL_STATE = null;
+
 export const INITIAL_STATE = {
-    map: MAP_INITIAL_STATE
+    map: MAP_INITIAL_STATE,
+    popup: POPUP_INITIAL_STATE
 };

@@ -5,3 +5,6 @@ export const FETCH_MAP_ERROR = 'fetch-map-error';
 export const SET_LAYOUT_MAP = 'set-layout-map';
 export const SET_CENTER_MAP = 'set-center-map';
 export const SET_FEATURES = 'set-features';
+
+export const POPUP_ADD = 'popup-add';
+export const POPUP_CLOSE = 'popup-close';
