@@ -45,6 +45,16 @@
     --shop-card_color-name: var(--color-black);
     --shop-card_color-activity: var(--color-gray);
     --shop-card_color-cashback: var(--color-primary);
+
+    /**
+     * Link Component
+     */
+    --link_color: var(--color-primary);
+    --link_fill-arrow: var(--color-primary);
+}
+
+button {
+    outline: none;
 }
 
 .PanelHeader,

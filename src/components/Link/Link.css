@@ -1,0 +1,33 @@
+.Link {
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+    min-height: 44px;
+
+    border: 0;
+    
+    background-color: transparent;
+
+    text-align: left;
+}
+
+.Link__icon {
+    flex-shrink: 0;
+    margin-right: 15px;
+}
+
+.Link__name {
+    padding-right: 15px;
+    font-size: var(--font-size-17);
+    letter-spacing: -0.41px;
+    color: var(--link_color);
+}
+
+.Link__IconArrow {
+    flex-shrink: 0;
+
+    margin-left: auto;
+
+    fill: var(--link_fill-arrow);
+}
