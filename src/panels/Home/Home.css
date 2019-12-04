@@ -14,3 +14,7 @@
     flex-shrink: 0;
     max-width: 78% !important;
 }
+
+.Home__ShopCard {
+    margin-bottom: 10px;
+}

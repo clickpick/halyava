@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { string, func } from 'prop-types';
 
 import './Home.css';
@@ -8,14 +8,20 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getMapState, getMapFeatures } from 'reducers/map-reducer';
 import { fetchFeatures } from 'actions/map-actions';
 import { getOrderId } from 'helpers/order';
+import { POPUP_LEAVE } from 'constants/popup';
 
 import { Panel, PanelHeader, FixedLayout } from '@vkontakte/vkui';
 import Map from 'components/Map';
 import Button from 'components/Button';
+import PopupContainer from 'components/PopupContainer';
+import Popup from 'components/Popup';
+import ShopCard from 'components/ShopCard';
+import Link from 'components/Link';
 
 import { ReactComponent as IconBlocks } from 'svg/blocks.svg';
 
 const Home = ({ id, goShop, goOrder }) => {
+	const [shop, setShop] = useState(null);
 	const mapState = useSelector(getMapState);
 	const features = useSelector(getMapFeatures);
 
@@ -35,6 +41,12 @@ const Home = ({ id, goShop, goOrder }) => {
 			}
 		} catch (e) {}
 	}, [goOrder]);
+
+	const openShop = useCallback(() => {
+		const nextShop = shop;
+		setShop(null);
+		setTimeout(() => goShop(nextShop), POPUP_LEAVE);
+	}, [shop, goShop]);
 	
 	return (
 		<Panel id={id} className="Home">
@@ -44,7 +56,7 @@ const Home = ({ id, goShop, goOrder }) => {
 				mapState={mapState}
 				features={features}
 				fetchFeatures={setFeatures}
-				onClick={goShop} />
+				onClick={setShop} />
 			
 			<FixedLayout
 				className="Home__FixedLayout"
@@ -59,6 +71,28 @@ const Home = ({ id, goShop, goOrder }) => {
 					backlight
 					onClick={openScanner} />
 			</FixedLayout>
+
+			<PopupContainer>
+				<Popup visible={Boolean(shop)} onClose={() => setShop(null)}>
+					{(shop) && <>
+						<ShopCard
+							className="Home__ShopCard"
+							name={shop.properties.group.name}
+							activity={shop.properties.group.activity}
+							photo={shop.properties.iconContent}
+							cashback={shop.properties.group.cashback_value} />
+						<Link
+							className="Home__Link"
+							icon="info"
+							children="Подробнее"
+							onClick={openShop} />	
+						<Link
+							className="Home__Link"
+							icon="message"
+							children="Читать отзывы" />	
+					</>}
+				</Popup>
+			</PopupContainer>
 		</Panel>
 	);
 };
