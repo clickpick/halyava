@@ -4,7 +4,7 @@ import connect from '@vkontakte/vk-connect';
 import { useDispatch } from 'react-redux';
 import { setCenterMap } from 'actions/map-actions';
 
-import { getHash } from 'helpers/location';
+import { getOrderId } from 'helpers/order';
 
 import { Root } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
@@ -33,35 +33,22 @@ const App = () => {
 	// 	});
 	// }, []);
 
-	const getOrderId = useCallback((link) => {
-		let orderId = null;
-		const params = getHash(window.location.href).split('&');
-
-		for (let i = 0; i < params.length; i++) {
-			const [key, value] = params[i].split('=');
-
-			if (key === 'order') {
-				orderId = value;
-				break;
-			}
-		}
-
-		return orderId;
-	}, []);
-
 	const goMain = useCallback(() => setActiveView('main'), []);
+
+	const goOrder = useCallback((orderId) => {
+		setActiveOrder(orderId);
+		setActiveView(VIEWS.PAY_ORDER);
+	}, []);
 
 	useEffect(() => {
 		const orderId = getOrderId(window.location.href);
 
 		if (orderId) {
-			setActiveOrder(orderId);
-			setActiveView(VIEWS.PAY_ORDER);
-			return;
+			return goOrder(orderId);
 		}
 		
 		setActiveView(VIEWS.MAIN);
-	}, [getOrderId]);
+	}, [goOrder]);
 
 	useEffect(() => {
 		if (activeView === VIEWS.MAIN) {
@@ -81,7 +68,7 @@ const App = () => {
 
 	return (
 		<Root activeView={activeView}>
-			<Main id={VIEWS.MAIN} />
+			<Main id={VIEWS.MAIN} goOrder={goOrder} />
 			<PayOrder id={VIEWS.PAY_ORDER} orderId={activeOrder} goMain={goMain} />
 			<Loader id={VIEWS.LOADER} />
 		</Root>
