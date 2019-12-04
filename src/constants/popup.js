@@ -1,4 +1,5 @@
 export const POPUP_DELAY = 5000;
+export const POPUP_LEAVE = 150;
 
 export const OFFLINE = 'offline';
 
