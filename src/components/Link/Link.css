@@ -15,6 +15,7 @@
 .Link__icon {
     flex-shrink: 0;
     margin-right: 15px;
+    fill: var(--link_fill);
 }
 
 .Link__name {
@@ -29,5 +30,5 @@
 
     margin-left: auto;
 
-    fill: var(--link_fill-arrow);
+    fill: var(--link_fill);
 }
