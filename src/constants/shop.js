@@ -1,0 +1,1 @@
+export const TABS = [{ index: 'description', title: 'Описание' }, { index: 'reviews', title: 'Отзывы' }];
