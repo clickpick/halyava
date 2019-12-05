@@ -30,6 +30,14 @@ class API {
 
         return response.data.data;
     }
+
+    async getReviews(addressId, page = 1) {
+        if (!addressId) {
+            throw new Error('Bad address id');
+        }
+
+        return await get(`/vk-user/addresses/${addressId}/reviews?page[number]=${page}`);
+    }
 }
 
 export default new API();
