@@ -2,6 +2,14 @@
     padding-bottom: 90px !important;
 }
 
+.Shop__Tabs {
+    margin-bottom: 30px;
+}
+
+.Shop__details > summary {
+    display: none;
+}
+
 .Shop__ShopCard,
 .Shop__Gallery {
     margin-bottom: 20px;
@@ -35,6 +43,17 @@
 
 .Shop__Accordion {
     margin-bottom: 10px;
+}
+
+.Shop__no-reviews {
+    text-align: center;
+}
+
+.Shop__show-more {
+    margin-top: 20px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .Shop__FixedLayout .FixedLayout__in {
