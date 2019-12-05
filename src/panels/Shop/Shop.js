@@ -148,8 +148,8 @@ const Shop = ({ id, shop, goBack }) => {
                                     title="Адрес"
                                     children={currentAddress.address} />}
 
-                            {(addresses && addresses.length > 0) &&
-                                (addresses.length === 1)
+                            {(addresses && addresses.length > 0)
+                                ? (addresses.length === 1)
                                     ? <InfoRow
                                         className="Shop__InfoRow"
                                         title="Филиалы"
@@ -157,7 +157,8 @@ const Shop = ({ id, shop, goBack }) => {
                                     : <Accordion
                                         className="Shop__Accordion"
                                         title="Филиалы"
-                                        items={addresses.map(renderAddress)} />}
+                                        items={addresses.map(renderAddress)} />
+                                : null}
 
                             {(currentAddress.phone) &&
                                 <InfoRow className="Shop__InfoRow" title="Номер телефона">
