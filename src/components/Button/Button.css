@@ -10,7 +10,7 @@
     
     font: inherit;
     font-size: var(--font-size-13);
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-medium);
     color: var(--button-default_color);
     text-align: center;
     text-decoration: none;
@@ -49,8 +49,10 @@
     border-radius: 6px;
 
     font-size: var(--font-size-15);
+    font-weight: var(--font-weight-semibold);
     line-height: 24px;
     text-transform: none;
+    letter-spacing: -0.24px;
 }
 
 /**
