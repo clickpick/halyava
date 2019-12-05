@@ -8,17 +8,18 @@ import { FormLayout, Textarea } from '@vkontakte/vkui';
 import Button from 'components/Button';
 
 const AddReviewForm = ({ className, onSubmit }) => {
-    const [review, setReview] = useState('');
+    const [review, setReview] = useState({ value: '', status: 'default' });
     const [loading, setLoading] = useState(false);
 
-    const handleChange = useCallback((e) => setReview(e.target.value), []);
+    const handleChange = useCallback((e) => setReview({ value: e.target.value, status: 'default' }), []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const text = review.trim();
+        const text = review.value.trim();
 
         if (!text) {
+            setReview({ value: text, status: 'error' });
             return;
         }
 
@@ -34,7 +35,7 @@ const AddReviewForm = ({ className, onSubmit }) => {
                 className="AddReviewForm__Textarea"
                 top="Твой отзыв"
                 placeholder="Напиши здесь что думаешь об этом месте"
-                value={review}
+                {...review}
                 onChange={handleChange} />
             <Button
                 type="submit"

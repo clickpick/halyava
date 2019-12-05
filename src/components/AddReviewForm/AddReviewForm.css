@@ -35,3 +35,8 @@
 .AddReviewForm__Textarea .FormField__border {
     border: 0;
 }
+
+.AddReviewForm__Textarea.FormField--s-error .FormField__border {
+    border-bottom: 1px solid var(--color-red);
+    background: var(--color-white);
+}
