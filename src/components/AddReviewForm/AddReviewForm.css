@@ -1,0 +1,37 @@
+.AddReviewForm .FormLayout__row {
+    padding: 0;
+    margin-bottom: 30px;
+}
+
+.AddReviewForm .FormLayout__row:last-child {
+    margin-bottom: 0;
+}
+
+.AddReviewForm .FormLayout__row-top {
+    padding: 0 0 6px;
+
+    font-size: var(--font-size-13);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-primary);
+    text-transform: uppercase;
+}
+
+.AddReviewForm .FormLayout__row .Button,
+.AddReviewForm .FormField {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+}
+
+.AddReviewForm__Textarea {
+    --field_background: var(--color-white);
+}
+
+.AddReviewForm__Textarea textarea {
+    padding: 0;
+    font-size: var(--font-size-17);
+    letter-spacing: -0.41px;
+}
+
+.AddReviewForm__Textarea .FormField__border {
+    border: 0;
+}
