@@ -4,8 +4,10 @@ import classNames from 'classnames';
 
 import './TabItem.css';
 
+import Button from 'components/Button';
+
 const TabItem = ({ className, index, title, active, onClick }) =>
-    <button
+    <Button
         className={classNames(className, 'TabItem')}
         aria-pressed={active}
         children={title}
