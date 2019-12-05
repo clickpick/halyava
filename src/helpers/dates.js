@@ -1,9 +1,10 @@
-import { addMinutes, getDay, getHours, getMinutes } from 'date-fns';
+import {addMinutes, format, getDay, getHours, getMinutes, isSameDay} from 'date-fns';
+import {ru} from 'date-fns/locale';
 
 export const getTimezoneOffset = () =>
     (new Date()).getTimezoneOffset() * -1;
 
-const WEEL_MAP = {
+const WEEK_MAP = {
     'sun': 0,
     'mon': 1,
     'tue': 2,
@@ -24,7 +25,7 @@ export function timetableParse(timetable, timetableUtcOffset, localUtcOffset) {
     let currentMinutes = todayWeekday * 24 * 60 + getHours(today) * 60 + getMinutes(today);
 
     Object.keys(timetable).forEach(key => {
-        timetable[WEEL_MAP[key]] = timetable[key];
+        timetable[WEEK_MAP[key]] = timetable[key];
         delete timetable[key];
     });
 
@@ -113,9 +114,30 @@ export function timetableParse(timetable, timetableUtcOffset, localUtcOffset) {
         nextChangeDate = addMinutes(today, diff + utcShift);
     }
 
+    const needShow = nextChangeDate ? (!isOpened || diff < 24 * 60) : false;
+
+    let helpString;
+
+    if (needShow) {
+
+        const nextChangeStr = isSameDay(today, nextChangeDate) ? format(nextChangeDate, 'HH:mm') : format(nextChangeDate, 'eeeeee в HH:mm', {locale: ru});
+
+        if (isOpened) {
+            helpString = 'закроется в ' + nextChangeStr;
+        } else {
+            helpString = 'откроется в ' + nextChangeStr;
+        }
+    } else {
+        if (isOpened) {
+            helpString = 'круглосуточно';
+        } else {
+            helpString = '';
+        }
+    }
+
     return {
         isOpened,
         nextChangeDate,
-        needShow: nextChangeDate ? (!isOpened || diff < 24 * 60) : false
+        helpString
     }
 }
