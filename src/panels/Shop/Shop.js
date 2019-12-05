@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { string, shape, func } from 'prop-types';
+import { string, shape, oneOf, func } from 'prop-types';
 import classNames from 'classnames';
 
 import './Shop.css';
@@ -27,6 +27,10 @@ import Accordion from 'components/Accordion';
 import Link from 'components/Link';
 import Button from 'components/Button';
 import ReviewsList from 'components/ReviewsList';
+import PopupContainer from 'components/PopupContainer';
+import Popup from 'components/Popup';
+import AddReviewForm from 'components/AddReviewForm';
+import Success from 'components/Success';
 
 import Icon24Back from '@vkontakte/icons/dist/24/back';
 import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
@@ -35,7 +39,7 @@ import { ReactComponent as IconMessage } from 'svg/message.svg';
 
 const isIOS = platform() === IOS;
 
-const Shop = ({ id, shop, activeTab = 'description', goBack }) => {
+const Shop = ({ id, shop, activeTab, goBack }) => {
     const getReviews = useCallback((page) => API.getReviews(shop.id, page), [shop]);
     const reviews = useFetchDataList(getReviews);
 
@@ -47,12 +51,30 @@ const Shop = ({ id, shop, activeTab = 'description', goBack }) => {
     const [addresses, setAddresses] = useState([]);
     const [group, setGroup] = useState(null);
 
+    const [showForm, setShowForm] = useState(false);
+
     const dispatch = useDispatch();
 
     const changeTab = useCallback((e) => setTab(e.target.dataset.index), []);
 
     const renderAddress = useCallback((item) =>
         <Link href="#" children={item.address} icon="point" />, []);
+
+    const toggleForm = useCallback(() => setShowForm(state => !state), []);
+
+    const sendReview = useCallback(async (text) => {
+        try {
+            await API.createReview(shop.id, text);
+
+            setShowForm(false);
+            setTimeout(() => dispatch(showPopup(POPUP.CREATE_REVIEW_SUCCESS, {
+                children: <Success className="Shop__Success" />
+            })), POPUP.POPUP_LEAVE);
+        } catch (e) {
+            setShowForm(false);
+            setTimeout(() => dispatch(showPopup(POPUP.CREATE_REVIEW_ERROR)), POPUP.POPUP_LEAVE);
+        }
+    }, [shop, dispatch]);
 
     useEffect(() => {
         async function fetchInfo() {
@@ -226,7 +248,8 @@ const Shop = ({ id, shop, activeTab = 'description', goBack }) => {
                     {(!reviews.loading && reviews.data.length === 0) &&
                         <p
                             className="Shop__no-reviews"
-                            children="Никто ещё не оставлял отзывы. Будь первым!" />}
+                            children="Никто ещё не оставлял отзывы. Будь первым!"
+                            onClick={toggleForm} />}
 
                     <ReviewsList className="Shop__ReviewsList" reviews={reviews.data} />
 
@@ -249,10 +272,17 @@ const Shop = ({ id, shop, activeTab = 'description', goBack }) => {
                             children="Оставить отзыв"
                             before={<IconMessage />}
                             full
-                            backlight />
+                            backlight
+                            onClick={toggleForm} />
                     </FixedLayout>
                 </details>
             </Wrapper>
+
+            <PopupContainer>
+                <Popup visible={showForm} onClose={toggleForm}>
+                    <AddReviewForm className="Shop__AddReviewForm" onSubmit={sendReview} />
+                </Popup>
+            </PopupContainer>
         </Panel>
     );
 };
@@ -268,7 +298,12 @@ Shop.propTypes = {
             iconContent: string
         })
     }),
+    activeTab: oneOf(TABS.map((item) => item.index)),
     goBack: func.isRequired
+};
+
+Shop.defaultProps = {
+    activeTab: (TABS[0]) ? TABS[0].index : undefined
 };
 
 export default Shop;
