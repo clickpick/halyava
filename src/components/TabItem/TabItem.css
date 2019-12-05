@@ -1,0 +1,46 @@
+.TabItem {
+    position: relative;
+
+    height: 32px;
+
+    border: 0;
+    
+    background-color: transparent;
+
+    font-size: var(--font-size-13);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: -0.08px;
+    color: var(--color-gray);
+    text-transform: uppercase;
+
+    transition: color 150ms ease-in;
+}
+
+.TabItem::after {
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    display: block;
+    content: '';
+
+    width: 11px;
+    height: 2px;
+
+    border-radius: 1px;
+
+    background-color: var(--color-primary);
+
+    opacity: 0;
+
+    transition: opacity 150ms ease-in;
+}
+
+.TabItem[aria-pressed="true"] {
+    color: var(--color-primary);
+}
+
+.TabItem[aria-pressed="true"]::after {
+    opacity: 1;
+}
