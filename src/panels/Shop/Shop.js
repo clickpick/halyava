@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { string, shape, func } from 'prop-types';
+import classNames from 'classnames';
 
 import './Shop.css';
 
@@ -8,6 +9,8 @@ import { VK_APP_ID } from 'constants/vk';
 import { useDispatch } from 'react-redux';
 import { showPopup } from 'actions/popup-actions';
 import * as POPUP from 'constants/popup';
+
+import { getTimezoneOffset, timetableParse } from 'helpers/dates';
 
 import { Panel, PanelHeader, HeaderButton, platform, IOS } from '@vkontakte/vkui';
 import Wrapper from 'components/Wrapper';
@@ -29,6 +32,7 @@ const Shop = ({ id, shop, goBack }) => {
     const [loading, setLoading] = useState(false);
     const [photos, setPhotos] = useState([]);
     const [currentAddress, setCurrentAddress] = useState(null);
+    const [timetable, setTimetable] = useState(null);
     const [addresses, setAddresses] = useState([]);
     const [group, setGroup] = useState(null);
 
@@ -78,10 +82,16 @@ const Shop = ({ id, shop, goBack }) => {
                         access_token,
                         v
                     }
-                });                
+                });
+                
+                const currentAddress = addresses.find((address) => address.id === shop.id);
 
+                if (currentAddress && currentAddress.timetable) {
+                    setTimetable(timetableParse(currentAddress.timetable, currentAddress.time_offset, getTimezoneOffset()));
+                }
+                
                 setPhotos(photos);
-                setCurrentAddress(addresses.find((address) => address.id === shop.id));
+                setCurrentAddress(currentAddress);
                 setAddresses(addresses.filter((address) => address.id !== shop.id));
                 setGroup(group);
             } catch (e) {
@@ -122,7 +132,15 @@ const Shop = ({ id, shop, goBack }) => {
                             <Gallery className="Shop__Gallery" photos={photos} />}
 
                         {(currentAddress) && <>
-                            {/* расписание */}
+                            {(timetable) &&
+                                <InfoRow className="Shop__InfoRow" title="Режим работы">
+                                    <span
+                                        className={classNames('Shop__timetable', {
+                                            'Shop__timetable--opened': timetable.isOpened
+                                        })}
+                                        children={(timetable.isOpened) ? 'Открыто' : 'Закрыто'} />
+                                    {(timetable.needShow) && `, ${timetable.nextChangeDate}`}
+                                </InfoRow>}
 
                             {(currentAddress.address) &&
                                 <InfoRow
@@ -131,10 +149,15 @@ const Shop = ({ id, shop, goBack }) => {
                                     children={currentAddress.address} />}
 
                             {(addresses && addresses.length > 0) &&
-                                <Accordion
-                                    className="Shop__Accordion"
-                                    title="Филиалы"
-                                    items={addresses.map(renderAddress)} />}
+                                (addresses.length === 1)
+                                    ? <InfoRow
+                                        className="Shop__InfoRow"
+                                        title="Филиалы"
+                                        children={renderAddress(addresses[0])} />
+                                    : <Accordion
+                                        className="Shop__Accordion"
+                                        title="Филиалы"
+                                        items={addresses.map(renderAddress)} />}
 
                             {(currentAddress.phone) &&
                                 <InfoRow className="Shop__InfoRow" title="Номер телефона">
