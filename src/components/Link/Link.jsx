@@ -22,12 +22,13 @@ function getIcon(icon) {
     }
 }
 
-const Link = React.memo(({ className, children, icon, onClick }) => {
+const Link = React.memo(({ className, children, icon, onClick, ...restProps }) => {
 
     return (
         <button
             className={classNames(className, 'Link')}
-            onClick={onClick}>
+            onClick={onClick}
+            {...restProps}>
             {(icon) && getIcon(icon)}
             <span className="Link__name" children={children} />
             <IconArrow className="Link__IconArrow" />
