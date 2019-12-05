@@ -1,15 +1,10 @@
-.loader {
+.Loader {
     position: relative;
 
     width: 40px;
-    height: 40px;
-
-    border-radius: 50%;
-
-    font-size: 0;
+    height: 40px !important;
 
     overflow: hidden;
-
     cursor: wait;
 }
 
