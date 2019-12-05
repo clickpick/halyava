@@ -1,10 +1,10 @@
 .Button {
     display: inline-block;
 
-    padding: 0 16px;
+    padding: 7px 14px;
 
     border: none;
-    border-radius: 16px;
+    border-radius: 27px;
     
     background-color: var(--button-default_background);
     
@@ -14,7 +14,9 @@
     color: var(--button-default_color);
     text-align: center;
     text-decoration: none;
-    line-height: 30px;
+    line-height: 18px;
+    text-transform: uppercase;
+    letter-spacing: -0.08px;
     
     cursor: pointer;
 
@@ -33,15 +35,22 @@
     color: var(--button-primary_color);
 }
 
+.Button.Button--secondary {
+    background-color: var(--button-secondary_background);
+    color: var(--button-secondary_color);
+}
+
 /**
  * Sizes
  */
 .Button.Button--medium {
+    padding: 12px 16px;
+
     border-radius: 6px;
 
     font-size: var(--font-size-15);
     line-height: 24px;
-    padding: 12px 16px;
+    text-transform: none;
 }
 
 /**
@@ -49,6 +58,7 @@
  */
 .Button.Button--with-before {
     position: relative;
+    padding-right: 48px;
     padding-left: 48px;
 }
 
