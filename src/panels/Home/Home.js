@@ -42,10 +42,12 @@ const Home = ({ id, goShop, goOrder }) => {
 		} catch (e) {}
 	}, [goOrder]);
 
-	const openShop = useCallback(() => {
+	const openShop = useCallback((e) => {
 		const nextShop = shop;
-		setShop(null);
-		setTimeout(() => goShop(nextShop), POPUP_LEAVE);
+		const tab = e.currentTarget.dataset.tab;
+
+		setShop(null);		
+		setTimeout(() => goShop(nextShop, tab), POPUP_LEAVE);
 	}, [shop, goShop]);
 	
 	return (
@@ -85,11 +87,14 @@ const Home = ({ id, goShop, goOrder }) => {
 							className="Home__Link"
 							icon="info"
 							children="Подробнее"
-							onClick={openShop} />	
+							data-tab="description"
+							onClick={openShop} />
 						<Link
 							className="Home__Link"
 							icon="message"
-							children="Читать отзывы" />	
+							children="Читать отзывы"
+							data-tab="reviews"
+							onClick={openShop} />
 					</>}
 				</Popup>
 			</PopupContainer>
