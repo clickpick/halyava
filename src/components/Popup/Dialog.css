@@ -1,6 +1,6 @@
 .Dialog {
     position: absolute;
-    top: 0;
+    bottom: 0;
     left: 50%;
     z-index: 110;
     transform: translate3d(-50%, 0, 0);
@@ -8,8 +8,8 @@
     width: 100%;
     max-height: 94%;
 
-    border-bottom-right-radius: 15px;
-    border-bottom-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
 
     background-color: var(--popup-dialog-background);
 
@@ -23,7 +23,7 @@
 
 @keyframes dialog-slide-down-enter {
     from {
-        transform: translate3d(-50%, -100%, 0);
+        transform: translate3d(-50%, 100%, 0);
     }
 }
 
@@ -33,7 +33,7 @@
 
 @keyframes dialog-slide-down-leave {
     to {
-        transform: translate3d(-50%, -100%, 0);
+        transform: translate3d(-50%, 100%, 0);
     }
 }
 
@@ -43,9 +43,9 @@
 
 .Dialog__wrapper {
     max-height: 94vh;
-    padding-top: calc(74px + var(--safe-area-inset-top));
+    padding-top: 30px;
     padding-right: 20px;
-    padding-bottom: 30px;
+    padding-bottom: calc(30px + var(--safe-area-inset-bottom));
     padding-left: 20px;
 
     overflow-y: auto;

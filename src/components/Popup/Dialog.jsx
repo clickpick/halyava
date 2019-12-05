@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { string, oneOf, arrayOf, shape, bool, func } from 'prop-types';
 import classNames from 'classnames';
 
@@ -6,106 +6,52 @@ import './Dialog.css';
 
 import Button from 'components/Button';
 
-import { useSwipeable, UP, DOWN } from 'react-swipeable';
+import { useSwipeable } from 'react-swipeable';
 import useLockBody from 'hooks/use-lock-body';
 
-const Dialog = ({ className, disabled, onClose, animationType, type, title, message, children, actions }) => {
+const Dialog = ({ className, disabled, onClose, animationType, type, title, message, children: initialChildren, actions }) => {
     useLockBody(true);
 
-    const wrapperRef = useRef();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const children = useMemo(() => initialChildren, []);
 
-    const [top, setTop] = useState(0);
-    const [hasScroll, setHasScroll] = useState(false);
-    const [scrolling, setScrolling] = useState(false);
+    const [bottom, setBottom] = useState(0);
     const [dragging, setDragging] = useState(false);
 
-    const initialWrapper = useCallback(() => {
-        if (wrapperRef && wrapperRef.current) {
-            const { scrollHeight, offsetHeight } = wrapperRef.current;
-
-            setHasScroll(scrollHeight > offsetHeight);
-        }
-    }, [wrapperRef]);
-
-    useEffect(() => {
-        initialWrapper();
-
-        window.addEventListener('resize', initialWrapper);
-
-        return () => {
-            window.removeEventListener('resize', initialWrapper);
-        };
-    }, [initialWrapper]);
-
-    function handleSwiping({ deltaY, event, dir }) {
+    function handleSwiping({ deltaY, event }) {
         if (disabled) {
             return;
         }
 
-        const target = event.target;
-        const wrapper = wrapperRef.current;
+        event.preventDefault();
 
-        if (target && wrapper) {
-            const scrolled = wrapper.scrollTop === wrapper.scrollHeight - wrapper.offsetHeight;
-            const scrollTop = dir === UP;
-            const scrollDown = dir === DOWN;
-
-            if (hasScroll && !target.classList.contains('Dialog__footer')) {
-                setScrolling(true);
-
-                if (scrollTop) {
-                    // eslint-disable-next-line no-mixed-operators
-                    if (!scrolled || scrolling && !dragging) {
-                        return;
-                    }
-                    
-                    setScrolling(false);
-                }
-
-                if (scrollDown) {
-                    // eslint-disable-next-line no-mixed-operators
-                    if (scrolled || scrolling && !dragging) {
-                        return;
-                    }
-                }
-            }
+        if (!dragging) {
+            setDragging(true);
         }
 
-        if (!scrolling) {
-            event.preventDefault();
-
-            if (!dragging) {
-                setDragging(true);
-            }
-
-            if (deltaY > 0) {
-                setTop(deltaY * (-1));
-            }
+        if (deltaY < 0) {
+            setBottom(deltaY);
         }
     }
 
-    function handleSwipedUp() {
-        if (scrolling) {
-            setScrolling(false);
-        }
-
+    function handleSwipedDown() {
         if (dragging) {
             setDragging(false);
 
-            if (top < -50) {
+            if (bottom < -50) {
                 onClose();
 
                 return;
             }
 
             const timerId = setInterval(() => {
-                setTop((top) => {
-                    if (top >= 0) {
+                setBottom((bottom) => {
+                    if (bottom >= 0) {
                         clearInterval(timerId);
                         return 0;
                     }
 
-                    return top + 1;
+                    return bottom + 1;
                 });
             }, 1);
         }
@@ -113,14 +59,14 @@ const Dialog = ({ className, disabled, onClose, animationType, type, title, mess
 
     const handlers = useSwipeable({
         onSwiping: handleSwiping,
-        onSwipedUp: handleSwipedUp,
+        onSwipedDown: handleSwipedDown,
         preventDefaultTouchmoveEvent: false,
         trackMouse: true
     });
     
     const handleClick = useCallback((e) => e.stopPropagation(), []);
 
-    function renderAction(action, index) {
+    const renderAction = useCallback((action, index) => {
         return <Button
             key={index}
             className="Dialog__action"
@@ -130,7 +76,7 @@ const Dialog = ({ className, disabled, onClose, animationType, type, title, mess
             full={action.full}
             onClick={action.action}
             disabled={action.disabled} />;
-    }
+    }, []);
 
     return (
         <div
@@ -142,8 +88,8 @@ const Dialog = ({ className, disabled, onClose, animationType, type, title, mess
             )}
             onClick={handleClick}
             {...handlers}
-            style={{ top: `${top}px` }}>
-            <div className="Dialog__wrapper" ref={wrapperRef}>
+            style={{ transform: `translate3d(-50%, ${-bottom}px, 0)` }}>
+            <div className="Dialog__wrapper">
                 {title && <h3 className="Dialog__title" children={title} />}
                 {message && <p className="Dialog__message" dangerouslySetInnerHTML={{ __html: message }} />}
                 {children}
