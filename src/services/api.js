@@ -38,6 +38,18 @@ class API {
 
         return await get(`/vk-user/addresses/${addressId}/reviews?page[number]=${page}`);
     }
+
+    async createReview(addressId, text) {
+        if (!addressId) {
+            throw new Error('Bad address id');
+        }
+
+        if (!text) {
+            throw new Error('text is empty');
+        }
+
+        return await post(`/vk-user/addresses/${addressId}/reviews`, { text });
+    }
 }
 
 export default new API();
