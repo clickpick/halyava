@@ -2,8 +2,6 @@ import React, { useCallback } from 'react';
 import { string, arrayOf, shape, func } from 'prop-types';
 import classNames from 'classnames';
 
-import './Tabs.css';
-
 import TabItem from 'components/TabItem';
 
 const Tabs = ({ className, items, activeItem, onClick }) => {
