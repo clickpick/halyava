@@ -16,13 +16,16 @@ import { TABS } from 'constants/shop';
 
 import { getTimezoneOffset, timetableParse } from 'helpers/dates';
 
-import { Panel, PanelHeader, HeaderButton, platform, IOS } from '@vkontakte/vkui';
+import {
+    Panel, PanelHeader, HeaderButton, FixedLayout,
+    platform, IOS
+} from '@vkontakte/vkui';
 import Wrapper from 'components/Wrapper';
 import ShopCard from 'components/ShopCard';
 import Loader from 'components/Loader';
 import Tabs from 'components/Tabs';
 import Gallery from 'components/Gallery';
-import { InfoRow, FixedLayout } from '@vkontakte/vkui';
+import Row from 'components/Row';
 import Accordion from 'components/Accordion';
 import Link from 'components/Link';
 import Button from 'components/Button';
@@ -176,25 +179,25 @@ const Shop = ({ id, shop, activeTab, goBack }) => {
 
                             {(currentAddress) && <>
                                 {(timetable) &&
-                                    <InfoRow className="Shop__InfoRow" title="Режим работы">
+                                    <Row className="Shop__Row" title="Режим работы">
                                         <span
                                             className={classNames('Shop__timetable', {
                                                 'Shop__timetable--opened': timetable.isOpened
                                             })}
                                             children={(timetable.isOpened) ? 'Открыто' : 'Закрыто'} />
                                         {`, ${timetable.helpString}`}
-                                    </InfoRow>}
+                                    </Row>}
 
                                 {(currentAddress.address) &&
-                                    <InfoRow
-                                        className="Shop__InfoRow"
+                                    <Row
+                                        className="Shop__Row"
                                         title="Адрес"
                                         children={currentAddress.address} />}
 
                                 {(addresses && addresses.length > 0)
                                     ? (addresses.length === 1)
-                                        ? <InfoRow
-                                            className="Shop__InfoRow"
+                                        ? <Row
+                                            className="Shop__Row"
                                             title="Филиалы"
                                             children={renderAddress(addresses[0])} />
                                         : <Accordion
@@ -204,24 +207,24 @@ const Shop = ({ id, shop, activeTab, goBack }) => {
                                     : null}
 
                                 {(currentAddress.phone) &&
-                                    <InfoRow className="Shop__InfoRow" title="Номер телефона">
+                                    <Row className="Shop__Row" title="Номер телефона">
                                         <a href={`tel:${currentAddress.phone}`} children={currentAddress.phone} />
-                                    </InfoRow>}
+                                    </Row>}
                             </>}
 
                             {(group) && <>
                                 {(group.site) &&
-                                    <InfoRow className="Shop__InfoRow" title="Сайт">
+                                    <Row className="Shop__Row" title="Сайт">
                                         <a
                                             href={group.site}
                                             children={group.site}
                                             target="_blank"
                                             rel="noopener noreferrer" />
-                                    </InfoRow>}
+                                    </Row>}
 
                                 {(group.description) &&
-                                    <InfoRow
-                                        className="Shop__InfoRow"
+                                    <Row
+                                        className="Shop__Row"
                                         title="Описание из группы"
                                         children={group.description} />}
 

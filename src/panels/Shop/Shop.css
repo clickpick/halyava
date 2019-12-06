@@ -20,17 +20,8 @@
     margin-left: auto;
 }
 
-.Shop__InfoRow {
+.Shop__Row {
     margin-bottom: 10px;
-    padding-top: 7px;
-    padding-bottom: 7px;
-
-    font-size: var(--font-size-17);
-}
-
-.Shop__InfoRow .InfoRow__title {
-    font-size: var(--font-size-11);
-    letter-spacing: 0.07px;
 }
 
 .Shop__timetable {
