@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { string, func } from 'prop-types';
 
 import './Home.css';
@@ -6,9 +6,10 @@ import './Home.css';
 import connect from '@vkontakte/vk-connect';
 import { useSelector, useDispatch } from 'react-redux';
 import { getMapState, getMapFeatures } from 'reducers/map-reducer';
-import { fetchFeatures } from 'actions/map-actions';
+import { fetchFeatures, setCenterMap } from 'actions/map-actions';
+import { showPopup } from 'actions/popup-actions';
 import { getOrderId } from 'helpers/order';
-import { POPUP_LEAVE } from 'constants/popup';
+import { POPUP_LEAVE, GET_GEODATA_DENIED } from 'constants/popup';
 
 import { Panel, PanelHeader, FixedLayout } from '@vkontakte/vkui';
 import Map from 'components/Map';
@@ -49,6 +50,24 @@ const Home = ({ id, goShop, goOrder }) => {
 		setShop(null);		
 		setTimeout(() => goShop(nextShop, tab), POPUP_LEAVE);
 	}, [shop, goShop]);
+
+	useEffect(() => {
+		async function getGeodata() {
+			try {
+				const response = await connect.sendPromise('VKWebAppGetGeodata');
+
+				if (response.available !== 0) {
+					dispatch(setCenterMap([response.lat, response.long]));
+				}
+			} catch (e) {
+				if (e.error_data.error_code === 4) {
+					dispatch(showPopup(GET_GEODATA_DENIED, {}, 7000));
+				}
+			}
+		}
+
+		getGeodata();
+	}, [dispatch]);
 	
 	return (
 		<Panel id={id} className="Home">

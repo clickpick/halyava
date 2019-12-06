@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import connect from '@vkontakte/vk-connect';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { setCenterMap } from 'actions/map-actions';
 import { getPopup } from 'reducers/popup-reducer';
 import { showPopup, closePopup } from 'actions/popup-actions';
 import * as POPUP from 'constants/popup';
@@ -71,22 +69,6 @@ const App = () => {
 		
 		setActiveView(VIEWS.MAIN);
 	}, [goOrder]);
-
-	useEffect(() => {
-		if (activeView === VIEWS.MAIN) {
-			async function getGeodata() {
-				try {
-					const response = await connect.sendPromise('VKWebAppGetGeodata');
-
-					if (response.available !== 0) {
-						dispatch(setCenterMap([response.lat, response.long]));
-					}
-				} catch (e) { }
-			}
-
-			getGeodata();
-		}
-	}, [activeView, dispatch]);
 
 	return <>
 		<Root activeView={activeView}>

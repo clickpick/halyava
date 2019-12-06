@@ -10,6 +10,8 @@ export const CREATE_REVIEW_ERROR = 'create-review-error';
 export const ORDER_NOT_FOUND = 'order-not-found';
 export const ORDER_SERVER_ERROR = 'order-server-error';
 
+export const GET_GEODATA_DENIED = 'get-geodata-denied';
+
 export default {
     [OFFLINE]: {
         disabled: true,
@@ -43,5 +45,11 @@ export default {
         type: 'danger',
         title: 'Ой...',
         message: 'У нас какие-то неполадки. Уже чиним...'
+    },
+
+    [GET_GEODATA_DENIED]: {
+        type: 'info',
+        title: 'Хорошо-хорошо',
+        message: 'К сожалению, ты не разрешил нам получить твою геопозицию, поэтому тебе придётся самому искать себя на карте'
     }
 };

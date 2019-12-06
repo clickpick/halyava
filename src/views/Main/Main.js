@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { string, func } from 'prop-types';
 
 import useNavigation from 'hooks/use-navigation';
