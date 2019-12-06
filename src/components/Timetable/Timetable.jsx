@@ -4,8 +4,7 @@ import classNames from 'classnames';
 
 import './Timetable.css';
 
-import connect from '@vkontakte/vk-connect';
-import { VK_APP_ID } from 'constants/vk';
+import API from 'services/api';
 import { getTimezoneOffset, timetableParse } from 'helpers/dates';
 
 import Row from 'components/Row';
@@ -16,26 +15,10 @@ const Timetable = ({ className, initialTimetable, groupId: group_id, addressId }
     useEffect(() => {
         if (!initialTimetable) {
             async function fetchTimetable() {
-                const { access_token } = await connect.sendPromise('VKWebAppGetAuthToken', {
-                    app_id: VK_APP_ID,
-                    scope: ''
-                });
+                const { response: { items: addresses } } = await API.callAPI('groups.getAddresses', { group_id, address_ids: [addressId] });
 
-                const v = '5.103';
-
-                const { response: { items: addresses } } = await connect.sendPromise('VKWebAppCallAPIMethod', {
-                    method: 'groups.getAddresses',
-                    params: {
-                        group_id,
-                        access_token,
-                        v
-                    }
-                });
-
-                const currentAddress = addresses.find((address) => address.id === addressId);
-
-                if (currentAddress && currentAddress.timetable) {
-                    setTimetable(timetableParse(currentAddress.timetable, currentAddress.time_offset, getTimezoneOffset()));
+                if (addresses[0] && addresses[0].timetable) {
+                    setTimetable(timetableParse(addresses[0].timetable, addresses[0].time_offset, getTimezoneOffset()));
                 }
             }
 
