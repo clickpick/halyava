@@ -66,8 +66,8 @@ Timetable.propTypes = {
         isOpened: bool,
         helpString: string
     }),
-    groupId: number.isRequired,
-    addressId: number.isRequired
+    groupId: number,
+    addressId: number
 };
 
 Timetable.defaultProps = {
