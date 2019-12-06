@@ -24,6 +24,7 @@ import { ReactComponent as IconVk } from 'svg/vk.svg';
 
 import { CREATED, PAID, ERROR_PAY } from 'constants/order';
 import { gaps } from 'helpers/numbers';
+import { callTaptic, TAPTIC_SUCCESS, TAPTIC_ERROR } from 'helpers/taptic';
 
 const Order = ({ id, orderId, goMain }) => {
     const [loading, setLoading] = useState(false);
@@ -49,8 +50,10 @@ const Order = ({ id, orderId, goMain }) => {
             setDisabled(false);
             if (status) {
                 setStatus(PAID);
+                callTaptic(TAPTIC_SUCCESS);
             } else {
                 setStatus(ERROR_PAY);
+                callTaptic(TAPTIC_ERROR);
             }
         } catch (err) {
             setDisabled(false);

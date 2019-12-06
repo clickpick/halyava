@@ -1,6 +1,6 @@
 import * as types from 'constants/types';
 import POPUPS, { POPUP_DELAY } from 'constants/popup';
-import connect from '@vkontakte/vk-connect';
+import { callTaptic } from 'helpers/taptic';
 
 const popupTypes = {
     info: 'warning',
@@ -35,9 +35,7 @@ const showPopup = (popupId, props = {}, timeout = POPUP_DELAY) => (dispatch, get
 
         dispatch(addPopup(popupProps));
 
-        if (connect.supports('VKWebAppTapticNotificationOccurred')) {
-            connect.send('VKWebAppTapticNotificationOccurred', { type: popupTypes[popupProps.type || 'info'] });
-        }
+        callTaptic(popupTypes[popupProps.type || 'info']);
 
         if (timeout) {
             setTimeout(() => dispatch(closePopup()), timeout);
