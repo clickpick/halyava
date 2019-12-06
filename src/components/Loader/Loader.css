@@ -1,11 +1,22 @@
 .Loader {
     position: relative;
 
-    width: 40px;
-    height: 40px !important;
-
     overflow: hidden;
     cursor: wait;
+}
+
+.Loader--spinner {
+    width: 40px;
+    height: 40px !important;
+}
+
+.Loader--invoice {
+    width: 295px;
+    height: 159px;
+
+    opacity: 0.2;
+
+    animation: clumsy 3s infinite;
 }
 
 .Loader--is-center {
@@ -18,4 +29,22 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+@keyframes clumsy {
+    0% {
+        opacity: 0.2;
+    }
+
+    33% {
+        opacity: 0.1;
+    }
+
+    66% {
+        opacity: 0.3;
+    }
+
+    100% {
+        opacity: 0.2;
+    }
 }
