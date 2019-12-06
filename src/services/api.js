@@ -50,6 +50,24 @@ class API {
 
         return await post(`/vk-user/addresses/${addressId}/reviews`, { text });
     }
+
+    async getOrder(orderId) {
+        if (!orderId) {
+            throw new Error('Bad order id');
+        }
+
+        return await get(`/vk-user/orders/${orderId}`);
+    }
+
+    async getPayParams(orderId) {
+        if (!orderId) {
+            throw new Error('Bad order id');
+        }
+
+        const response = await get(`/vk-user/orders/${orderId}/pay-params`);
+
+        return response.data.data;
+    }
 }
 
 export default new API();
