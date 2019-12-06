@@ -18,7 +18,9 @@
     height: auto;
 
     opacity: 0.2;
+}
 
+.Loader--invoice.Loader--with-animation {
     animation: clumsy 3s infinite;
 }
 
@@ -32,6 +34,10 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.Loader--spinner.Loader--is-absolute-center {
+    position: absolute !important;
 }
 
 @keyframes clumsy {

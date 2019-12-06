@@ -8,10 +8,11 @@ import { Spinner } from '@vkontakte/vkui';
 
 import { ReactComponent as IconInvoice } from 'svg/invoice-skeleton.svg';
 
-const Loader = ({ className, view, center, absoluteCenter, ...restProps }) => {
+const Loader = ({ className, view, animation, center, absoluteCenter, ...restProps }) => {
     const props = {
         className: classNames(className, 'Loader', {
             [`Loader--${view}`]: view,
+            'Loader--with-animation': animation,
             'Loader--is-center': center,
             'Loader--is-absolute-center': absoluteCenter,
         }),
@@ -26,6 +27,7 @@ const Loader = ({ className, view, center, absoluteCenter, ...restProps }) => {
 Loader.propTypes = {
     className: string,
     view: oneOf(['spinner', 'invoice']),
+    animation: bool,
     center: bool,
     absoluteCenter: bool
 };
