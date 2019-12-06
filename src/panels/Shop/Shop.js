@@ -42,9 +42,18 @@ import { ReactComponent as IconMessage } from 'svg/message.svg';
 
 const isIOS = platform() === IOS;
 
+function findReview(review) {
+    return review.id === this.id;
+}
+
+function filterReview(review) {
+    return review.id !== this.id;
+}
+
 const Shop = ({ id, shop, activeTab, goBack }) => {
     const getReviews = useCallback((page) => API.getReviews(shop.id, page), [shop]);
     const reviews = useFetchDataList(getReviews);
+    const [userReviews, setUserReviews] = useState([]);
 
     const [tab, setTab] = useState(activeTab);
     const [loading, setLoading] = useState(false);
@@ -67,9 +76,10 @@ const Shop = ({ id, shop, activeTab, goBack }) => {
 
     const sendReview = useCallback(async (text) => {
         try {
-            await API.createReview(shop.id, text);
-
+            const newReview = await API.createReview(shop.id, text);
+            
             setShowForm(false);
+            setUserReviews(state => [newReview].concat(state));
             setTimeout(() => dispatch(showPopup(POPUP.CREATE_REVIEW_SUCCESS, {
                 children: <Success className="Shop__Success" />
             })), POPUP.POPUP_LEAVE);
@@ -143,6 +153,19 @@ const Shop = ({ id, shop, activeTab, goBack }) => {
 
         fetchInfo();
     }, [dispatch, shop]);
+
+    useEffect(() => {
+        let nextUserReviews = userReviews;
+        reviews.data.forEach((review) => {
+            if (nextUserReviews.find(findReview, review)) {
+                nextUserReviews = nextUserReviews.filter(filterReview, review);
+            }
+        });
+
+        if (nextUserReviews.length !== userReviews.length) {
+            setUserReviews(nextUserReviews);
+        }
+    }, [userReviews, reviews.data]);
 
     return (
         <Panel id={id} className="Shop">
@@ -241,13 +264,13 @@ const Shop = ({ id, shop, activeTab, goBack }) => {
 
                 <details className="Shop__details" open={tab === 'reviews'}>
                     <summary />
-                    {(!reviews.loading && reviews.data.length === 0) &&
+                    {(!reviews.loading && userReviews.concat(reviews.data).length === 0) &&
                         <p
                             className="Shop__no-reviews"
                             children="Никто ещё не оставлял отзывы. Будь первым!"
                             onClick={toggleForm} />}
 
-                    <ReviewsList className="Shop__ReviewsList" reviews={reviews.data} />
+                    <ReviewsList className="Shop__ReviewsList" reviews={userReviews.concat(reviews.data)} />
 
                     {(!reviews.isLastPage && !reviews.loading) &&
                         <Button

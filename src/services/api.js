@@ -18,7 +18,6 @@ const instance = axios.create({
 
 const get = (urn) => instance.get(urn);
 const post = (urn, body) => instance.post(urn, body);
-// const put = (urn, body = {}) => instance.put(urn, body);
 
 class API {
     async auth() {
@@ -36,7 +35,7 @@ class API {
             throw new Error('Bad address id');
         }
 
-        return await get(`/vk-user/addresses/${addressId}/reviews?page[number]=${page}`);
+        return await get(`/vk-user/addresses/${addressId}/reviews?page[number]=${page}&page[size]=3`);
     }
 
     async createReview(addressId, text) {
@@ -48,7 +47,9 @@ class API {
             throw new Error('text is empty');
         }
 
-        return await post(`/vk-user/addresses/${addressId}/reviews`, { text });
+        const response = await post(`/vk-user/addresses/${addressId}/reviews`, { text });
+
+        return response.data.data;
     }
 
     async getOrder(orderId) {
