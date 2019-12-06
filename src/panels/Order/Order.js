@@ -77,7 +77,7 @@ const Order = ({ id, orderId, goMain }) => {
                     return dispatch(showPopup(POPUP.ORDER_NOT_FOUND));
                 }
 
-                dispatch(showPopup(POPUP.ORDER_SERVER_ERROR));
+                dispatch(showPopup(POPUP.SERVER_ERROR));
             }
         }
 

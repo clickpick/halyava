@@ -6,8 +6,6 @@ import './Shop.css';
 import API from 'services/api';
 import useFetchDataList from 'hooks/use-fetch-data-list';
 
-import connect from '@vkontakte/vk-connect';
-import { VK_APP_ID } from 'constants/vk';
 import { useDispatch } from 'react-redux';
 import { showPopup } from 'actions/popup-actions';
 import * as POPUP from 'constants/popup';
@@ -94,58 +92,33 @@ const Shop = ({ id, shop, activeTab, goBack }) => {
             setLoading(true);
 
             try {
-                const { access_token } = await connect.sendPromise('VKWebAppGetAuthToken', {
-                    app_id: VK_APP_ID,
-                    scope: ''
+                const { response: { items: photos } } = await API.callAPI('photos.get', {
+                    owner_id: `-${shop.properties.group.id}`,
+                    album_id: shop.properties.group.album_id || 'wall',
+                    count: 20
                 });
 
-                const v = '5.103';
-
-                const { response: { items: photos } } = await connect.sendPromise('VKWebAppCallAPIMethod', {
-                    method: 'photos.get',
-                    params: {
-                        owner_id: `-${shop.properties.group.id}`,
-                        album_id: shop.properties.group.album_id || 'wall',
-                        count: 20,
-                        access_token,
-                        v
-                    }
+                const { response: { items: addresses } } = await API.callAPI('groups.getAddresses', {
+                    group_id: shop.properties.group.id
                 });
 
-                const { response: { items: addresses } } = await connect.sendPromise('VKWebAppCallAPIMethod', {
-                    method: 'groups.getAddresses',
-                    params: {
-                        group_id: shop.properties.group.id,
-                        access_token,
-                        v
-                    }
+                const { response: [group] } = await API.callAPI('groups.getById', {
+                    group_id: shop.properties.group.id,
+                    fields: ['can_message', 'description', 'place', 'site']
                 });
-                
 
-                const { response: [group] } = await connect.sendPromise('VKWebAppCallAPIMethod', {
-                    method: 'groups.getById',
-                    params: {
-                        group_id: shop.properties.group.id,
-                        fields: ['can_message', 'description', 'place', 'site'],
-                        access_token,
-                        v
-                    }
-                });
-                
                 const currentAddress = addresses.find((address) => address.id === shop.id);
 
                 if (currentAddress && currentAddress.timetable) {
                     setTimetable(timetableParse(currentAddress.timetable, currentAddress.time_offset, getTimezoneOffset()));
                 }
-                
+
                 setPhotos(photos);
                 setCurrentAddress(currentAddress);
                 setAddresses(addresses.filter((address) => address.id !== shop.id));
                 setGroup(group);
             } catch (e) {
-                if (e.error_data.error_code === 4) {
-                    dispatch(showPopup(POPUP.TOKEN_DENIED));
-                }
+                dispatch(showPopup(POPUP.SERVER_ERROR));
             }
 
             setLoading(false);

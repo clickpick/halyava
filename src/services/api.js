@@ -69,6 +69,15 @@ class API {
 
         return response.data.data;
     }
+
+    async callAPI(method, params) {
+        if (!method) {
+            throw new Error('Bad method');
+        }
+
+        const response =  await post('/vk-user/call-api', { method, params });
+        return response.data;
+    }
 }
 
 export default new API();
