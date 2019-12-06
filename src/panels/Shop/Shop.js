@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { string, shape, oneOf, func } from 'prop-types';
-import classNames from 'classnames';
 
 import './Shop.css';
 
@@ -13,6 +12,8 @@ import { useDispatch } from 'react-redux';
 import { showPopup } from 'actions/popup-actions';
 import * as POPUP from 'constants/popup';
 import { TABS } from 'constants/shop';
+
+import { getTimezoneOffset, timetableParse } from 'helpers/dates';
 
 import {
     Panel, PanelHeader, HeaderButton, FixedLayout,
@@ -49,6 +50,7 @@ const Shop = ({ id, shop, activeTab, goBack }) => {
     const [loading, setLoading] = useState(false);
     const [photos, setPhotos] = useState([]);
     const [currentAddress, setCurrentAddress] = useState(null);
+    const [timetable, setTimetable] = useState(null);
     const [addresses, setAddresses] = useState([]);
     const [group, setGroup] = useState(null);
 
@@ -121,6 +123,10 @@ const Shop = ({ id, shop, activeTab, goBack }) => {
                 });
                 
                 const currentAddress = addresses.find((address) => address.id === shop.id);
+
+                if (currentAddress && currentAddress.timetable) {
+                    setTimetable(timetableParse(currentAddress.timetable, currentAddress.time_offset, getTimezoneOffset()));
+                }
                 
                 setPhotos(photos);
                 setCurrentAddress(currentAddress);
@@ -172,10 +178,8 @@ const Shop = ({ id, shop, activeTab, goBack }) => {
                                 <Gallery className="Shop__Gallery" photos={photos} />}
 
                             {(currentAddress) && <>
-                                <Timetable
-                                    className="Shop__Timetable"
-                                    groupId={shop.properties.group.id}
-                                    addressId={shop.id} />
+                                {(timetable) &&
+                                    <Timetable className="Shop__Timetable" initialTimetable={timetable} />}
 
                                 {(currentAddress.address) &&
                                     <Row
