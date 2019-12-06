@@ -5,6 +5,8 @@ import './Map.css';
 import { YMaps, Map as YMap, ObjectManager } from 'react-yandex-maps';
 import MapProvider from 'components/MapProvider';
 
+const OPTIONS = { minZoom: 10 };
+
 const Map = React.memo(({ mapState, features, fetchFeatures, onClick }) => {
     const map = useRef();
     
@@ -35,6 +37,7 @@ const Map = React.memo(({ mapState, features, fetchFeatures, onClick }) => {
                 <YMap
                     className="Map"
                     defaultState={mapState}
+                    options={OPTIONS}
                     instanceRef={map}
                     onLoad={handleMapLoad}>
                     <ObjectManager
