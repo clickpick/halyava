@@ -20,16 +20,9 @@
     margin-left: auto;
 }
 
+.Shop__Timetable,
 .Shop__Row {
     margin-bottom: 10px;
-}
-
-.Shop__timetable {
-    color: var(--color-red);
-}
-
-.Shop__timetable--opened {
-    color: var(--color-green);
 }
 
 .Shop__Accordion {

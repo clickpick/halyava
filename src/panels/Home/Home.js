@@ -17,6 +17,7 @@ import Button from 'components/Button';
 import PopupContainer from 'components/PopupContainer';
 import Popup from 'components/Popup';
 import ShopCard from 'components/ShopCard';
+import Timetable from 'components/Timetable';
 import Link from 'components/Link';
 
 import { ReactComponent as IconBlocks } from 'svg/blocks.svg';
@@ -102,6 +103,11 @@ const Home = ({ id, goShop, goOrder }) => {
 							activity={shop.properties.group.activity}
 							photo={shop.properties.iconContent}
 							cashback={shop.properties.group.cashback_value} />
+						<Timetable
+							className="Home__Timetable"
+							groupId={shop.properties.group.id}
+							addressId={shop.id} />
+
 						<Link
 							className="Home__Link"
 							icon="info"

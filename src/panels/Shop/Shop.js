@@ -14,8 +14,6 @@ import { showPopup } from 'actions/popup-actions';
 import * as POPUP from 'constants/popup';
 import { TABS } from 'constants/shop';
 
-import { getTimezoneOffset, timetableParse } from 'helpers/dates';
-
 import {
     Panel, PanelHeader, HeaderButton, FixedLayout,
     platform, IOS
@@ -25,6 +23,7 @@ import ShopCard from 'components/ShopCard';
 import Loader from 'components/Loader';
 import Tabs from 'components/Tabs';
 import Gallery from 'components/Gallery';
+import Timetable from 'components/Timetable';
 import Row from 'components/Row';
 import Accordion from 'components/Accordion';
 import Link from 'components/Link';
@@ -50,7 +49,6 @@ const Shop = ({ id, shop, activeTab, goBack }) => {
     const [loading, setLoading] = useState(false);
     const [photos, setPhotos] = useState([]);
     const [currentAddress, setCurrentAddress] = useState(null);
-    const [timetable, setTimetable] = useState(null);
     const [addresses, setAddresses] = useState([]);
     const [group, setGroup] = useState(null);
 
@@ -123,10 +121,6 @@ const Shop = ({ id, shop, activeTab, goBack }) => {
                 });
                 
                 const currentAddress = addresses.find((address) => address.id === shop.id);
-
-                if (currentAddress && currentAddress.timetable) {
-                    setTimetable(timetableParse(currentAddress.timetable, currentAddress.time_offset, getTimezoneOffset()));
-                }
                 
                 setPhotos(photos);
                 setCurrentAddress(currentAddress);
@@ -178,15 +172,10 @@ const Shop = ({ id, shop, activeTab, goBack }) => {
                                 <Gallery className="Shop__Gallery" photos={photos} />}
 
                             {(currentAddress) && <>
-                                {(timetable) &&
-                                    <Row className="Shop__Row" title="Режим работы">
-                                        <span
-                                            className={classNames('Shop__timetable', {
-                                                'Shop__timetable--opened': timetable.isOpened
-                                            })}
-                                            children={(timetable.isOpened) ? 'Открыто' : 'Закрыто'} />
-                                        {`, ${timetable.helpString}`}
-                                    </Row>}
+                                <Timetable
+                                    className="Shop__Timetable"
+                                    groupId={shop.properties.group.id}
+                                    addressId={shop.id} />
 
                                 {(currentAddress.address) &&
                                     <Row

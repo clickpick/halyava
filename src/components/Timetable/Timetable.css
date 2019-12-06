@@ -1,0 +1,17 @@
+.Timetable {
+    max-height: 0;
+    transition: max-height 200ms ease-in;
+    overflow: auto;
+}
+
+.Timetable--show {
+    max-height: 54px;
+}
+
+.Timetable__timetable {
+    color: var(--color-red);
+}
+
+.Timetable__timetable--opened {
+    color: var(--color-green);
+}
