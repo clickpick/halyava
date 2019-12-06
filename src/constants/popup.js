@@ -7,6 +7,9 @@ export const TOKEN_DENIED = 'token-denied';
 export const CREATE_REVIEW_SUCCESS = 'create-review-success';
 export const CREATE_REVIEW_ERROR = 'create-review-error';
 
+export const ORDER_NOT_FOUND = 'order-not-found';
+export const ORDER_SERVER_ERROR = 'order-server-error';
+
 export default {
     [OFFLINE]: {
         disabled: true,
@@ -29,5 +32,16 @@ export default {
         type: 'danger',
         title: 'Ой...',
         message: 'Мы не смогли добавить твой отзыв. Уже решаем проблему...'
+    },
+
+    [ORDER_NOT_FOUND]: {
+        type: 'danger',
+        title: 'Хм...',
+        message: 'А такого заказа ведь нет'
+    },
+    [ORDER_SERVER_ERROR]: {
+        type: 'danger',
+        title: 'Ой...',
+        message: 'У нас какие-то неполадки. Уже чиним...'
     }
 };
