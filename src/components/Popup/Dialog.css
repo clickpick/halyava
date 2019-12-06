@@ -28,7 +28,7 @@
 }
 
 .Dialog--slide-down-enter {
-    animation: dialog-slide-down-enter 350ms ease-out;
+    animation: dialog-slide-down-enter 150ms ease-out;
 }
 
 @keyframes dialog-slide-down-leave {

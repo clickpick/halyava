@@ -27,7 +27,7 @@
 }
 
 .Popup--fade-enter .Popup__mask {
-    animation: popup-fade-enter 250ms ease-in;
+    animation: popup-fade-enter 150ms ease-in;
 }
 
 @keyframes popup-fade-leave {
