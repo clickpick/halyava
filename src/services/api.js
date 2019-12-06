@@ -35,7 +35,7 @@ class API {
             throw new Error('Bad address id');
         }
 
-        return await get(`/vk-user/addresses/${addressId}/reviews?page[number]=${page}&page[size]=3`);
+        return await get(`/vk-user/addresses/${addressId}/reviews?page[number]=${page}`);
     }
 
     async createReview(addressId, text) {
