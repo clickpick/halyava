@@ -1,0 +1,101 @@
+.Order__Wrapper {
+    max-width: 396px;
+    margin-right: auto;
+    margin-left: auto;
+    padding-bottom: 90px !important;
+}
+
+.Order__title {
+    margin-top: 40px;
+    margin-bottom: 10px;
+    padding: 20px;
+
+    font-size: var(--font-size-28);
+    font-weight: var(--font-weight-normal);
+    text-align: center;
+}
+
+.Order__title--success {
+    color: var(--color-green);
+}
+
+.Order__title--error {
+    color: var(--color-red);
+}
+
+.Order__ShopCard,
+.Order__invoice {
+    margin-bottom: 10px;
+}
+
+.Order__value {
+    display: block;
+    
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    font-size: var(--font-size-28);
+    font-weight: var(--font-weight-normal);
+
+    overflow-x: hidden;
+}
+
+.Order__value span:first-child {
+    padding-right: 0.33em;
+    background-color: var(--color-white);
+}
+
+.Order__value span:last-child {
+    float: right;
+    padding-left: 0.33em;
+    background-color: var(--color-white);
+}
+
+.Order__value::before {
+    float: left;
+
+    width: 0;
+
+    white-space: nowrap;
+    content:
+        '. . . . . . . . . . . . . . . . . . . . '
+        '. . . . . . . . . . . . . . . . . . . . '
+        '. . . . . . . . . . . . . . . . . . . . '
+        '. . . . . . . . . . . . . . . . . . . . ';
+}
+
+.Order__FixedLayout .FixedLayout__in {
+    padding-right: 40px;
+    padding-bottom: 16px;
+    padding-left: 40px;
+}
+
+.Order__Success,
+.Order__Error {
+    margin-right: auto;
+    margin-bottom: 40px;
+    margin-left: auto;
+}
+
+.Order__Error {
+    display: block;
+}
+
+.Order__Row {
+    margin-bottom: 20px;
+}
+
+@media (max-width: 360px) {
+    .Order__Wrapper {
+        padding-bottom: 60px !important;
+    }
+
+    .Order__title {
+        margin-top: 20px;
+    }
+
+    .Order__FixedLayout .FixedLayout__in {
+        padding-right: 20px;
+        padding-left: 20px;
+    }
+}
