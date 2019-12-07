@@ -1,15 +1,16 @@
-import React, { useRef, useCallback } from 'react';
+import React, {useCallback, useRef} from 'react';
+import {MAP_INITIAL_STATE} from "constants/store";
 
 import './Map.css';
 
-import { YMaps, Map as YMap, ObjectManager } from 'react-yandex-maps';
+import {Map as YMap, ObjectManager, Placemark, YMaps} from 'react-yandex-maps';
 import MapProvider from 'components/MapProvider';
 
 const OPTIONS = { minZoom: 10 };
 
 const Map = React.memo(({ mapState, features, fetchFeatures, onClick }) => {
     const map = useRef();
-    
+
     const handleMapLoad = useCallback(() => {
         if (map.current) {
             const [[topLeftLat, topLeftLng], [botRightLat, botRightLng]] = map.current.getBounds();
@@ -21,7 +22,7 @@ const Map = React.memo(({ mapState, features, fetchFeatures, onClick }) => {
             });
         }
     }, [map, fetchFeatures]);
-    
+
     const onObjectEvent = useCallback((e) => {
         const objectId = e.get('objectId');
         const feature = features.find(i => i.id === objectId);
@@ -32,7 +33,7 @@ const Map = React.memo(({ mapState, features, fetchFeatures, onClick }) => {
     }, [features, onClick]);
 
     return (
-        <YMaps query={{ ns: 'ymaps', load: 'package.full' }}>
+        <YMaps query={{ns: 'ymaps', load: 'package.full'}}>
             <MapProvider>
                 <YMap
                     className="Map"
@@ -54,6 +55,8 @@ const Map = React.memo(({ mapState, features, fetchFeatures, onClick }) => {
                         onClick={onObjectEvent}
                         features={features}
                     />
+                    <Placemark geometry={{type: 'Point', coordinates: MAP_INITIAL_STATE.state.center}}
+                               options={{preset: 'islands#geolocationIcon'}}/>
                 </YMap>
             </MapProvider>
         </YMaps>
