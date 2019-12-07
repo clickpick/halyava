@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useMemo } from 'react';
+import React, { useCallback, useRef, useEffect } from 'react';
 
 import './Map.css';
 
@@ -8,13 +8,9 @@ import MapProvider from 'components/MapProvider';
 const OPTIONS = { minZoom: 10 };
 const PLACEMARK_OPTIONS = { preset: 'islands#geolocationIcon' };
 
-const Map = ({ mapState, features, fetchFeatures, onClick }) => {
+const Map = ({ mapState, userGeometry, features, fetchFeatures, updateMapState, onClick }) => {
     const map = useRef();
-    
-    const meGeometry = useMemo(() => ({
-        type: 'Point',
-        coordinates: mapState.center
-    }), [mapState]);
+    const nextMapState = useRef({});
 
     const handleMapLoad = useCallback(() => {
         if (map.current) {
@@ -24,6 +20,10 @@ const Map = ({ mapState, features, fetchFeatures, onClick }) => {
             map.current.events.add('boundschange', function (e) {
                 const [[topLeftLat, topLeftLng], [botRightLat, botRightLng]] = e.originalEvent.newBounds;
                 fetchFeatures(topLeftLat, topLeftLng, botRightLat, botRightLng);
+                nextMapState.current = {
+                    center: e.originalEvent.newCenter,
+                    zoom: e.originalEvent.newZoom
+                };
             });
         }
     }, [map, fetchFeatures]);
@@ -37,12 +37,15 @@ const Map = ({ mapState, features, fetchFeatures, onClick }) => {
         }
     }, [features, onClick]);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => () => updateMapState(nextMapState.current), []);
+
     return (
         <YMaps query={{ns: 'ymaps', load: 'package.full'}}>
             <MapProvider>
                 <YMap
                     className="Map"
-                    defaultState={mapState}
+                    state={mapState}
                     options={OPTIONS}
                     instanceRef={map}
                     onLoad={handleMapLoad}>
@@ -58,11 +61,15 @@ const Map = ({ mapState, features, fetchFeatures, onClick }) => {
                             preset: 'islands#blueClusterIcons',
                         }}
                         onClick={onObjectEvent}
-                        features={features}
-                    />
-                    <Placemark
-                        geometry={meGeometry}
-                        options={PLACEMARK_OPTIONS} />
+                        features={features} />
+
+                    {(userGeometry) &&
+                        <Placemark
+                            geometry={{
+                                type: 'Point',
+                                coordinates: userGeometry
+                            }}
+                            options={PLACEMARK_OPTIONS} />}
                 </YMap>
             </MapProvider>
         </YMaps>

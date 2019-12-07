@@ -6,7 +6,8 @@ export const MAP_INITIAL_STATE = {
         behaviors: ['default', 'scrollZoom'],
         controls: []
     },
-    features: []
+    features: [],
+    userGeometry: null,
 };
 
 export const POPUP_INITIAL_STATE = null;

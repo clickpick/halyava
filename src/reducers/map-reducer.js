@@ -17,11 +17,27 @@ export function mapReducer(state = MAP_INITIAL_STATE, action) {
                     center: action.center
                 }
             };
+        
+        case types.SET_USER_GEOMETRY: {
+            return {
+                ...state,
+                userGeometry: action.geometry
+            };
+        }
 
         case types.SET_FEATURES:
             return {
                 ...state,
                 features: action.features
+            };
+
+        case types.UPDATE_MAP_STATE:
+            return {
+                ...state,
+                state: {
+                    ...state.state,
+                    ...action.mapState
+                }
             };
 
         default:
@@ -30,5 +46,6 @@ export function mapReducer(state = MAP_INITIAL_STATE, action) {
 }
 
 export const getMapState = (state) => state.map.state;
+export const getUserGeometry = (state) => state.map.userGeometry;
 export const getHasLayout = (state) => state.map.hasLayout;
 export const getMapFeatures = (state) => state.map.features;

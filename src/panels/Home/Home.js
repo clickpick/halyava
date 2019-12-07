@@ -5,11 +5,10 @@ import './Home.css';
 
 import connect from '@vkontakte/vk-connect';
 import { useSelector, useDispatch } from 'react-redux';
-import { getMapState, getMapFeatures } from 'reducers/map-reducer';
-import { fetchFeatures, setCenterMap } from 'actions/map-actions';
-import { showPopup } from 'actions/popup-actions';
+import { getMapState, getUserGeometry, getMapFeatures } from 'reducers/map-reducer';
+import { fetchFeatures, setUserGeometry, updateMapState } from 'actions/map-actions';
 import { getOrderId } from 'helpers/order';
-import { POPUP_LEAVE, GET_GEODATA_DENIED } from 'constants/popup';
+import { POPUP_LEAVE } from 'constants/popup';
 
 import { Panel, PanelHeader, FixedLayout } from '@vkontakte/vkui';
 import Map from 'components/Map';
@@ -25,6 +24,7 @@ import { ReactComponent as IconBlocks } from 'svg/blocks.svg';
 const Home = ({ id, goShop, goOrder }) => {
 	const [shop, setShop] = useState(null);
 	const mapState = useSelector(getMapState);
+	const userGeometry = useSelector(getUserGeometry);
 	const features = useSelector(getMapFeatures);
 
 	const dispatch = useDispatch();
@@ -58,13 +58,9 @@ const Home = ({ id, goShop, goOrder }) => {
 				const response = await connect.sendPromise('VKWebAppGetGeodata');
 
 				if (response.available !== 0) {
-					dispatch(setCenterMap([response.lat, response.long]));
+					dispatch(setUserGeometry([response.lat, response.long]));
 				}
-			} catch (e) {
-				if (e.error_data.error_code === 4) {
-					dispatch(showPopup(GET_GEODATA_DENIED, {}, 7000));
-				}
-			}
+			} catch (e) { }
 		}
 
 		getGeodata();
@@ -76,8 +72,10 @@ const Home = ({ id, goShop, goOrder }) => {
 			<Map
 				className="Home__Map"
 				mapState={mapState}
+				userGeometry={userGeometry}
 				features={features}
 				fetchFeatures={setFeatures}
+				updateMapState={(geo) => dispatch(updateMapState(geo))}
 				onClick={setShop} />
 			
 			<FixedLayout

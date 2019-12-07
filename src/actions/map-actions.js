@@ -10,10 +10,20 @@ const setCenterMap = (center) => ({
     center
 });
 
+const setUserGeometry = (geometry) => ({
+    type: types.SET_USER_GEOMETRY,
+    geometry
+});
+
 const setFeatures = (features) => ({
     type: types.SET_FEATURES,
     features
 });
+
+const updateMapState = (mapState) => ({
+    type: types.UPDATE_MAP_STATE,
+    mapState
+})
 
 const fetchFeatures = (topLeftLat, topLeftLng, botRightLat, botRightLng) => async (dispatch) => {
     try {
@@ -22,4 +32,4 @@ const fetchFeatures = (topLeftLat, topLeftLng, botRightLat, botRightLng) => asyn
     } catch (err) {}
 };
 
-export { setLayoutMap, setCenterMap, fetchFeatures };
+export { setLayoutMap, setCenterMap, setUserGeometry, updateMapState, fetchFeatures };

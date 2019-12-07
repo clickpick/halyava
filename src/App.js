@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
+import connect from '@vkontakte/vk-connect';
 import { useSelector, useDispatch } from 'react-redux';
 import { getPopup } from 'reducers/popup-reducer';
 import { showPopup, closePopup } from 'actions/popup-actions';
+import { setCenterMap } from 'actions/map-actions';
 import * as POPUP from 'constants/popup';
 
 import { getOrderId } from 'helpers/order';
@@ -58,6 +60,22 @@ const App = () => {
 				dispatch(showPopup(POPUP.OFFLINE, {}, 0));
 			}
 		});
+
+		async function getGeodata() {
+			try {
+				const response = await connect.sendPromise('VKWebAppGetGeodata');
+
+				if (response.available !== 0) {
+					dispatch(setCenterMap([response.lat, response.long]));
+				}
+			} catch (e) {
+				if (e.error_data.error_code === 4) {
+					dispatch(showPopup(POPUP.GET_GEODATA_DENIED, {}, 7000));
+				}
+			}
+		}
+
+		getGeodata();
 	}, [dispatch]);
 
 	useEffect(() => {
