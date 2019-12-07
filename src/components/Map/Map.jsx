@@ -1,15 +1,20 @@
-import React, {useCallback, useRef} from 'react';
-import {MAP_INITIAL_STATE} from "constants/store";
+import React, { useCallback, useRef, useMemo } from 'react';
 
 import './Map.css';
 
-import {Map as YMap, ObjectManager, Placemark, YMaps} from 'react-yandex-maps';
+import { Map as YMap, ObjectManager, Placemark, YMaps } from 'react-yandex-maps';
 import MapProvider from 'components/MapProvider';
 
 const OPTIONS = { minZoom: 10 };
+const PLACEMARK_OPTIONS = { preset: 'islands#geolocationIcon' };
 
-const Map = React.memo(({ mapState, features, fetchFeatures, onClick }) => {
+const Map = ({ mapState, features, fetchFeatures, onClick }) => {
     const map = useRef();
+    
+    const meGeometry = useMemo(() => ({
+        type: 'Point',
+        coordinates: mapState.center
+    }), [mapState]);
 
     const handleMapLoad = useCallback(() => {
         if (map.current) {
@@ -55,12 +60,13 @@ const Map = React.memo(({ mapState, features, fetchFeatures, onClick }) => {
                         onClick={onObjectEvent}
                         features={features}
                     />
-                    <Placemark geometry={{type: 'Point', coordinates: MAP_INITIAL_STATE.state.center}}
-                               options={{preset: 'islands#geolocationIcon'}}/>
+                    <Placemark
+                        geometry={meGeometry}
+                        options={PLACEMARK_OPTIONS} />
                 </YMap>
             </MapProvider>
         </YMaps>
     );
-});
+};
 
 export default Map;
