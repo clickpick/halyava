@@ -41,6 +41,11 @@
     --button_svg-fill: var(--color-white);
 
     /**
+     * Map Component
+     */
+    --map_icon_box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+
+    /**
      * Title Component
      */
     --title_color: var(--color-black);
@@ -96,6 +101,8 @@ body[scheme="space_gray"] {
 
     --button-default_background: #212121;
 
+    --map_icon_box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+
     --title_color: var(--color-white);
 
     --add-review-form__field-background: #212121;
@@ -104,6 +111,17 @@ body[scheme="space_gray"] {
 
     --order_background-value: #212121;
     --order_color-value: var(--color-white);
+}
+
+body[scheme="client_dark"] .Map *[class*="ground-pane"],
+body[scheme="space_gray"] .Map *[class*="ground-pane"] {
+    filter: grayscale(100%) invert(100%);
+}
+
+
+body[scheme="client_dark"] .Map *[class*="map-bg"],
+body[scheme="space_gray"] .Map *[class*="map-bg"] {
+    background: #212121;
 }
 
 button {

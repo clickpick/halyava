@@ -2,3 +2,20 @@
     width: 100%;
     height: 100vh;
 }
+
+.Map__Icon {
+    position: absolute;
+    top: -12px;
+    left: -12px;
+
+    width: 24px;
+    height: 24px;
+
+    border-radius: 100%;
+    
+    background-size: cover;
+    
+    box-shadow: var(--map_icon_box-shadow);
+
+    overflow: hidden;
+}
