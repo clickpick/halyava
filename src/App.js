@@ -60,23 +60,27 @@ const App = () => {
 				dispatch(showPopup(POPUP.OFFLINE, {}, 0));
 			}
 		});
+	}, [dispatch]);
 
-		async function getGeodata() {
-			try {
-				const response = await connect.sendPromise('VKWebAppGetGeodata');
+	useEffect(() => {
+		if (activeView === VIEWS.MAIN) {
+			async function getGeodata() {
+				try {
+					const response = await connect.sendPromise('VKWebAppGetGeodata');
 
-				if (response.available !== 0) {
-					dispatch(setCenterMap([response.lat, response.long]));
-				}
-			} catch (e) {
-				if (e.error_data.error_code === 4) {
-					dispatch(showPopup(POPUP.GET_GEODATA_DENIED, {}, 7000));
+					if (response.available !== 0) {
+						dispatch(setCenterMap([response.lat, response.long]));
+					}
+				} catch (e) {
+					if (e.error_data.error_code === 4) {
+						dispatch(showPopup(POPUP.GET_GEODATA_DENIED, {}, 7000));
+					}
 				}
 			}
-		}
 
-		getGeodata();
-	}, [dispatch]);
+			getGeodata();
+		}
+	}, [activeView]);
 
 	useEffect(() => {
 		const orderId = getOrderId(window.location.href);
@@ -87,6 +91,10 @@ const App = () => {
 		
 		setActiveView(VIEWS.MAIN);
 	}, [goOrder]);
+
+	useEffect(() => {
+		connect.send('VKWebAppSetViewSettings', { status_bar_style: 'dark', action_bar_color: '#fff' });
+	}, []);
 
 	return <>
 		<ConfigProvider isWebView={true}>
