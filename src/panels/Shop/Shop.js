@@ -13,10 +13,7 @@ import { TABS } from 'constants/shop';
 
 import { getTimezoneOffset, timetableParse } from 'helpers/dates';
 
-import {
-    Panel, PanelHeader, HeaderButton, FixedLayout,
-    platform, IOS
-} from '@vkontakte/vkui';
+import { Panel, PanelHeader, PanelHeaderBack, FixedLayout } from '@vkontakte/vkui';
 import Wrapper from 'components/Wrapper';
 import ShopCard from 'components/ShopCard';
 import Loader from 'components/Loader';
@@ -33,12 +30,8 @@ import Popup from 'components/Popup';
 import AddReviewForm from 'components/AddReviewForm';
 import Success from 'components/Success';
 
-import Icon24Back from '@vkontakte/icons/dist/24/back';
-import Icon28ChevronBack from '@vkontakte/icons/dist/28/chevron_back';
 import { ReactComponent as IconVk } from 'svg/vk.svg';
 import { ReactComponent as IconMessage } from 'svg/message.svg';
-
-const isIOS = platform() === IOS;
 
 function findReview(review) {
     return review.id === this.id;
@@ -142,14 +135,7 @@ const Shop = ({ id, shop, activeTab, goBack }) => {
 
     return (
         <Panel id={id} className="Shop">
-            <PanelHeader
-                noShadow={true}
-                left={
-                    <HeaderButton onClick={goBack}>
-                        {(isIOS) ? <Icon28ChevronBack /> : <Icon24Back />}
-                        Карта
-                    </HeaderButton>
-                } />
+            <PanelHeader left={<PanelHeaderBack onClick={goBack} />} noShadow={true} />
 
             <Wrapper className="Shop__Wrapper">
                 <ShopCard
