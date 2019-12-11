@@ -80,7 +80,7 @@ const App = () => {
 
 			getGeodata();
 		}
-	}, [activeView]);
+	}, [activeView, dispatch]);
 
 	useEffect(() => {
 		const orderId = getOrderId(window.location.href);
