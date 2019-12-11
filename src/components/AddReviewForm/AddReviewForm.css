@@ -23,7 +23,7 @@
 }
 
 .AddReviewForm__Textarea {
-    --field_background: var(--color-white);
+    --field_background: var(--add-review-form__field-background);
 }
 
 .AddReviewForm__Textarea textarea {
@@ -38,5 +38,5 @@
 
 .AddReviewForm__Textarea.FormField--s-error .FormField__border {
     border-bottom: 1px solid var(--color-red);
-    background: var(--color-white);
+    background: var(--add-review-form__field-background);
 }

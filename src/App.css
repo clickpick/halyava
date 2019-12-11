@@ -52,6 +52,11 @@
     --title_color: var(--color-black);
 
     /**
+     * AddReviewForm Component
+     */
+    --add-review-form__field-background: var(--color-white);
+
+    /**
      * Popup Component
      */
     --popup-dialog-background: var(--color-white);
