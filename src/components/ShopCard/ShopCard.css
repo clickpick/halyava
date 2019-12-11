@@ -7,21 +7,9 @@
     overflow: hidden;
 }
 
-.ShopCard__photo {
+.ShopCard__Avatar {
     flex-shrink: 0;
-
-    width: 56px;
-    height: 56px;
     margin-right: 15px;
-
-    border-radius: 12px;
-
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-
-.ShopCard__photo img {
-    display: none;
 }
 
 .ShopCard__info {

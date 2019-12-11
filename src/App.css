@@ -57,7 +57,7 @@
     /**
      * ShopCard Component
      */
-    --shop-card_color-name: var(--color-black);
+    --shop-card_color-name: var(--color-primary);
     --shop-card_color-activity: var(--color-gray);
     --shop-card_color-cashback: var(--color-primary);
 

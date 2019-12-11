@@ -4,15 +4,17 @@ import classNames from 'classnames';
 
 import './ShopCard.css';
 
-const ShopCard = React.memo(({ className, name, activity, photo, cashback }) => {
-    const photoStyle = { backgroundImage: `url(${photo})` };
+import { Avatar } from '@vkontakte/vkui';
 
+const ShopCard = React.memo(({ className, name, activity, photo, cashback }) => {   
     return (
         <div className={classNames(className, 'ShopCard')}>
             {(photo) &&
-                <div className="ShopCard__photo" style={photoStyle}>
-                    <img src={photo} alt={name} />
-                </div>}
+                <Avatar
+                    className="ShopCard__Avatar"
+                    size={36}
+                    src={photo}
+                    alt={name} />}
             <div className="ShopCard__info">
                 <h2 className="ShopCard__name" children={name} />
                 <small className="ShopCard__activity" children={activity} />
