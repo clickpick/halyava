@@ -40,7 +40,7 @@ const Timetable = ({ className, initialTimetable, groupId: group_id, addressId }
                 <Row className="Timetable__Row" title="Режим работы">
                     {(loading || !Boolean(timetable)) &&
                         <Loader
-                        className="Timetable__Loader"
+                            className="Timetable__Loader"
                             view="timetable"
                             animation />}
 
