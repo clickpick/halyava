@@ -1,11 +1,11 @@
 .Timetable {
-    max-height: 0;
-    transition: max-height 200ms ease-in;
+    max-height: 54px;
+    transition: max-height 100ms ease-in;
     overflow: auto;
 }
 
-.Timetable--show {
-    max-height: 54px;
+.Timetable--hide {
+    max-height: 0;
 }
 
 .Timetable__timetable {
@@ -14,4 +14,8 @@
 
 .Timetable__timetable--opened {
     color: var(--color-green);
+}
+
+.Timetable__Loader {
+    margin-bottom: 6px;
 }
