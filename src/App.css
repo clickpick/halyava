@@ -19,6 +19,8 @@
     --header_tint: var(--color-primary);
     --text_secondary: var(--color-gray);
 
+    --header_background-secondary: var(--color-white);
+
     --font-size-11: 11px;
     --font-size-13: 13px;
     --font-size-15: 15px;

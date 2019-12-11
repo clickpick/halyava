@@ -9,7 +9,7 @@
     display: block;
     content: '';
 
-    background-color: #fff;
+    background-color: var(--header_background-secondary);
 
     width: 100vw;
 }
