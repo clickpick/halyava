@@ -9,7 +9,24 @@ import App from './App';
 import { Provider } from 'react-redux';
 import configureStore from 'store/configureStore';
 import { INITIAL_STATE } from 'constants/store';
+connect.subscribe(({ detail: { type, data } }) => {
+    function setViewSettings(scheme) {
+        if (scheme === 'client_dark' || scheme === 'space_gray') {
+            connect.send('VKWebAppSetViewSettings', { status_bar_style: 'ligth', action_bar_color: '#212121' });
+        } else {
+            connect.send('VKWebAppSetViewSettings', { status_bar_style: 'dark', action_bar_color: '#fff' });
+        }
+    }
 
+    if (type === 'VKWebAppUpdateConfig') {
+        const schemeAttribute = document.createAttribute('scheme');
+        schemeAttribute.value = data.scheme ? data.scheme : 'client_light';
+        document.body.attributes.setNamedItem(schemeAttribute);
+        
+
+        setViewSettings(schemeAttribute.value);
+    }
+});
 // Init VK  Mini App
 connect.send('VKWebAppInit');
 

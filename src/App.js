@@ -31,25 +31,6 @@ const App = () => {
 
 	const dispatch = useDispatch();
 
-	useEffect(() => {
-		connect.subscribe(({ detail: { type, data }}) => {
-			if (type === 'VKWebAppUpdateConfig') {
-				const schemeAttribute = document.createAttribute('scheme');
-				schemeAttribute.value = data.scheme ? data.scheme : 'client_light';
-				document.body.attributes.setNamedItem(schemeAttribute);
-			}
-		});
-
-		if (connect.supports('VKWebAppSetViewSettings')) {
-			const scheme = document.body.getAttribute('scheme');
-			if (scheme === 'client_dark' || scheme === 'space_gray') {
-				connect.send('VKWebAppSetViewSettings', { status_bar_style: 'ligth', action_bar_color: '#212121' });
-			} else {
-				connect.send('VKWebAppSetViewSettings', { status_bar_style: 'dark', action_bar_color: '#fff' });
-			}
-		}
-	}, []);
-
 	const goMain = useCallback(() => setActiveView('main'), []);
 
 	const goOrder = useCallback((orderId) => {
