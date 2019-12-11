@@ -73,6 +73,12 @@
      */
     --link_color: var(--color-primary);
     --link_fill: var(--color-primary);
+
+    /**
+     * Order Panel
+     */
+    --order_background-value: var(--color-white);
+    --order_color-value: var(--color-black);
 }
 
 button {
