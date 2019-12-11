@@ -45,6 +45,11 @@
     --button_svg-fill: var(--color-white);
 
     /**
+     * Title Component
+     */
+    --title_color: var(--color-black);
+
+    /**
      * Popup Component
      */
     --popup-dialog-background: var(--color-white);

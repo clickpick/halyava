@@ -33,22 +33,9 @@
     padding-bottom: 90px !important;
 }
 
-.Order__title {
+.Order__Title {
     margin-top: 40px;
     margin-bottom: 10px;
-    padding: 20px;
-
-    font-size: var(--font-size-28);
-    font-weight: var(--font-weight-normal);
-    text-align: center;
-}
-
-.Order__title--success {
-    color: var(--color-green);
-}
-
-.Order__title--error {
-    color: var(--color-red);
 }
 
 .Order__ShopCard,

@@ -1,0 +1,26 @@
+.Title {
+    padding: 20px;
+
+    font-size: var(--font-size-28);
+    font-weight: var(--font-weight-normal);
+    color: var(--title_color);
+    text-align: center;
+}
+
+.Title--success {
+    color: var(--color-green);
+}
+
+.Title--error {
+    color: var(--color-red);
+}
+
+.Title__hint {
+    display: block;
+
+    margin-top: 10px;
+    
+    font-size: var(--font-size-15);
+    font-weight: var(--font-weight-normal);
+    letter-spacing: -0.24px;
+}

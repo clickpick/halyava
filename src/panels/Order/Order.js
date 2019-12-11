@@ -13,6 +13,7 @@ import * as POPUP from 'constants/popup';
 import { Panel, PanelHeader, HeaderButton, FixedLayout } from '@vkontakte/vkui';
 import Loader from 'components/Loader';
 import Wrapper from 'components/Wrapper';
+import Title from 'components/Title';
 import ShopCard from 'components/ShopCard';
 import Button from 'components/Button';
 import Success from 'components/Success';
@@ -95,7 +96,7 @@ const Order = ({ id, orderId, goMain }) => {
                 ? <Loader absoluteCenter />
                 : (order) && <Wrapper className="Order__Wrapper">
                     {(status === CREATED) && <>
-                        <h1 className="Order__title" children="Счёт на оплату" />
+                        <Title className="Order__Title" children="Счёт на оплату" />
 
                         {(order.group) &&
                             <ShopCard
@@ -128,7 +129,7 @@ const Order = ({ id, orderId, goMain }) => {
                     </>}
 
                     {(status === PAID) && <>
-                        <h1 className="Order__title  Order__title--success" children="Оплачено" />
+                        <Title className="Order__Title" type="success" children="Оплачено" />
                         <Success className="Order__Success" />
 
                         {(order.group) &&
@@ -155,7 +156,7 @@ const Order = ({ id, orderId, goMain }) => {
                     </>}
 
                     {(status === ERROR_PAY) && <>
-                        <h1 className="Order__title  Order__title--error" children="Ошибка" />
+                        <Title className="Order__Title" type="error" children="Ошибка" />
                         <Error className="Order__Error" />
 
                         {(order.group) &&
