@@ -3,7 +3,7 @@ import { string, func } from 'prop-types';
 
 import useNavigation from 'hooks/use-navigation';
 
-import { ConfigProvider, View } from '@vkontakte/vkui';
+import { View } from '@vkontakte/vkui';
 
 import Home from 'panels/Home';
 import Shop from 'panels/Shop';
@@ -20,16 +20,14 @@ const Main = ({ id, goOrder }) => {
     }, [goForward]);
 
     return (
-        <ConfigProvider isWebView={true}>
-            <View
-                id={id}
-                activePanel={activePanel}
-                history={history}
-                onSwipeBack={goBack}>
-                <Home id="home" goShop={goShop} goOrder={goOrder} />
-                <Shop id="shop" shop={shop} activeTab={activeTab} goBack={goBack} />
-            </View>
-        </ConfigProvider>
+        <View
+            id={id}
+            activePanel={activePanel}
+            history={history}
+            onSwipeBack={goBack}>
+            <Home id="home" goShop={goShop} goOrder={goOrder} />
+            <Shop id="shop" shop={shop} activeTab={activeTab} goBack={goBack} />
+        </View>
     );
 };
 

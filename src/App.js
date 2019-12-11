@@ -9,7 +9,7 @@ import * as POPUP from 'constants/popup';
 
 import { getOrderId } from 'helpers/order';
 
-import { Root } from '@vkontakte/vkui';
+import { ConfigProvider, Root } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 
 import Main from 'views/Main';
@@ -89,11 +89,13 @@ const App = () => {
 	}, [goOrder]);
 
 	return <>
-		<Root activeView={activeView}>
-			<Main id={VIEWS.MAIN} goOrder={goOrder} />
-			<PayOrder id={VIEWS.PAY_ORDER} orderId={activeOrder} goMain={goMain} />
-			<Loader id={VIEWS.LOADER} />
-		</Root>
+		<ConfigProvider isWebView={true}>
+			<Root activeView={activeView}>
+				<Main id={VIEWS.MAIN} goOrder={goOrder} />
+				<PayOrder id={VIEWS.PAY_ORDER} orderId={activeOrder} goMain={goMain} />
+				<Loader id={VIEWS.LOADER} />
+			</Root>
+		</ConfigProvider>
 
 		<PopupContainer>
 			{(popup) && <Popup {...popup} onClose={() => dispatch(closePopup())} />}
