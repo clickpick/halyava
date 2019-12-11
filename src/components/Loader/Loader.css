@@ -20,7 +20,18 @@
     opacity: 0.2;
 }
 
-.Loader--invoice.Loader--with-animation {
+.Loader--timetable {
+    width: 79px;
+    height: 14px;
+
+    border-radius: 7px;
+
+    background-color: var(--color-gray);
+    opacity: 0.2;
+}
+
+.Loader--invoice.Loader--with-animation,
+.Loader--timetable.Loader--with-animation {
     animation: clumsy 3s infinite;
 }
 

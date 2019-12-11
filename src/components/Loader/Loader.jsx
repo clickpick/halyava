@@ -19,14 +19,20 @@ const Loader = ({ className, view, animation, center, absoluteCenter, ...restPro
         ...restProps,
     };
 
-    return (view === 'spinner')
-        ? <Spinner {...props} />
-        : <IconInvoice {...props} />;
+    if (view === 'invoice') {
+        return <IconInvoice {...props} />;
+    }
+
+    if (view === 'timetable') {
+        return <div {...props} />;
+    }
+
+    return <Spinner {...props} />;
 };
 
 Loader.propTypes = {
     className: string,
-    view: oneOf(['spinner', 'invoice']),
+    view: oneOf(['spinner', 'invoice', 'timetable']),
     animation: bool,
     center: bool,
     absoluteCenter: bool
