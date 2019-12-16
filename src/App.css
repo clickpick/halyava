@@ -37,8 +37,11 @@
     --button-primary_background: var(--color-primary);
     --button-primary_color: var(--color-white);
 
-    --button_backlight: 0px 10px 30px rgba(var(--color-primary-rgb), 0.5);
-    --button_svg-fill: var(--color-white);
+    --button-black_background: var(--color-white);
+    --button-black_color: var(--color-black);
+
+    --button-black_backlight: 0px 10px 30px rgba(0, 0, 0, 0.35);
+    --button-primary_backlight: 0px 10px 30px rgba(var(--color-primary-rgb), 0.5);
 
     /**
      * Map Component

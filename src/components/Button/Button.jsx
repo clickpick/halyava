@@ -13,7 +13,7 @@ const Button = ({ className, theme, size, full, backlight, href, onClick, before
             [`Button--${theme}`]: theme,
             [`Button--${size}`]: size,
             'Button--full': full,
-            'Button--backlight': (theme === 'primary') && backlight,
+            'Button--backlight': backlight,
             'Button--with-before': before,
         }),
         href,
@@ -47,7 +47,7 @@ const Button = ({ className, theme, size, full, backlight, href, onClick, before
 Button.propTypes = {
     className: string, // дополнительный класс
     type: oneOf(['button', 'submit', 'reset']),
-    theme: oneOf(['primary', 'secondary']), // тема кнопки
+    theme: oneOf(['primary', 'secondary', 'black']), // тема кнопки
     size: oneOf(['small', 'medium']), // размер кнопки
     full: bool, // ширина кнопки
     backlight: bool, // подстветка (работает только если theme=primary)

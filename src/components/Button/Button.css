@@ -27,6 +27,12 @@
     transform: scale(0.95) translateY(1px);
 }
 
+.Button svg {
+    width: 16px;
+    height: 16px;
+    fill: var(--button-default_color);
+}
+
 /**
  * Themes
  */
@@ -35,9 +41,22 @@
     color: var(--button-primary_color);
 }
 
+.Button.Button--primary svg {
+    fill: var(--button-primary_color);
+}
+
 .Button.Button--secondary {
     background-color: var(--button-secondary_background);
     color: var(--button-secondary_color);
+}
+
+.Button.Button--black {
+    background-color: var(--button-black_background);
+    color: var(--button-black_color);
+}
+
+.Button.Button--black svg {
+    fill: var(--button-black_color);
 }
 
 /**
@@ -60,8 +79,12 @@
  */
 .Button.Button--with-before {
     position: relative;
-    padding-right: 48px;
-    padding-left: 48px;
+    padding-left: 34px;
+}
+
+.Button.Button--medium  .Button--with-before {
+    padding-right: 42px;
+    padding-left: 42px;
 }
 
 .Button.Button--full {
@@ -69,18 +92,20 @@
     max-width: 100%;
 }
 
-.Button.Button--backlight {
-    box-shadow: var(--button_backlight);
+.Button.Button--black.Button.Button--backlight {
+    box-shadow: var(--button-black_backlight);
 }
 
-.Button svg {
-    width: 16px;
-    height: 16px;
-    fill: var(--button_svg-fill);
+.Button.Button--medium.Button.Button--backlight {
+    box-shadow: var(--button-primary_backlight);
 }
 
 .Button__before {
     position: absolute;
-    top: 14px;
+    top: 8px;
     left: 14px;
+}
+
+.Button.Button--medium .Button__before {
+    top: 14px;
 }
