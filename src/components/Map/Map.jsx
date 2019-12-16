@@ -5,7 +5,7 @@ import './Map.css';
 import { Map as YMap, ObjectManager, Placemark, YMaps } from 'react-yandex-maps';
 import MapProvider from 'components/MapProvider';
 
-const OPTIONS = { minZoom: 10 };
+const OPTIONS = { minZoom: 10, suppressMapOpenBlock: true };
 const PLACEMARK_OPTIONS = { preset: 'islands#geolocationIcon' };
 
 const Map = ({ mapState, userGeometry, features, fetchFeatures, updateMapState, onClick }) => {
