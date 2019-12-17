@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { string, bool, func, oneOf, arrayOf, shape } from 'prop-types';
+import React, { useState, useEffect, useMemo } from 'react';
+import { string, bool, func, oneOf, arrayOf, shape, oneOfType, node } from 'prop-types';
 import classNames from 'classnames';
 
 import './Popup.css';
 
 import Dialog from './Dialog';
 
-const Popup = ({ className, visible, disabled, onClose, type, title, message, children, actions }) => {
+const Popup = ({
+    className,
+    visible, disabled, onClose, autoHeight, maxDialogHeight,
+    header, type, title, message, children, actions
+}) => {
     const [show, setShow] = useState(false);
     const [animationType, setAnimationType] = useState('leave');
 
@@ -19,9 +23,10 @@ const Popup = ({ className, visible, disabled, onClose, type, title, message, ch
         }
     }, [visible, show]);
 
-    const style = {
+    const style = useMemo(() => ({
         display: (show) ? '' : 'none',
-    };
+        height: (autoHeight) ? 'auto' : '100vh'
+    }), [show, autoHeight]);
 
     function animationEnd() {
         if (animationType === 'leave') {
@@ -39,20 +44,23 @@ const Popup = ({ className, visible, disabled, onClose, type, title, message, ch
         <div
             style={style}
             className={classNames(className, 'Popup', `Popup--fade-${animationType}`)}
-            tabIndex={-1}            
+            tabIndex={-1}
             onClick={close}
             onAnimationEnd={animationEnd}>
             <div className="Popup__mask" />
-            {(show) && <Dialog
-                className="Popup__Dialog"
-                disabled={disabled}
-                onClose={close}
-                animationType={animationType}
-                type={type}
-                title={title}
-                message={message}
-                children={children}
-                actions={actions} />}
+            {(show) && 
+                <Dialog
+                    className="Popup__Dialog"
+                    disabled={disabled}
+                    onClose={close}
+                    animationType={animationType}
+                    maxDialogHeight={maxDialogHeight}
+                    header={header}
+                    type={type}
+                    title={title}
+                    message={message}
+                    children={children}
+                    actions={actions} />}
         </div>
     );
 };
@@ -61,6 +69,9 @@ Popup.propTypes = {
     className: string,
     visible: bool,
     disabled: bool,
+    autoHeight: bool,
+    maxDialogHeight: string,
+    header: oneOfType([node, arrayOf(node)]),
     type: oneOf(['info', 'success', 'danger']),
     title: string,
     message: string,

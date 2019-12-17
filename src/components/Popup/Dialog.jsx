@@ -1,5 +1,5 @@
 import React, { useRef, useState, useMemo, useCallback, useEffect } from 'react';
-import { string, oneOf, arrayOf, shape, bool, func } from 'prop-types';
+import { string, oneOf, arrayOf, shape, bool, func, oneOfType, node } from 'prop-types';
 import classNames from 'classnames';
 
 import './Dialog.css';
@@ -9,13 +9,13 @@ import Button from 'components/Button';
 import { useSwipeable, UP, DOWN } from 'react-swipeable';
 import useLockBody from 'hooks/use-lock-body';
 
-const Dialog = ({ className, disabled, onClose, animationType, type, title, message, children: initialChildren, actions }) => {
+const Dialog = ({
+    className, disabled, onClose, animationType, maxDialogHeight,
+    header, type, title, message, children, actions
+}) => {
     useLockBody(true);
 
     const wrapperRef = useRef();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const children = useMemo(() => initialChildren, []);
 
     const [bottom, setBottom] = useState(0);
     const [hasScroll, setHasScroll] = useState(false);
@@ -134,18 +134,30 @@ const Dialog = ({ className, disabled, onClose, animationType, type, title, mess
         };
     }, [initialWrapper]);
 
+    const style = useMemo(() => {
+        if (maxDialogHeight) {
+            return {
+                height: maxDialogHeight
+            };
+        }
+
+        return {};
+    }, [maxDialogHeight]);
+
     return (
         <div
             className={classNames(
                 className,
                 'Dialog',
                 `Dialog--${type}`,
-                `Dialog--slide-down-${animationType}`
+                `Dialog--slide-down-${animationType}`,
+                { 'Dialog--with-height': Boolean(header) }
             )}
             onClick={handleClick}
             {...handlers}
-            style={{ transform: `translate3d(-50%, ${-bottom}px, 0)` }}>
+            style={{ transform: `translate3d(-50%, ${-bottom}px, 0)`, ...style }}>
             <div className="Dialog__wrapper" ref={wrapperRef}>
+                {(header) && <header className="Dialog__header" children={header} />}
                 {title && <h3 className="Dialog__title" children={title} />}
                 {message && <p className="Dialog__message" dangerouslySetInnerHTML={{ __html: message }} />}
                 {children}
@@ -160,6 +172,8 @@ const Dialog = ({ className, disabled, onClose, animationType, type, title, mess
 Dialog.propTypes = {
     className: string,
     animationType: oneOf(['enter', 'leave']).isRequired,
+    maxDialogHeight: string,
+    header: oneOfType([node, arrayOf(node)]),
     type: oneOf(['info', 'success', 'danger']),
     title: string,
     message: string,
