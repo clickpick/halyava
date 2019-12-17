@@ -100,6 +100,8 @@ const Home = ({ id, goShop, goOrder }) => {
 			name={shop.properties.group.name}
 			activity={shop.properties.group.activity}
 			photo={shop.properties.iconContent}
+			rating={shop.properties.address.rating || undefined}
+			friendRating={shop.properties.address.friend_rating || undefined}
 			cashback={shop.properties.group.cashback_value}
 			onClick={() => openResult(shop)} />, [openResult]);
 
@@ -156,6 +158,8 @@ const Home = ({ id, goShop, goOrder }) => {
 							name={shop.properties.group.name}
 							activity={shop.properties.group.activity}
 							photo={shop.properties.iconContent}
+							rating={shop.properties.address.rating || undefined}
+							friendRating={shop.properties.address.friend_rating || undefined}
 							cashback={shop.properties.group.cashback_value} />
 						<Timetable
 							className="Home__Timetable"

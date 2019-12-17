@@ -176,7 +176,8 @@ const Shop = ({ id, shop, activeTab, goBack }) => {
                     name={shop.properties.group.name}
                     activity={shop.properties.group.activity}
                     photo={shop.properties.iconContent}
-                    cashback={shop.properties.group.cashback_value} />
+                    cashback={shop.properties.group.cashback_value}
+                    rating={shop.properties.address.rating || undefined} />
 
                 <Tabs
                     className="Shop__Tabs"
