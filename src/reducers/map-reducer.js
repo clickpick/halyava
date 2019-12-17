@@ -9,7 +9,7 @@ export function mapReducer(state = MAP_INITIAL_STATE, action) {
                 hasLayout: true
             };
 
-        case types.SET_CENTER_MAP:            
+        case types.SET_CENTER_MAP:
             return {
                 ...state,
                 state: {
@@ -19,13 +19,20 @@ export function mapReducer(state = MAP_INITIAL_STATE, action) {
             };
         
         case types.SET_USER_GEOMETRY: {
+            if (!state.userGeometry) {
+                return {
+                    ...state,
+                    userGeometry: action.geometry,
+                    state: {
+                        ...state.state,
+                        center: action.geometry
+                    }
+                };
+            }
+
             return {
                 ...state,
-                userGeometry: action.geometry,
-                state: {
-                    ...state.state,
-                    center: action.geometry
-                }
+                userGeometry: action.geometry
             };
         }
 
