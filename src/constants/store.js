@@ -13,6 +13,11 @@ export const MAP_INITIAL_STATE = {
 
 export const POPUP_INITIAL_STATE = null;
 
+export const SEARCH_INITIAL_STATE = {
+    q: '',
+    showResults: false,
+};
+
 export const INITIAL_STATE = {
     map: MAP_INITIAL_STATE,
     popup: POPUP_INITIAL_STATE

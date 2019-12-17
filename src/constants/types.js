@@ -12,3 +12,7 @@ export const RESET_SEARCH_RESULTS = 'reset-search-results';
 
 export const POPUP_ADD = 'popup-add';
 export const POPUP_CLOSE = 'popup-close';
+
+export const SET_SHOW_SEARCH_RESULTS = 'set-show-search-results';
+export const SET_SEARCH_QUERY = 'set-search-query';
+export const CLEAR_SEARCH_QUERY = 'clear-search-query';
