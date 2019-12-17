@@ -53,26 +53,6 @@ const App = () => {
 	}, [dispatch]);
 
 	useEffect(() => {
-		if (activeView === VIEWS.MAIN) {
-			async function getGeodata() {
-				try {
-					const response = await connect.sendPromise('VKWebAppGetGeodata');
-
-					if (response.available !== 0) {
-						dispatch(setCenterMap([response.lat, response.long]));
-					}
-				} catch (e) {
-					if (e.error_data.error_code === 4) {
-						dispatch(showPopup(POPUP.GET_GEODATA_DENIED, {}, 7000));
-					}
-				}
-			}
-
-			getGeodata();
-		}
-	}, [activeView, dispatch]);
-
-	useEffect(() => {
 		const orderId = getOrderId(window.location.href);
 
 		if (orderId) {

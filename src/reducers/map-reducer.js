@@ -21,7 +21,11 @@ export function mapReducer(state = MAP_INITIAL_STATE, action) {
         case types.SET_USER_GEOMETRY: {
             return {
                 ...state,
-                userGeometry: action.geometry
+                userGeometry: action.geometry,
+                state: {
+                    ...state.state,
+                    center: action.geometry
+                }
             };
         }
 

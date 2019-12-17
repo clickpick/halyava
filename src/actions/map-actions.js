@@ -41,9 +41,12 @@ const fetchFeatures = (topLeftLat, topLeftLng, botRightLat, botRightLng) => asyn
     } catch (err) {}
 };
 
-const fetchSearch = (q) => async (dispatch) => {
+const fetchSearch = (q) => async (dispatch, getState) => {
+    const userGeometry = getState().map.userGeometry || ['', ''];
+    const [lat, lng] = userGeometry;
+
     try {
-        const result = await API.search('', '', q);
+        const result = await API.search(lat, lng, q);
         
         dispatch(setSearchResults(result.features));
     } catch (e) {
