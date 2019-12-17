@@ -8,6 +8,7 @@ export const MAP_INITIAL_STATE = {
     },
     features: [],
     userGeometry: null,
+    searchResults: null,
 };
 
 export const POPUP_INITIAL_STATE = null;

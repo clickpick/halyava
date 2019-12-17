@@ -40,6 +40,18 @@ export function mapReducer(state = MAP_INITIAL_STATE, action) {
                 }
             };
 
+        case types.SET_SEARCH_RESULTS:
+            return {
+                ...state,
+                searchResults: action.payload
+            };
+
+        case types.RESET_SEARCH_RESULTS:
+            return {
+                ...state,
+                searchResults: null
+            };
+
         default:
             return state;
     }
@@ -48,4 +60,7 @@ export function mapReducer(state = MAP_INITIAL_STATE, action) {
 export const getMapState = (state) => state.map.state;
 export const getUserGeometry = (state) => state.map.userGeometry;
 export const getHasLayout = (state) => state.map.hasLayout;
-export const getMapFeatures = (state) => state.map.features;
+export const getMapFeatures = (state) => (Array.isArray(state.map.searchResults))
+    ? state.map.searchResults
+    : state.map.features;
+export const getSearchResults = (state) => state.map.searchResults;

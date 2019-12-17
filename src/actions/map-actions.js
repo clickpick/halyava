@@ -23,7 +23,16 @@ const setFeatures = (features) => ({
 const updateMapState = (mapState) => ({
     type: types.UPDATE_MAP_STATE,
     mapState
-})
+});
+
+const setSearchResults = (payload) => ({
+    type: types.SET_SEARCH_RESULTS,
+    payload
+});
+
+const resetSearchResults = () => ({
+    type: types.RESET_SEARCH_RESULTS
+});
 
 const fetchFeatures = (topLeftLat, topLeftLng, botRightLat, botRightLng) => async (dispatch) => {
     try {
@@ -32,4 +41,17 @@ const fetchFeatures = (topLeftLat, topLeftLng, botRightLat, botRightLng) => asyn
     } catch (err) {}
 };
 
-export { setLayoutMap, setCenterMap, setUserGeometry, updateMapState, fetchFeatures };
+const fetchSearch = (q) => async (dispatch) => {
+    try {
+        const result = await API.search('', '', q);
+        
+        dispatch(setSearchResults(result.features));
+    } catch (e) {
+        console.log(e.response);
+    }
+}
+
+export {
+    setLayoutMap, setCenterMap, setUserGeometry, updateMapState,
+    fetchFeatures, fetchSearch, resetSearchResults
+};
