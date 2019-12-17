@@ -20,6 +20,10 @@
     letter-spacing: -0.41px;
 }
 
+.Review__user-mark {
+    color: var(--color-gray);
+}
+
 .Review__name::before {
     position: absolute;
     top: 0;
@@ -30,11 +34,34 @@
     content: '';
 
     width: 100%;
-    height: 100%;
+    height: calc(100% - 44px);
 }
 
 .Review__text {
+    margin-bottom: 6px;
+
     font-size: var(--font-size-15);
     line-height: 22px;
     letter-spacing: -0.24px;
+}
+
+.Review__footer {
+    display: flex;
+}
+
+.Review__IconLike--dislike {
+    transform: rotate(180deg);
+}
+
+.Review__remove-review {
+    height: 24px;
+    margin-left: 10px;
+
+    border: 0;
+
+    background-color: transparent;
+
+    font-size: var(--font-size-11);
+    color: var(--color-red);
+    letter-spacing: -0.07px;
 }
