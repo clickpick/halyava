@@ -17,9 +17,13 @@
     transition: 150ms ease-in;
 }
 
-.Tag svg {
+.Tag svg,
+.Tag div {
     flex-shrink: 0;
     margin-right: 2px;
+}
+
+.Tag svg {
     fill: var(--color-gray);
     transition: fill 150ms ease-in;
 }
