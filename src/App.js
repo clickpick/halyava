@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
-import connect from '@vkontakte/vk-connect';
 import { useSelector, useDispatch } from 'react-redux';
 import { getPopup } from 'reducers/popup-reducer';
 import { showPopup, closePopup } from 'actions/popup-actions';
-import { setCenterMap } from 'actions/map-actions';
 import * as POPUP from 'constants/popup';
 
 import { getOrderId } from 'helpers/order';
