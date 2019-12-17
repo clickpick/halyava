@@ -30,6 +30,22 @@ class API {
         return response.data.data;
     }
 
+    async search(lat, lng, q) {
+        let query = '?';
+
+        if (lat && lng) {
+            query += `lat=${lat}&lng=${lng}&`;
+        }
+
+        if (q) {
+            query += `q=${q}`
+        }
+
+        const response = await get(`/vk-user/search${query}`);
+
+        return response.data.data;
+    }
+
     async getReviews(addressId, page = 1) {
         if (!addressId) {
             throw new Error('Bad address id');
