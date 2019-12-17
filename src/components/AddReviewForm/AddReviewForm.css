@@ -40,3 +40,19 @@
     border-bottom: 1px solid var(--color-red);
     background: var(--add-review-form__field-background);
 }
+
+.AddReviewForm__mark {
+    margin-right: 10px;
+    border: 0;
+    background-color: transparent;
+}
+
+.AddReviewForm__IconLike--dislike {
+    transform: rotate(180deg);
+}
+
+.AddReviewForm__error-message {
+    margin-top: 10px;
+    font-size: var(--font-size-13);
+    color: var(--color-red);
+}

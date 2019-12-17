@@ -54,16 +54,16 @@ class API {
         return await get(`/vk-user/addresses/${addressId}/reviews?page[number]=${page}`);
     }
 
-    async createReview(addressId, text) {
+    async createReview(addressId, body) {
         if (!addressId) {
             throw new Error('Bad address id');
         }
 
-        if (!text) {
-            throw new Error('text is empty');
+        if (!body || !body.hasOwnProperty('text') || !body.hasOwnProperty('mark')) {
+            throw new Error('Bad body');
         }
 
-        const response = await post(`/vk-user/addresses/${addressId}/reviews`, { text });
+        const response = await post(`/vk-user/addresses/${addressId}/reviews`, body);
 
         return response.data.data;
     }

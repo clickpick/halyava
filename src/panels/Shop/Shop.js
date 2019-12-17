@@ -65,9 +65,9 @@ const Shop = ({ id, shop, activeTab, goBack }) => {
 
     const toggleForm = useCallback(() => setShowForm(state => !state), []);
 
-    const sendReview = useCallback(async (text) => {
+    const sendReview = useCallback(async (data) => {
         try {
-            const newReview = await API.createReview(shop.id, text);
+            const newReview = await API.createReview(shop.id, data);
             
             setShowForm(false);
             setUserReviews(state => [newReview].concat(state));
