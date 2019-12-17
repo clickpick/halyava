@@ -1,0 +1,28 @@
+.Stack {
+    display: flex;
+}
+
+.Stack__item {
+    position: relative;
+    z-index: 3;
+
+    width: 12px;
+    height: 12px;
+
+    border-radius: 50%;
+
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.Stack__item:not(:first-child) {
+    margin-left: -6px;
+}
+
+.Stack__item:nth-child(2) {
+    z-index: 2;
+}
+
+.Stack__item:nth-child(3) {
+    z-index: 1;
+}
