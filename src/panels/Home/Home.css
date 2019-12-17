@@ -3,14 +3,6 @@
     padding-bottom: 0 !important;
 }
 
-.Home__FixedLayout .FixedLayout__in {
-    display: flex;
-    justify-content: center;
-
-    width: 100%;
-    padding-bottom: 40px;
-}
-
 .Home__ShopCard {
     margin-bottom: 10px;
 }

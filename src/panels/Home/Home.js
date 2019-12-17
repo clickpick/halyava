@@ -80,17 +80,6 @@ const Home = ({ id, goShop, goOrder }) => {
 	/**
 	 * Поиск
 	 */
-	// const [showSearch, setShowSearch] = useState(false);
-	// const [q, setQ] = useState('');
-
-	// const toggleSearch = useCallback(() => setShowSearch(state => !state), []);
-	// const handleQChange = useCallback(debounce(setQ, 100), []);
-	// const handleReset = useCallback(() => {
-	// 	toggleSearch();
-	// 	setQ('');
-		// dispatch(resetSearchResults());
-	// }, [toggleSearch, dispatch]);
-
 	const { q, showResults } = useSelector(getSearchState);
 
 	const openSearchResults = useCallback(() => dispatch(setShowSearchResults()), [dispatch]);
