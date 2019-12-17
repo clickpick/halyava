@@ -6,9 +6,9 @@ import './ShopCard.css';
 
 import { Avatar } from '@vkontakte/vkui';
 
-const ShopCard = React.memo(({ className, name, activity, photo, cashback }) => {   
+const ShopCard = React.memo(({ className, name, activity, photo, cashback, ...restProps }) => {   
     return (
-        <div className={classNames(className, 'ShopCard')}>
+        <div className={classNames(className, 'ShopCard')} {...restProps}>
             {(photo) &&
                 <Avatar
                     className="ShopCard__Avatar"
