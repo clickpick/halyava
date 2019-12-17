@@ -7,6 +7,10 @@ import connect from '@vkontakte/vk-connect';
 import { useSelector, useDispatch } from 'react-redux';
 import { getMapState, getUserGeometry, getMapFeatures, getSearchResults } from 'reducers/map-reducer';
 import { fetchFeatures, fetchSearch, resetSearchResults, setUserGeometry, updateMapState } from 'actions/map-actions';
+
+import { getSearchState } from 'reducers/search-reducer';
+import { setShowSearchResults, setSearchQuery, clearSearchQuery } from 'actions/search-actions';
+
 import { getOrderId } from 'helpers/order';
 import { POPUP_LEAVE } from 'constants/popup';
 
@@ -76,16 +80,27 @@ const Home = ({ id, goShop, goOrder }) => {
 	/**
 	 * Поиск
 	 */
-	const [showSearch, setShowSearch] = useState(false);
-	const [q, setQ] = useState('');
+	// const [showSearch, setShowSearch] = useState(false);
+	// const [q, setQ] = useState('');
 
-	const toggleSearch = useCallback(() => setShowSearch(state => !state), []);
-	const handleQChange = useCallback(debounce(setQ, 100), []);
+	// const toggleSearch = useCallback(() => setShowSearch(state => !state), []);
+	// const handleQChange = useCallback(debounce(setQ, 100), []);
+	// const handleReset = useCallback(() => {
+	// 	toggleSearch();
+	// 	setQ('');
+		// dispatch(resetSearchResults());
+	// }, [toggleSearch, dispatch]);
+
+	const { q, showResults } = useSelector(getSearchState);
+
+	const openSearchResults = useCallback(() => dispatch(setShowSearchResults()), [dispatch]);
+	const handleQueryChange = useCallback(
+		debounce((q) => dispatch(setSearchQuery(q)), 150),
+		[dispatch]);
 	const handleReset = useCallback(() => {
-		toggleSearch();
-		setQ('');
+		dispatch(clearSearchQuery());
 		dispatch(resetSearchResults());
-	}, [toggleSearch, dispatch]);
+	}, [dispatch]);
 
 	const openResult = useCallback((shop) => goShop(shop, 'description'), [goShop]);
 
@@ -100,10 +115,10 @@ const Home = ({ id, goShop, goOrder }) => {
 			onClick={() => openResult(shop)} />, [openResult]);
 
 	useEffect(() => {
-		if (showSearch && Boolean(q)) {
+		if (showResults && Boolean(q)) {
 			dispatch(fetchSearch(q));
 		}
-	}, [showSearch, q, dispatch]);
+	}, [showResults, q, dispatch]);
 	
 	return (
 		<Panel id={id} className="Home">
@@ -129,7 +144,7 @@ const Home = ({ id, goShop, goOrder }) => {
 								children="Поиск по местам"
 								before={<IconSearch />}
 								backlight
-								onClick={toggleSearch} />
+								onClick={openSearchResults} />
 						</li>
 						<li className="Home__action">
 							<Button
@@ -175,11 +190,11 @@ const Home = ({ id, goShop, goOrder }) => {
 			</PopupContainer>
 
 			<Popup
-				visible={showSearch}
+				visible={showResults}
 				autoHeight
 				maxDialogHeight="65vh"
 				onClose={handleReset}
-				header={<Search className="Home__Search" value={q} onChange={handleQChange} onReset={handleReset} />}>
+				header={<Search className="Home__Search" value={q} onChange={handleQueryChange} onReset={handleReset} />}>
 				{(searchResults === null) &&
 					<Title
 						className="Home__Title"
