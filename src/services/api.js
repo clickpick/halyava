@@ -18,6 +18,7 @@ const instance = axios.create({
 
 const get = (urn) => instance.get(urn);
 const post = (urn, body) => instance.post(urn, body);
+const del = (urn) => instance.delete(urn);
 
 class API {
     async auth() {
@@ -38,7 +39,7 @@ class API {
         }
 
         if (q) {
-            query += `q=${q}`
+            query += `q=${q}`;
         }
 
         const response = await get(`/vk-user/search${query}`);
@@ -46,12 +47,24 @@ class API {
         return response.data.data;
     }
 
-    async getReviews(addressId, page = 1) {
+    async getReviews(addressId, page = 1, restQueryParams = '') {
         if (!addressId) {
             throw new Error('Bad address id');
         }
 
-        return await get(`/vk-user/addresses/${addressId}/reviews?page[number]=${page}`);
+        let query = `page[number]=${page}`;
+
+        if (restQueryParams) {
+            query += `&${restQueryParams}`;
+        }
+
+        return await get(`/vk-user/addresses/${addressId}/reviews?${query}`);
+    }
+
+    async getFriendReviews(addressId) {
+        const { data: { data } } = await this.getReviews(addressId, 1, 'user_id=1');
+
+        return data;
     }
 
     async createReview(addressId, body) {
@@ -66,6 +79,14 @@ class API {
         const response = await post(`/vk-user/addresses/${addressId}/reviews`, body);
 
         return response.data.data;
+    }
+
+    async deleteReview(reviewId) {
+        if (!reviewId) {
+            throw new Error('Bad reivew id');
+        }
+
+        return await del(`/vk-user/reviews/${reviewId}`);
     }
 
     async getOrder(orderId) {

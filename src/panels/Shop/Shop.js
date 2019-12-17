@@ -1,10 +1,13 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { string, shape, oneOf, func } from 'prop-types';
 
 import './Shop.css';
 
 import API from 'services/api';
 import useFetchDataList from 'hooks/use-fetch-data-list';
+import useFetch from 'hooks/use-fetch';
+
+import { parseQueryString } from 'helpers/location';
 
 import { useDispatch } from 'react-redux';
 import { showPopup } from 'actions/popup-actions';
@@ -33,52 +36,31 @@ import Success from 'components/Success';
 import { ReactComponent as IconVk } from 'svg/vk.svg';
 import { ReactComponent as IconMessage } from 'svg/message.svg';
 
-function findReview(review) {
-    return review.id === this.id;
+function findUserReview(review) {    
+    return review.user.id === this;
 }
 
-function filterReview(review) {
-    return review.id !== this.id;
-}
+const VK_USER_ID = Number(parseQueryString(window.location.search).vk_user_id);
 
 const Shop = ({ id, shop, activeTab, goBack }) => {
-    const getReviews = useCallback((page) => API.getReviews(shop.id, page), [shop]);
-    const reviews = useFetchDataList(getReviews);
-    const [userReviews, setUserReviews] = useState([]);
-
     const [tab, setTab] = useState(activeTab);
     const [loading, setLoading] = useState(false);
+
+    const changeTab = useCallback((e) => setTab(e.target.dataset.index), []);
+
+    const dispatch = useDispatch();
+
+    /**
+     * Описание
+     */
     const [photos, setPhotos] = useState([]);
     const [currentAddress, setCurrentAddress] = useState(null);
     const [timetable, setTimetable] = useState(null);
     const [addresses, setAddresses] = useState([]);
     const [group, setGroup] = useState(null);
 
-    const [showForm, setShowForm] = useState(false);
-
-    const dispatch = useDispatch();
-
-    const changeTab = useCallback((e) => setTab(e.target.dataset.index), []);
-
     const renderAddress = useCallback((item) =>
         <Link href="#" children={item.address} icon="point" />, []);
-
-    const toggleForm = useCallback(() => setShowForm(state => !state), []);
-
-    const sendReview = useCallback(async (data) => {
-        try {
-            const newReview = await API.createReview(shop.id, data);
-            
-            setShowForm(false);
-            setUserReviews(state => [newReview].concat(state));
-            setTimeout(() => dispatch(showPopup(POPUP.CREATE_REVIEW_SUCCESS, {
-                children: <Success className="Shop__Success" />
-            })), POPUP.POPUP_LEAVE);
-        } catch (e) {
-            setShowForm(false);
-            setTimeout(() => dispatch(showPopup(POPUP.CREATE_REVIEW_ERROR)), POPUP.POPUP_LEAVE);
-        }
-    }, [shop, dispatch]);
 
     useEffect(() => {
         async function fetchInfo() {
@@ -120,18 +102,69 @@ const Shop = ({ id, shop, activeTab, goBack }) => {
         fetchInfo();
     }, [dispatch, shop]);
 
-    useEffect(() => {
-        let nextUserReviews = userReviews;
-        reviews.data.forEach((review) => {
-            if (nextUserReviews.find(findReview, review)) {
-                nextUserReviews = nextUserReviews.filter(filterReview, review);
-            }
-        });
+    /**
+     * Отзывы
+     */
+    const getReviews = useCallback((page) => API.getReviews(shop.id, page), [shop.id]);
+    let getFriendReviews = useCallback(() => API.getFriendReviews(shop.id), [shop.id]);
 
-        if (nextUserReviews.length !== userReviews.length) {
-            setUserReviews(nextUserReviews);
+    const reviews = useFetchDataList(getReviews);
+    const [loadingFriendReviews, friendsReviews, reloadFriendReviews] = useFetch(getFriendReviews);
+    const [userReviews, setUserReviews] = useState([]);
+
+    const emptyReviews = useMemo(() =>
+        !reviews.loading && !loadingFriendReviews &&
+        Array.isArray(reviews.data) && reviews.data.length === 0 &&
+        Array.isArray(friendsReviews) && friendsReviews.length === 0 &&
+        userReviews.length === 0,
+        [reviews, loadingFriendReviews, friendsReviews, userReviews]);
+
+    const hasCreateReview = useMemo(() => {        
+        if (userReviews.length > 0) {
+            return false;
         }
-    }, [userReviews, reviews.data]);
+        
+        if (!loadingFriendReviews && Array.isArray(friendsReviews)) {
+            if (friendsReviews.length > 0) {
+                return !Boolean(friendsReviews.find(findUserReview, VK_USER_ID));
+            } else {
+                return true;
+            }
+        }
+
+        return false;
+    }, [userReviews, loadingFriendReviews, friendsReviews]);
+
+    const [showForm, setShowForm] = useState(false);
+
+    const toggleForm = useCallback(() => setShowForm(state => !state), []);
+
+    const sendReview = useCallback(async (data) => {
+        try {
+            const newReview = await API.createReview(shop.id, data);
+
+            setShowForm(false);
+            setUserReviews(state => [newReview].concat(state));
+            setTimeout(() => dispatch(showPopup(POPUP.CREATE_REVIEW_SUCCESS, {
+                children: <Success className="Shop__Success" />
+            })), POPUP.POPUP_LEAVE);
+        } catch (e) {
+            setShowForm(false);
+            setTimeout(() => dispatch(showPopup(POPUP.CREATE_REVIEW_ERROR)), POPUP.POPUP_LEAVE);
+        }
+    }, [shop, dispatch]);
+
+    const removeReview = useCallback(async (reviewId) => {
+        try {
+            await API.deleteReview(reviewId);
+            if (userReviews.length > 0) {
+                setUserReviews([]);
+                return;
+            }
+
+            reloadFriendReviews();
+        } catch (e) {}
+    }, [userReviews, reloadFriendReviews]);    
 
     return (
         <Panel id={id} className="Shop">
@@ -223,13 +256,18 @@ const Shop = ({ id, shop, activeTab, goBack }) => {
 
                 <details className="Shop__details" open={tab === 'reviews'}>
                     <summary />
-                    {(!reviews.loading && userReviews.concat(reviews.data).length === 0) &&
+                    {(emptyReviews) &&
                         <p
                             className="Shop__no-reviews"
                             children="Никто ещё не оставлял отзывы. Будь первым!"
                             onClick={toggleForm} />}
 
-                    <ReviewsList className="Shop__ReviewsList" reviews={userReviews.concat(reviews.data)} />
+                    {(Array.isArray(friendsReviews) && Array.isArray(reviews.data)) &&
+                        <ReviewsList
+                            className="Shop__ReviewsList"
+                            reviews={userReviews.concat(friendsReviews).concat(reviews.data)}
+                            userId={VK_USER_ID}
+                            onRemove={removeReview} />}
 
                     {(!reviews.isLastPage && !reviews.loading) &&
                         <Button
@@ -240,19 +278,20 @@ const Shop = ({ id, shop, activeTab, goBack }) => {
 
                     {(loading) && <Loader className="Shop__Loader" center />}
 
-                    <FixedLayout
-                        className="Shop__FixedLayout"
-                        vertical="bottom">
-                        <Button
-                            className="Shop__Button"
-                            theme="primary"
-                            size="medium"
-                            children="Оставить отзыв"
-                            before={<IconMessage />}
-                            full
-                            backlight
-                            onClick={toggleForm} />
-                    </FixedLayout>
+                    {(hasCreateReview) &&
+                        <FixedLayout
+                            className="Shop__FixedLayout"
+                            vertical="bottom">
+                            <Button
+                                className="Shop__Button"
+                                theme="primary"
+                                size="medium"
+                                children="Оставить отзыв"
+                                before={<IconMessage />}
+                                full
+                                backlight
+                                onClick={toggleForm} />
+                        </FixedLayout>}
                 </details>
             </Wrapper>
 
