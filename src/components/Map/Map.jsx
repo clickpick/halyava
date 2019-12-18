@@ -5,6 +5,8 @@ import './Map.css';
 import { Map as YMap, ObjectManager, Placemark, YMaps } from 'react-yandex-maps';
 import MapProvider from 'components/MapProvider';
 
+import { throttle } from 'helpers/throttle';
+
 const YMAPS_QUERY = { ns: 'ymaps', load: 'package.full' };
 const OPTIONS = { suppressMapOpenBlock: true }; // minZoom: 10
 const PLACEMARK_OPTIONS = { preset: 'islands#geolocationIcon' };
@@ -27,14 +29,17 @@ const Map = ({ mapState, userGeometry, features, maxHeight, fetchFeatures, updat
 
     const mapStyle = useMemo(() => (maxHeight) ? { height: maxHeight } : undefined, [maxHeight]);
 
+    const fetch = useCallback(throttle(fetchFeatures, 1000), [fetchFeatures]);
+
     const handleMapLoad = useCallback(() => {
         if (map.current) {
             const [[topLeftLat, topLeftLng], [botRightLat, botRightLng]] = map.current.getBounds();
-            fetchFeatures(topLeftLat, topLeftLng, botRightLat, botRightLng);
+            fetch(topLeftLat, topLeftLng, botRightLat, botRightLng);
 
             map.current.events.add('boundschange', function (e) {
                 const [[topLeftLat, topLeftLng], [botRightLat, botRightLng]] = e.originalEvent.newBounds;
-                fetchFeatures(topLeftLat, topLeftLng, botRightLat, botRightLng);
+                fetch(topLeftLat, topLeftLng, botRightLat, botRightLng);
+
                 nextMapState.current = {
                     center: e.originalEvent.newCenter,
                     zoom: e.originalEvent.newZoom
