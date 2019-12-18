@@ -3,18 +3,19 @@ import { string } from 'prop-types';
 
 import './Spinner.css';
 
-import { Panel, Spinner as SpinnerComponent } from '@vkontakte/vkui';
+import { Panel } from '@vkontakte/vkui';
+import { ReactComponent as Logo } from 'svg/logo.svg';
 
 const Spinner = ({ id }) => {
     return (
         <Panel id={id} className="Spinner">
-            <SpinnerComponent className="Spinner__SpinnerComponent" size="medium" />
+            <Logo className="Spinner__Logo" />
         </Panel>
     );
 };
 
 Spinner.propTypes = {
-    id: string.isRequired, // идентификатор View
+    id: string.isRequired
 };
 
 export default Spinner;

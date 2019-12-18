@@ -164,7 +164,7 @@ const Shop = ({ id, shop, activeTab, goBack }) => {
 
             reloadFriendReviews();
         } catch (e) {}
-    }, [userReviews, reloadFriendReviews]);    
+    }, [userReviews, reloadFriendReviews]);
 
     return (
         <Panel id={id} className="Shop">
