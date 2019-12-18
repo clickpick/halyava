@@ -29,7 +29,7 @@ const Dialog = ({
 
             setHasScroll(scrollHeight > offsetHeight);
         }
-    });
+    }, [wrapperRef]);
 
     function handleHeightChange(bottom) {
         if (wrapperRef.current && onPositionChange) {
@@ -144,6 +144,10 @@ const Dialog = ({
             window.removeEventListener('resize', initialWrapper);
         };
     }, [initialWrapper]);
+
+    useEffect(() => {
+        initialWrapper();
+    }, [initialWrapper, children]);
 
     const style = useMemo(() => {
         if (maxDialogHeight) {
