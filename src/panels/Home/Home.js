@@ -89,6 +89,7 @@ const Home = ({ id, goShop }) => {
 			className="Home__ShopCard"
 			name={shop.properties.group.name}
 			activity={shop.properties.group.activity}
+			address={shop.properties.address.address}
 			photo={shop.properties.iconContent}
 			rating={shop.properties.address.rating || undefined}
 			friendRating={shop.properties.address.friend_rating || undefined}

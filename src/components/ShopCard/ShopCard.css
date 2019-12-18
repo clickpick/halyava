@@ -35,6 +35,13 @@
     letter-spacing: -0.24px;
 }
 
+.ShopCard__address {
+    margin-top: 4px;
+    font-size: var(--font-size-16);
+    color: var(--shop-card_color-activity);
+    letter-spacing: -0.24px;
+}
+
 .ShopCard__tags {
     display: flex;
     flex-wrap: wrap;

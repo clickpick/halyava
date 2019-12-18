@@ -18,7 +18,7 @@ const MARK_DISLIKE = 'dislike';
 
 const DECLS = ['друг', 'друга', 'друзей'];
 
-const ShopCard = React.memo(({ className, name, activity, photo, cashback, rating, friendRating, ...restProps }) => {
+const ShopCard = React.memo(({ className, name, activity, address, photo, cashback, rating, friendRating, ...restProps }) => {
     const tags = [];
 
     if (cashback) {
@@ -86,6 +86,7 @@ const ShopCard = React.memo(({ className, name, activity, photo, cashback, ratin
             <div className="ShopCard__info">
                 <h2 className="ShopCard__name" children={name} />
                 <small className="ShopCard__activity" children={activity} />
+                {(address) && <p className="ShopCard__address" children={address} />}
 
                 {(tags.length > 0) &&
                     <div className="ShopCard__tags" children={tags.map(renderTag)} />}
@@ -98,6 +99,7 @@ ShopCard.propTypes = {
     className: string,
     name: string.isRequired,
     activity: string,
+    address: string,
     photo: string,
     cashback: number,
     rating: number,
