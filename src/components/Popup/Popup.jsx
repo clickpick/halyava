@@ -9,7 +9,8 @@ import Dialog from './Dialog';
 const Popup = ({
     className,
     visible, disabled, onClose, autoHeight, maxDialogHeight,
-    header, type, title, message, children, actions
+    header, type, title, message, children, actions,
+    onPositionChange
 }) => {
     const [show, setShow] = useState(false);
     const [animationType, setAnimationType] = useState('leave');
@@ -60,7 +61,8 @@ const Popup = ({
                     title={title}
                     message={message}
                     children={children}
-                    actions={actions} />}
+                    actions={actions}
+                    onPositionChange={onPositionChange} />}
         </div>
     );
 };
@@ -81,7 +83,8 @@ Popup.propTypes = {
         title: string,
         action: func,
         full: bool
-    }))
+    })),
+    onPositionChange: func
 };
 
 export default Popup;

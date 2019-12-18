@@ -11,7 +11,8 @@ import useLockBody from 'hooks/use-lock-body';
 
 const Dialog = ({
     className, disabled, onClose, animationType, maxDialogHeight,
-    header, type, title, message, children, actions
+    header, type, title, message, children, actions,
+    onPositionChange
 }) => {
     useLockBody(true);
 
@@ -29,6 +30,15 @@ const Dialog = ({
             setHasScroll(scrollHeight > offsetHeight);
         }
     }, [wrapperRef]);
+
+    function handleHeightChange(bottom) {
+        if (wrapperRef.current && onPositionChange) {
+            onPositionChange(
+                wrapperRef.current.parentNode.offsetHeight + bottom,
+                bottom
+            );
+        }
+    }
 
     function handleSwiping({ deltaY, event, dir }) {
         if (disabled) {
@@ -70,6 +80,7 @@ const Dialog = ({
             }
 
             if (deltaY < 0) {
+                handleHeightChange(deltaY);
                 setBottom(deltaY);
             }
         }
@@ -183,7 +194,8 @@ Dialog.propTypes = {
         action: func,
         full: bool,
         backlight: bool
-    }))
+    })),
+    onPositionChange: func
 };
 
 Dialog.defaultProps = {
