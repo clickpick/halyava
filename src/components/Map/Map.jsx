@@ -8,6 +8,18 @@ import MapProvider from 'components/MapProvider';
 const YMAPS_QUERY = { ns: 'ymaps', load: 'package.full' };
 const OPTIONS = { suppressMapOpenBlock: true }; // minZoom: 10
 const PLACEMARK_OPTIONS = { preset: 'islands#geolocationIcon' };
+const OBJECT_MANAGER_PROPS = {
+    options: {
+        clusterize: true,
+        gridSize: 32
+    },
+    objects: {
+        preset: 'islands#greenDotIcon'
+    },
+    clusters: {
+        preset: 'islands#blueClusterIcons'
+    }
+};
 
 const Map = ({ mapState, userGeometry, features, fetchFeatures, updateMapState, onClick }) => {
     const map = useRef();
@@ -51,16 +63,7 @@ const Map = ({ mapState, userGeometry, features, fetchFeatures, updateMapState, 
                     instanceRef={map}
                     onLoad={handleMapLoad}>
                     <ObjectManager
-                        options={{
-                            clusterize: true,
-                            gridSize: 32,
-                        }}
-                        objects={{
-                            preset: 'islands#greenDotIcon',
-                        }}
-                        clusters={{
-                            preset: 'islands#blueClusterIcons',
-                        }}
+                        {...OBJECT_MANAGER_PROPS}
                         onClick={onObjectEvent}
                         features={features} />
 
