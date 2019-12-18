@@ -237,20 +237,19 @@ const Shop = ({ id, shop, activeTab, goBack }) => {
                                         title="Описание из группы"
                                         children={group.description} />}
 
-                                {(Boolean(group.can_message)) &&
-                                    <FixedLayout
-                                        className="Shop__FixedLayout"
-                                        vertical="bottom">
-                                        <Button
-                                            className="Shop__Button"
-                                            theme="primary"
-                                            size="medium"
-                                            href={`https://vk.me/${group.screen_name}`}
-                                            children="Написать сообщение"
-                                            before={<IconVk />}
-                                            full
-                                            backlight />
-                                    </FixedLayout>}
+                                <FixedLayout
+                                    className="Shop__FixedLayout"
+                                    vertical="bottom">
+                                    <Button
+                                        className="Shop__Button"
+                                        theme="primary"
+                                        size="medium"
+                                        href={`https://vk.me/${group.screen_name}`}
+                                        children="Написать сообщение"
+                                        before={<IconVk />}
+                                        full
+                                        backlight />
+                                </FixedLayout>
                             </>}
                         </>}
                 </details>
