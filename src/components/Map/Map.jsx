@@ -5,6 +5,7 @@ import './Map.css';
 import { Map as YMap, ObjectManager, Placemark, YMaps } from 'react-yandex-maps';
 import MapProvider from 'components/MapProvider';
 
+import { debounce } from 'helpers/debounce';
 import { throttle } from 'helpers/throttle';
 
 const YMAPS_QUERY = { ns: 'ymaps', load: 'package.full' };
@@ -23,15 +24,34 @@ const OBJECT_MANAGER_PROPS = {
     }
 };
 
-const Map = ({ mapState, userGeometry, features, maxHeight, fetchFeatures, updateMapState, onClick }) => {
+const setBounds = debounce((bounding, ymaps, map, features) => {    
+    if (bounding) {
+        if (ymaps && map && features.length > 0) {
+            const coordinates = features.map((f) => f.geometry.coordinates);
+
+            const bounds = ymaps.util.bounds.fromPoints(coordinates);
+
+            map.setBounds(bounds, {
+                checkZoomRange: true,
+                zoomMargin: 50,
+                duration: 250
+            });
+        }
+    }
+}, 150);
+
+const Map = ({ mapState, userGeometry, features, maxHeight, bounding, fetchFeatures, updateMapState, onClick }) => {
     const map = useRef();
     const nextMapState = useRef({});
+    const ymaps = useRef();
 
     const mapStyle = useMemo(() => (maxHeight) ? { height: maxHeight } : undefined, [maxHeight]);
 
     const fetch = useCallback(throttle(fetchFeatures, 1000), [fetchFeatures]);
 
-    const handleMapLoad = useCallback(() => {
+    const handleMapLoad = useCallback((ym) => {
+        ymaps.current = ym;
+        
         if (map.current) {
             const [[topLeftLat, topLeftLng], [botRightLat, botRightLng]] = map.current.getBounds();
             fetch(topLeftLat, topLeftLng, botRightLat, botRightLng);
@@ -62,9 +82,13 @@ const Map = ({ mapState, userGeometry, features, maxHeight, fetchFeatures, updat
 
     useEffect(() => {
         if (map.current && map.current.container) {
-            map.current.container.fitToViewport();            
+            map.current.container.fitToViewport();
         }
     }, [map, maxHeight]);
+
+    useEffect(() => {
+        setBounds(bounding, ymaps.current, map.current, features);
+    }, [bounding, ymaps, map, features]);
 
     return (
         <YMaps query={YMAPS_QUERY}>
