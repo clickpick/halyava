@@ -57,8 +57,10 @@ const Home = ({ id, goShop }) => {
 		async function getGeodata() {
 			try {
 				const response = await connect.sendPromise('VKWebAppGetGeodata');
-
-				if (response.available !== 0) {
+				
+				// available number – ios
+				// available boolean – android
+				if (response.available !== 0 && response.available !== false) {
 					dispatch(setUserGeometry([response.lat, response.long]));
 				}
 			} catch (e) { }
@@ -108,8 +110,6 @@ const Home = ({ id, goShop }) => {
 
 	useEffect(() => {
 		if (showResults && Boolean(q)) {
-			console.log(q);
-			
 			dispatch(fetchSearch(q));
 		}
 	}, [showResults, q, dispatch]);
