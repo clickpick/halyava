@@ -46,7 +46,7 @@ const Map = ({ mapState, userGeometry, features, maxHeight, fetchFeatures, updat
                 };
             });
         }
-    }, [map, fetchFeatures]);
+    }, [map, fetch]);
 
     const onObjectEvent = useCallback((e) => {
         const objectId = e.get('objectId');
