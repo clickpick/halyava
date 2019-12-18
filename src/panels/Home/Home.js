@@ -11,7 +11,6 @@ import { fetchFeatures, fetchSearch, resetSearchResults, setUserGeometry, update
 import { getSearchState } from 'reducers/search-reducer';
 import { setShowSearchResults, setSearchQuery, clearSearchQuery } from 'actions/search-actions';
 
-import { getOrderId } from 'helpers/order';
 import { POPUP_LEAVE } from 'constants/popup';
 
 import { debounce } from 'helpers/debounce';
@@ -30,7 +29,7 @@ import Title from 'components/Title';
 import { ReactComponent as IconSearch } from 'svg/search.svg';
 import { ReactComponent as IconBlocks } from 'svg/blocks.svg';
 
-const Home = ({ id, goShop, goOrder }) => {
+const Home = ({ id, goShop }) => {
 	const [shop, setShop] = useState(null);
 	const mapState = useSelector(getMapState);
 	const userGeometry = useSelector(getUserGeometry);
@@ -44,16 +43,7 @@ const Home = ({ id, goShop, goOrder }) => {
 		dispatch(fetchFeatures(...arguments));
 	}, [dispatch]);
 
-	const openScanner = useCallback(async () => {
-		try {
-			const { code_data } = await connect.sendPromise('VKWebAppOpenCodeReader');
-			const orderId = getOrderId(code_data);
-
-			if (orderId) {
-				goOrder(orderId);
-			}
-		} catch (e) {}
-	}, [goOrder]);
+	const openScanner = useCallback(() => connect.send('VKWebAppOpenCodeReader', {}), []);
 
 	const openShop = useCallback((e) => {
 		const nextShop = shop;
@@ -207,8 +197,7 @@ const Home = ({ id, goShop, goOrder }) => {
 
 Home.propTypes = {
 	id: string.isRequired,
-	goShop: func.isRequired,
-	goOrder: func.isRequired
+	goShop: func.isRequired
 };
 
 export default Home;

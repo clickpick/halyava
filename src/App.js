@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
+import connect from '@vkontakte/vk-connect';
 import { useSelector, useDispatch } from 'react-redux';
 import { getPopup } from 'reducers/popup-reducer';
 import { showPopup, closePopup } from 'actions/popup-actions';
@@ -51,19 +52,37 @@ const App = () => {
 	}, [dispatch]);
 
 	useEffect(() => {
+		window.addEventListener('hashchange', (e) => {
+			const orderId = getOrderId(window.location.href);
+
+			if (orderId) {
+				return goOrder(orderId);
+			}
+		});
+
+		connect.subscribe(({ detail: { type, data } }) => {
+			if (type === 'VKWebAppOpenCodeReaderResult') {
+				const orderId = getOrderId(data.code_data);
+
+				if (orderId) {
+					goOrder(orderId);
+				}
+			}
+		});
+
 		const orderId = getOrderId(window.location.href);
 
 		if (orderId) {
 			return goOrder(orderId);
 		}
-		
+
 		setActiveView(VIEWS.MAIN);
 	}, [goOrder]);
 
 	return <>
 		<ConfigProvider isWebView={true}>
 			<Root activeView={activeView}>
-				<Main id={VIEWS.MAIN} goOrder={goOrder} />
+				<Main id={VIEWS.MAIN} />
 				<PayOrder id={VIEWS.PAY_ORDER} orderId={activeOrder} goMain={goMain} />
 				<Loader id={VIEWS.LOADER} />
 			</Root>
