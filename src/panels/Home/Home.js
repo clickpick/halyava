@@ -108,6 +108,8 @@ const Home = ({ id, goShop }) => {
 
 	useEffect(() => {
 		if (showResults && Boolean(q)) {
+			console.log(q);
+			
 			dispatch(fetchSearch(q));
 		}
 	}, [showResults, q, dispatch]);
@@ -190,20 +192,20 @@ const Home = ({ id, goShop }) => {
 				maxDialogHeight="65vh"
 				onClose={handleReset}
 				header={<Search className="Home__Search" value={q} onChange={handleQueryChange} onReset={handleReset} />}
-				onPositionChange={handleSearchResultsPosition}>
-				{(searchResults === null) &&
-					<Title
-						className="Home__Title"
-						children="Начинайте вводить"
-						hint="description" />}
-				{Array.isArray(searchResults) &&
-					(searchResults.length > 0)
-					? searchResults.map(renderResult)
-					: <Title
-						className="Home__Title"
-						children="Ничего :("
-						hint={`По запросу "${q}" ничего не найдено`} />}
-			</Popup>
+				onPositionChange={handleSearchResultsPosition}
+				children={
+					(searchResults === null)
+						? <Title
+							className="Home__Title"
+							children="Начинайте вводить"
+							hint="description" />
+						: (Array.isArray(searchResults) && searchResults.length > 0)
+							? searchResults.map(renderResult)
+							: <Title
+								className="Home__Title"
+								children="Ничего :("
+								hint={`По запросу "${q}" ничего не найдено`} />
+				} />
 		</Panel>
 	);
 };
