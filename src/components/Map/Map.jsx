@@ -5,6 +5,7 @@ import './Map.css';
 import { Map as YMap, ObjectManager, Placemark, YMaps } from 'react-yandex-maps';
 import MapProvider from 'components/MapProvider';
 
+const YMAPS_QUERY = { ns: 'ymaps', load: 'package.full' };
 const OPTIONS = { suppressMapOpenBlock: true }; // minZoom: 10
 const PLACEMARK_OPTIONS = { preset: 'islands#geolocationIcon' };
 
@@ -41,7 +42,7 @@ const Map = ({ mapState, userGeometry, features, fetchFeatures, updateMapState, 
     useEffect(() => () => updateMapState(nextMapState.current), []);
 
     return (
-        <YMaps query={{ns: 'ymaps', load: 'package.full'}}>
+        <YMaps query={YMAPS_QUERY}>
             <MapProvider>
                 <YMap
                     className="Map"
