@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useEffect } from 'react';
+import React, { useCallback, useRef, useMemo, useEffect } from 'react';
 
 import './Map.css';
 
@@ -21,9 +21,11 @@ const OBJECT_MANAGER_PROPS = {
     }
 };
 
-const Map = ({ mapState, userGeometry, features, fetchFeatures, updateMapState, onClick }) => {
+const Map = ({ mapState, userGeometry, features, maxHeight, fetchFeatures, updateMapState, onClick }) => {
     const map = useRef();
     const nextMapState = useRef({});
+
+    const mapStyle = useMemo(() => (maxHeight) ? { height: maxHeight } : undefined, [maxHeight]);
 
     const handleMapLoad = useCallback(() => {
         if (map.current) {
@@ -53,11 +55,18 @@ const Map = ({ mapState, userGeometry, features, fetchFeatures, updateMapState, 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => () => updateMapState(nextMapState.current), []);
 
+    useEffect(() => {
+        if (map.current && map.current.container) {
+            map.current.container.fitToViewport();            
+        }
+    }, [map, maxHeight]);
+
     return (
         <YMaps query={YMAPS_QUERY}>
             <MapProvider>
                 <YMap
                     className="Map"
+                    style={mapStyle}
                     state={mapState}
                     options={OPTIONS}
                     instanceRef={map}

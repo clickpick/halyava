@@ -72,13 +72,19 @@ const Home = ({ id, goShop }) => {
 	 */
 	const { q, showResults } = useSelector(getSearchState);
 
-	const openSearchResults = useCallback(() => dispatch(setShowSearchResults()), [dispatch]);
+	const [mapMaxHeight, setMapMaxHeight] = useState((showResults) ? 'calc(35vh + 30px)' : undefined);
+
+	const openSearchResults = useCallback(() => {
+		setMapMaxHeight('calc(35vh + 30px)');
+		dispatch(setShowSearchResults());
+	}, [dispatch]);
 	const handleQueryChange = useCallback(
 		debounce((q) => dispatch(setSearchQuery(q)), 150),
 		[dispatch]);
 	const handleReset = useCallback(() => {
 		dispatch(clearSearchQuery());
 		dispatch(resetSearchResults());
+		setMapMaxHeight(undefined);
 	}, [dispatch]);
 
 	const openResult = useCallback((shop) => goShop(shop, 'description'), [goShop]);
@@ -96,6 +102,10 @@ const Home = ({ id, goShop }) => {
 			cashback={shop.properties.group.cashback_value}
 			onClick={() => openResult(shop)} />, [openResult]);
 
+	const handleSearchResultsPosition = useCallback((height) =>
+		(mapMaxHeight !== height) && setMapMaxHeight(`calc(100vh - ${height}px + 30px)`),
+		[mapMaxHeight]);
+
 	useEffect(() => {
 		if (showResults && Boolean(q)) {
 			dispatch(fetchSearch(q));
@@ -107,6 +117,7 @@ const Home = ({ id, goShop }) => {
 			<PanelHeader noShadow={true} />
 			<Map
 				className="Home__Map"
+				maxHeight={mapMaxHeight}
 				mapState={mapState}
 				userGeometry={userGeometry}
 				features={features}
@@ -178,7 +189,8 @@ const Home = ({ id, goShop }) => {
 				autoHeight
 				maxDialogHeight="65vh"
 				onClose={handleReset}
-				header={<Search className="Home__Search" value={q} onChange={handleQueryChange} onReset={handleReset} />}>
+				header={<Search className="Home__Search" value={q} onChange={handleQueryChange} onReset={handleReset} />}
+				onPositionChange={handleSearchResultsPosition}>
 				{(searchResults === null) &&
 					<Title
 						className="Home__Title"
