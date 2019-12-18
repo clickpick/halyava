@@ -123,6 +123,7 @@ const Home = ({ id, goShop }) => {
 				mapState={mapState}
 				userGeometry={userGeometry}
 				features={features}
+				bounding={showResults && features.length > 0 && Boolean(q)}
 				fetchFeatures={setFeatures}
 				updateMapState={(geo) => dispatch(updateMapState(geo))}
 				onClick={setShop} />
