@@ -29,7 +29,7 @@ const Dialog = ({
 
             setHasScroll(scrollHeight > offsetHeight);
         }
-    }, [wrapperRef]);
+    });
 
     function handleHeightChange(bottom) {
         if (wrapperRef.current && onPositionChange) {
