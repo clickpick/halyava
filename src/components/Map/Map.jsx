@@ -87,6 +87,15 @@ const Map = ({ mapState, userGeometry, features, maxHeight, bounding, fetchFeatu
     }, [map, maxHeight]);
 
     useEffect(() => {
+        if (map.current && ymaps.current) {
+            map.current.panTo(mapState.center, { flying: true })
+                .then(() => {
+                    map.current.setZoom(mapState.zoom, { duration: 500 });
+                });
+        }
+    }, [map, ymaps, mapState]);
+
+    useEffect(() => {
         setBounds(bounding, ymaps.current, map.current, features);
     }, [bounding, ymaps, map, features]);
 
@@ -96,7 +105,7 @@ const Map = ({ mapState, userGeometry, features, maxHeight, bounding, fetchFeatu
                 <YMap
                     className="Map"
                     style={mapStyle}
-                    state={mapState}
+                    defaultState={mapState}
                     options={OPTIONS}
                     instanceRef={map}
                     onLoad={handleMapLoad}>
