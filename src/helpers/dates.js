@@ -1,4 +1,4 @@
-import {addMinutes, format, getDay, getHours, getMinutes, isSameDay} from 'date-fns';
+import {addMinutes, differenceInHours, format, getDay, getHours, getMinutes} from 'date-fns';
 import {ru} from 'date-fns/locale';
 
 export const getTimezoneOffset = () =>
@@ -120,7 +120,7 @@ export function timetableParse(timetable, timetableUtcOffset, localUtcOffset) {
 
     if (needShow) {
 
-        const nextChangeStr = isSameDay(today, nextChangeDate) ? format(nextChangeDate, 'HH:mm') : format(nextChangeDate, 'eeeeee в HH:mm', {locale: ru});
+        const nextChangeStr = differenceInHours(today, nextChangeDate) < 12 ? format(nextChangeDate, 'HH:mm') : format(nextChangeDate, 'eeeeee в HH:mm', {locale: ru});
 
         if (isOpened) {
             helpString = 'закроется в ' + nextChangeStr;
