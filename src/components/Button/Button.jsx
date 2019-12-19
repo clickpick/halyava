@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import './Button.css';
 
-const Button = ({ className, theme, size, full, backlight, href, onClick, before, children, ...restProps }) => {
+const Button = ({ className, theme, size, shape, full, backlight, href, onClick, before, children, ...restProps }) => {
     const handleClick = (e) => onClick && onClick(e);
 
     let props = {
@@ -12,6 +12,7 @@ const Button = ({ className, theme, size, full, backlight, href, onClick, before
         className: classNames(className, 'Button', {
             [`Button--${theme}`]: theme,
             [`Button--${size}`]: size,
+            [`Button--${shape}`]: shape,
             'Button--full': full,
             'Button--backlight': backlight,
             'Button--with-before': before,
@@ -49,6 +50,7 @@ Button.propTypes = {
     type: oneOf(['button', 'submit', 'reset']),
     theme: oneOf(['primary', 'secondary', 'black']), // тема кнопки
     size: oneOf(['small', 'regular', 'medium']), // размер кнопки
+    shape: oneOf(['round', 'circle']), // форма кнопки
     full: bool, // ширина кнопки
     backlight: bool, // подстветка (работает только если theme=primary)
     href: string,
@@ -59,6 +61,7 @@ Button.propTypes = {
 Button.defaultProps = {
     type: 'button',
     size: 'small',
+    shape: 'round'
 };
 
 export default Button;

@@ -62,7 +62,7 @@
 /**
  * Sizes
  */
- .Button.Button--regular {
+.Button.Button--regular {
     padding: 11px 18px;
 
     border-radius: 22px;
@@ -83,6 +83,31 @@
     line-height: 24px;
     text-transform: none;
     letter-spacing: -0.24px;
+}
+
+/**
+ * Shapes
+ */
+.Button.Button--circle {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 32px;
+    height: 32px;
+    padding: 0;
+
+    border-radius: 50%;
+}
+
+.Button.Button--regular.Button--circle {
+    width: 40px;
+    height: 40px;
+}
+
+.Button.Button--medium.Button--circle {
+    width: 44px;
+    height: 44px;
 }
 
 /**
