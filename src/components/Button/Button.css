@@ -62,6 +62,17 @@
 /**
  * Sizes
  */
+ .Button.Button--regular {
+    padding: 11px 18px;
+
+    border-radius: 22px;
+
+    font-size: var(--font-size-13);
+    font-weight: var(--font-weight-medium);
+    line-height: 18px;
+    letter-spacing: -0.08px;
+}
+
 .Button.Button--medium {
     padding: 12px 16px;
 
@@ -82,7 +93,11 @@
     padding-left: 34px;
 }
 
-.Button.Button--medium  .Button--with-before {
+.Button.Button--regular.Button--with-before {
+    padding-left: 42px;
+}
+
+.Button.Button--medium.Button--with-before {
     padding-right: 42px;
     padding-left: 42px;
 }
@@ -108,4 +123,8 @@
 
 .Button.Button--medium .Button__before {
     top: 14px;
+}
+
+.Button.Button--regular .Button__before {
+    top: 11px;
 }

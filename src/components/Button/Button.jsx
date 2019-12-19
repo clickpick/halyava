@@ -48,7 +48,7 @@ Button.propTypes = {
     className: string, // дополнительный класс
     type: oneOf(['button', 'submit', 'reset']),
     theme: oneOf(['primary', 'secondary', 'black']), // тема кнопки
-    size: oneOf(['small', 'medium']), // размер кнопки
+    size: oneOf(['small', 'regular', 'medium']), // размер кнопки
     full: bool, // ширина кнопки
     backlight: bool, // подстветка (работает только если theme=primary)
     href: string,

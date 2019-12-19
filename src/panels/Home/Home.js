@@ -137,6 +137,7 @@ const Home = ({ id, goShop }) => {
 							<Button
 								className="Home__Button"
 								theme="black"
+								size="regular"
 								children="Поиск по местам"
 								before={<IconSearch />}
 								backlight
@@ -146,6 +147,7 @@ const Home = ({ id, goShop }) => {
 							<Button
 								className="Home__Button"
 								theme="black"
+								size="regular"
 								children="Оплатить по QR-коду"
 								before={<IconBlocks />}
 								backlight
