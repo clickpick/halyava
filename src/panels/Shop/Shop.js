@@ -11,7 +11,7 @@ import useFetch from 'hooks/use-fetch';
 import { parseQueryString } from 'helpers/location';
 
 import { useDispatch } from 'react-redux';
-import { showPopup, closePopup } from 'actions/popup-actions';
+import { showPopup } from 'actions/popup-actions';
 import * as POPUP from 'constants/popup';
 import { TABS } from 'constants/shop';
 import { clearSearchQuery } from 'actions/search-actions';
