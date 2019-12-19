@@ -44,7 +44,7 @@
     --button-black_background: var(--color-white);
     --button-black_color: var(--color-black);
 
-    --button-black_backlight: 0px 10px 30px rgba(0, 0, 0, 0.35);
+    --button-black_backlight: 0px 10px 10px rgba(0, 0, 0, 0.35);
     --button-primary_backlight: 0px 10px 30px rgba(var(--color-primary-rgb), 0.5);
 
     /**
@@ -114,6 +114,8 @@ body[scheme="space_gray"] {
     --header_background-secondary: #212121;
 
     --button-default_background: #212121;
+    --button-black_background: #212121;
+    --button-black_color: var(--color-white);
 
     --map_icon_box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
 
