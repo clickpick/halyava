@@ -14,6 +14,7 @@ import { useDispatch } from 'react-redux';
 import { showPopup } from 'actions/popup-actions';
 import * as POPUP from 'constants/popup';
 import { TABS } from 'constants/shop';
+import { VK_APP_ID } from 'constants/vk';
 import { clearSearchQuery } from 'actions/search-actions';
 import { updateMapState } from 'actions/map-actions';
 
@@ -179,7 +180,12 @@ const Shop = ({ id, shop, activeTab, goBack }) => {
                         connect.send('VKWebAppShowStoryBox', {
                             background_type: 'image',
                             url: `https://vkpayer.ezavalishin.ru/reviews/${newReview.id}/story`,
-                            locked: true
+                            locked: true,
+                            attachment: {
+                                text: 'Посмотреть',
+                                type: 'url',
+                                url: `https://vk.com/app${VK_APP_ID}`
+                            }
                         })
                     }
                 }]
