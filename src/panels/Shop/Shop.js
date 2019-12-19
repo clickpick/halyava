@@ -178,14 +178,52 @@ const Shop = ({ id, shop, activeTab, goBack }) => {
                         e.currentTarget.disabled = true;
 
                         connect.send('VKWebAppShowStoryBox', {
-                            background_type: 'image',
-                            url: `https://vkpayer.ezavalishin.ru/reviews/${newReview.id}/story`,
-                            locked: true,
+                            background_type: 'none',
                             attachment: {
                                 text: 'Посмотреть',
                                 type: 'url',
                                 url: `https://vk.com/app${VK_APP_ID}`
-                            }
+                            },
+                            stickers: [
+                                {
+                                    sticker_type: 'renderable',
+                                    sticker: {
+                                        content_type: 'image',
+                                        url: `https://vkpayer.ezavalishin.ru/reviews/${newReview.id}/story`,
+                                        can_delete: false,
+                                        transform: {
+                                            translation_y: 0.08,
+                                            relation_width: 0.8,
+                                            gravity: 'center_top'
+                                        }
+                                    }
+                                },
+                                {
+                                    sticker_type: 'renderable',
+                                    sticker: {
+                                        content_type: 'image',
+                                        url: `https://vkpayer.ezavalishin.ru/storage/sign.png`,
+                                        can_delete: false,
+                                        transform: {
+                                            translation_y: -0.08,
+                                            relation_width: 0.8,
+                                            gravity: 'center_bottom'
+                                        },
+                                        clickable_zones: [{
+                                            action_type: 'link',
+                                            action: {
+                                                link: `https://vk.com/app${VK_APP_ID}`
+                                            },
+                                            clickable_area: [
+                                                { x: 0, y: 0},
+                                                { x: 1064, y: 0 },
+                                                { x: 1064, y: 208 },
+                                                { x: 0, y: 208 }
+                                            ]
+                                        }]
+                                    }
+                                },
+                            ]
                         })
                     }
                 }]
