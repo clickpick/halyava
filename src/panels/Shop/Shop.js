@@ -13,6 +13,8 @@ import { useDispatch } from 'react-redux';
 import { showPopup } from 'actions/popup-actions';
 import * as POPUP from 'constants/popup';
 import { TABS } from 'constants/shop';
+import { clearSearchQuery } from 'actions/search-actions';
+import { updateMapState } from 'actions/map-actions';
 
 import { getTimezoneOffset, timetableParse } from 'helpers/dates';
 
@@ -59,8 +61,25 @@ const Shop = ({ id, shop, activeTab, goBack }) => {
     const [addresses, setAddresses] = useState([]);
     const [group, setGroup] = useState(null);
 
+    const showAddressPoint = useCallback((e) => {
+        dispatch(clearSearchQuery());
+        dispatch(updateMapState({
+            center: [
+                Number(e.currentTarget.dataset.lat),
+                Number(e.currentTarget.dataset.lng),
+            ],
+            zoom: 16
+        }));
+        goBack();
+    }, [goBack, dispatch]);
+
     const renderAddress = useCallback((item) =>
-        <Link href="#" children={item.address} icon="point" />, []);
+        <Link
+            children={item.address}
+            icon="point"
+            data-lat={item.latitude}
+            data-lng={item.longitude}
+            onClick={showAddressPoint} />, [showAddressPoint]);
 
     useEffect(() => {
         async function fetchInfo() {
