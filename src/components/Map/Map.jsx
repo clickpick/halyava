@@ -9,7 +9,7 @@ import { debounce } from 'helpers/debounce';
 import { throttle } from 'helpers/throttle';
 
 const YMAPS_QUERY = { ns: 'ymaps', load: 'package.full' };
-const OPTIONS = { suppressMapOpenBlock: true }; // minZoom: 10
+const OPTIONS = { suppressMapOpenBlock: true, minZoom: 3 }; // minZoom: 10
 const PLACEMARK_OPTIONS = { preset: 'islands#geolocationIcon' };
 const OBJECT_MANAGER_PROPS = {
     options: {
