@@ -8,8 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getMapState, getUserGeometry, getMapFeatures, getSearchResults } from 'reducers/map-reducer';
 import {
 	fetchFeatures, fetchSearch, resetSearchResults,
-	setUserGeometry, setCenterMap,
-	updateMapState
+	setUserGeometry, updateMapState
 } from 'actions/map-actions';
 
 import { getSearchState } from 'reducers/search-reducer';
@@ -63,7 +62,10 @@ const Home = ({ id, goShop }) => {
 
 	const whereIAm = useCallback((geodata) => {
 		dispatch(setUserGeometry(geodata));
-		dispatch(setCenterMap(geodata));
+		dispatch(updateMapState({
+			center: geodata,
+			zoom: 16
+		}));
 	}, [dispatch]);
 
 	const myLocation = useCallback(() => getGeodata(whereIAm), [getGeodata, whereIAm]);
