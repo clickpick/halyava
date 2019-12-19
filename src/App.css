@@ -81,6 +81,13 @@
     --link_fill: var(--color-primary);
 
     /**
+     * Search Component
+     */
+    --search_background-input: var(--color-light-gray);
+    --search_color: var(--color-black);
+    --search_color-reset: var(--color-primary);
+
+    /**
      * Order Panel
      */
     --order_background-value: var(--color-white);
@@ -115,6 +122,10 @@ body[scheme="space_gray"] {
     --add-review-form__field-background: #212121;
 
     --popup-dialog-background: #212121;
+
+    --search_background-input: #313131;
+    --search_color: var(--color-white);
+    --search_color-reset: var(--color-white);
 
     --order_background-value: #212121;
     --order_color-value: var(--color-white);
