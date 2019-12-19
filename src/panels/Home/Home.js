@@ -6,7 +6,11 @@ import './Home.css';
 import connect from '@vkontakte/vk-connect';
 import { useSelector, useDispatch } from 'react-redux';
 import { getMapState, getUserGeometry, getMapFeatures, getSearchResults } from 'reducers/map-reducer';
-import { fetchFeatures, fetchSearch, resetSearchResults, setUserGeometry, updateMapState } from 'actions/map-actions';
+import {
+	fetchFeatures, fetchSearch, resetSearchResults,
+	setUserGeometry, setCenterMap,
+	updateMapState
+} from 'actions/map-actions';
 
 import { getSearchState } from 'reducers/search-reducer';
 import { setShowSearchResults, setSearchQuery, clearSearchQuery } from 'actions/search-actions';
@@ -26,6 +30,7 @@ import Link from 'components/Link';
 import Search from 'components/Search';
 import Title from 'components/Title';
 
+import { ReactComponent as IconLocation } from 'svg/location.svg';
 import { ReactComponent as IconSearch } from 'svg/search.svg';
 import { ReactComponent as IconBlocks } from 'svg/blocks.svg';
 
@@ -38,6 +43,30 @@ const Home = ({ id, goShop }) => {
 	const searchResults = useSelector(getSearchResults);
 
 	const dispatch = useDispatch();
+
+	const getGeodata = useCallback(async (callback = () => { }) => {
+		try {
+			const response = await connect.sendPromise('VKWebAppGetGeodata');
+
+			// available number – ios
+			// available boolean – android
+			if (response.available !== 0 && response.available !== false) {
+				const geodata = [response.lat, response.long];
+				callback(geodata);
+
+				return geodata;
+			}
+		} catch (e) { }
+
+		return null;
+	}, []);
+
+	const whereIAm = useCallback((geodata) => {
+		dispatch(setUserGeometry(geodata));
+		dispatch(setCenterMap(geodata));
+	}, [dispatch]);
+
+	const myLocation = useCallback(() => getGeodata(whereIAm), [getGeodata, whereIAm]);
 
 	const setFeatures = useCallback(function () {
 		dispatch(fetchFeatures(...arguments));
@@ -54,20 +83,8 @@ const Home = ({ id, goShop }) => {
 	}, [shop, goShop]);
 
 	useEffect(() => {
-		async function getGeodata() {
-			try {
-				const response = await connect.sendPromise('VKWebAppGetGeodata');
-				
-				// available number – ios
-				// available boolean – android
-				if (response.available !== 0 && response.available !== false) {
-					dispatch(setUserGeometry([response.lat, response.long]));
-				}
-			} catch (e) { }
-		}
-
-		getGeodata();
-	}, [dispatch]);
+		getGeodata((geodata) => dispatch(setUserGeometry(geodata)));
+	}, [getGeodata, dispatch]);
 
 	/**
 	 * Поиск
@@ -133,6 +150,16 @@ const Home = ({ id, goShop }) => {
 				vertical="bottom">
 				<HorizontalScroll className="Home__HorizontalScroll">
 					<ul className="Home__actions">
+						<li className="Home__action">
+							<Button
+								className="Home__Button"
+								theme="black"
+								size="regular"
+								shape="circle"
+								children={<IconLocation />}
+								backlight
+								onClick={myLocation} />
+						</li>
 						<li className="Home__action">
 							<Button
 								className="Home__Button"
