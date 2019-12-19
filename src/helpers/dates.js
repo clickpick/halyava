@@ -120,7 +120,7 @@ export function timetableParse(timetable, timetableUtcOffset, localUtcOffset) {
 
     if (needShow) {
 
-        const nextChangeStr = differenceInHours(today, nextChangeDate) < 12 ? format(nextChangeDate, 'HH:mm') : format(nextChangeDate, 'eeeeee в HH:mm', {locale: ru});
+        const nextChangeStr = differenceInHours(nextChangeDate, today) < 12 ? format(nextChangeDate, 'HH:mm') : format(nextChangeDate, 'eeeeee в HH:mm', {locale: ru});
 
         if (isOpened) {
             helpString = 'закроется в ' + nextChangeStr;
