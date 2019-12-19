@@ -19,7 +19,14 @@ export function searchReducer(state = SEARCH_INITIAL_STATE, action) {
             return {
                 ...state,
                 q: '',
-                showResults: false
+                showResults: false,
+                results: null
+            };
+
+        case types.SET_SEARCH_RESULTS:
+            return {
+                ...state,
+                results: action.payload
             };
 
         default:

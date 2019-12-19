@@ -1,18 +1,15 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { string, func } from 'prop-types';
 
 import './Home.css';
 
 import connect from '@vkontakte/vk-connect';
 import { useSelector, useDispatch } from 'react-redux';
-import { getMapState, getUserGeometry, getMapFeatures, getSearchResults } from 'reducers/map-reducer';
-import {
-	fetchFeatures, fetchSearch, resetSearchResults,
-	setUserGeometry, updateMapState
-} from 'actions/map-actions';
+import { getMapState, getUserGeometry, getMapFeatures } from 'reducers/map-reducer';
+import { fetchFeatures, setUserGeometry, updateMapState } from 'actions/map-actions';
 
 import { getSearchState } from 'reducers/search-reducer';
-import { setShowSearchResults, setSearchQuery, clearSearchQuery } from 'actions/search-actions';
+import { fetchSearch, setShowSearchResults, setSearchQuery, clearSearchQuery } from 'actions/search-actions';
 
 import { POPUP_LEAVE } from 'constants/popup';
 
@@ -37,9 +34,7 @@ const Home = ({ id, goShop }) => {
 	const [shop, setShop] = useState(null);
 	const mapState = useSelector(getMapState);
 	const userGeometry = useSelector(getUserGeometry);
-	const features = useSelector(getMapFeatures);
-
-	const searchResults = useSelector(getSearchResults);
+	const mapFeatures = useSelector(getMapFeatures);
 
 	const dispatch = useDispatch();
 
@@ -91,7 +86,7 @@ const Home = ({ id, goShop }) => {
 	/**
 	 * Поиск
 	 */
-	const { q, showResults } = useSelector(getSearchState);
+	const { q, showResults, results } = useSelector(getSearchState);
 
 	const [mapMaxHeight, setMapMaxHeight] = useState((showResults) ? 'calc(35vh + 30px)' : undefined);
 
@@ -104,7 +99,6 @@ const Home = ({ id, goShop }) => {
 		[dispatch]);
 	const handleReset = useCallback(() => {
 		dispatch(clearSearchQuery());
-		dispatch(resetSearchResults());
 		setMapMaxHeight(undefined);
 	}, [dispatch]);
 
@@ -132,6 +126,8 @@ const Home = ({ id, goShop }) => {
 			dispatch(fetchSearch(q));
 		}
 	}, [showResults, q, dispatch]);
+
+	const features = useMemo(() => (showResults && Array.isArray(results)) ? results : mapFeatures, [showResults, results, mapFeatures]);
 	
 	return (
 		<Panel id={id} className="Home">
@@ -226,13 +222,13 @@ const Home = ({ id, goShop }) => {
 				header={<Search className="Home__Search" value={q} onChange={handleQueryChange} onReset={handleReset} />}
 				onPositionChange={handleSearchResultsPosition}
 				children={
-					(searchResults === null)
+					(results === null)
 						? <Title
 							className="Home__Title"
 							children="Начинайте вводить"
 							hint="description" />
-						: (Array.isArray(searchResults) && searchResults.length > 0)
-							? searchResults.map(renderResult)
+						: (Array.isArray(results) && results.length > 0)
+							? results.map(renderResult)
 							: <Title
 								className="Home__Title"
 								children="Ничего :("
