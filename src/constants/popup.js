@@ -11,6 +11,8 @@ export const ORDER_NOT_FOUND = 'order-not-found';
 
 export const GET_GEODATA_DENIED = 'get-geodata-denied';
 
+export const SHARE_STORY_SUCCESS = 'share-story-success';
+
 export default {
     [OFFLINE]: {
         disabled: true,
@@ -45,5 +47,10 @@ export default {
         type: 'info',
         title: 'Хорошо-хорошо',
         message: 'К сожалению, ты не разрешил нам получить твою геопозицию, поэтому тебе придётся самому искать себя на карте'
+    },
+    [SHARE_STORY_SUCCESS]: {
+        type: 'success',
+        title: 'Отлично!',
+        message: 'Твоя история опубликована'
     }
 };

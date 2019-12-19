@@ -4,13 +4,14 @@ import { string, shape, oneOf, func } from 'prop-types';
 import './Shop.css';
 
 import API from 'services/api';
+import connect from '@vkontakte/vk-connect';
 import useFetchDataList from 'hooks/use-fetch-data-list';
 import useFetch from 'hooks/use-fetch';
 
 import { parseQueryString } from 'helpers/location';
 
 import { useDispatch } from 'react-redux';
-import { showPopup } from 'actions/popup-actions';
+import { showPopup, closePopup } from 'actions/popup-actions';
 import * as POPUP from 'constants/popup';
 import { TABS } from 'constants/shop';
 import { clearSearchQuery } from 'actions/search-actions';
@@ -138,7 +139,7 @@ const Shop = ({ id, shop, activeTab, goBack }) => {
         userReviews.length === 0,
         [reviews, loadingFriendReviews, friendsReviews, userReviews]);
 
-    const hasCreateReview = useMemo(() => {        
+    const hasCreateReview = useMemo(() => {
         if (userReviews.length > 0) {
             return false;
         }
@@ -164,9 +165,25 @@ const Shop = ({ id, shop, activeTab, goBack }) => {
 
             setShowForm(false);
             setUserReviews(state => [newReview].concat(state));
+
             setTimeout(() => dispatch(showPopup(POPUP.CREATE_REVIEW_SUCCESS, {
-                children: <Success className="Shop__Success" />
-            })), POPUP.POPUP_LEAVE);
+                children: <Success className="Shop__Success" />,
+                actions: [{
+                    theme: 'primary',
+                    title: 'Опубликовать историю',
+                    full: true,
+                    backlight: true,
+                    action: (e) => {
+                        e.currentTarget.disabled = true;
+
+                        connect.send('VKWebAppShowStoryBox', {
+                            background_type: 'image',
+                            url: `https://vkpayer.ezavalishin.ru/reviews/${newReview.id}/story`,
+                            locked: true
+                        })
+                    }
+                }]
+            }, 0)), POPUP.POPUP_LEAVE);
         } catch (e) {
             setShowForm(false);
             setTimeout(() => dispatch(showPopup(POPUP.CREATE_REVIEW_ERROR)), POPUP.POPUP_LEAVE);

@@ -68,6 +68,14 @@ const App = () => {
 					goOrder(orderId);
 				}
 			}
+
+			if (type === 'VKWebAppShowStoryBoxResult') {
+				dispatch(showPopup(POPUP.SHARE_STORY_SUCCESS));
+			}
+
+			if (type === 'VKWebAppShowStoryBoxFailed') {
+				dispatch(closePopup());
+			}
 		});
 
 		const orderId = getOrderId(window.location.href);
@@ -77,7 +85,7 @@ const App = () => {
 		}
 
 		setActiveView(VIEWS.MAIN);
-	}, [goOrder]);
+	}, [goOrder, dispatch]);
 
 	return <>
 		<ConfigProvider isWebView={true}>
