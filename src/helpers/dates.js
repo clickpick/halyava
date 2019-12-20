@@ -100,7 +100,11 @@ export function timetableParse(timetable, timetableUtcOffset, localUtcOffset) {
 
         nextChangeDate = chunkedBreakers.find((chunk) => {
             return chunk[0] > currentMinutes;
-        })[0];
+        });
+
+        if (nextChangeDate > 0) {
+            nextChangeDate = nextChangeDate[0];
+        }
     }
 
     let diff;
@@ -131,7 +135,7 @@ export function timetableParse(timetable, timetableUtcOffset, localUtcOffset) {
         if (isOpened) {
             helpString = 'круглосуточно';
         } else {
-            helpString = '';
+            helpString = 'круглосуточно';
         }
     }
 
