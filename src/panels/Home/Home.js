@@ -14,6 +14,7 @@ import { fetchSearch, setShowSearchResults, setSearchQuery, clearSearchQuery } f
 import { POPUP_LEAVE } from 'constants/popup';
 
 import { debounce } from 'helpers/debounce';
+import { scroll } from 'helpers/scroll';
 
 import { Panel, PanelHeader, FixedLayout, HorizontalScroll } from '@vkontakte/vkui';
 import Map from 'components/Map';
@@ -122,8 +123,12 @@ const Home = ({ id, goShop }) => {
 		[mapMaxHeight]);
 
 	useEffect(() => {
-		if (showResults && Boolean(q)) {
-			dispatch(fetchSearch(q));
+		if (showResults) {
+			if (Boolean(q)) {
+				dispatch(fetchSearch(q));
+			}
+
+			scroll();
 		}
 	}, [showResults, q, dispatch]);
 
@@ -225,8 +230,8 @@ const Home = ({ id, goShop }) => {
 					(results === null)
 						? <Title
 							className="Home__Title"
-							children="Начинайте вводить"
-							hint="description" />
+							children="Куда ты хочешь сходить?"
+							hint="Начни вводить название или адрес" />
 						: (Array.isArray(results) && results.length > 0)
 							? results.map(renderResult)
 							: <Title
