@@ -91,7 +91,8 @@ const Shop = ({ id, shop, activeTab, textBack, goBack }) => {
                 const { response: { items: photos } } = await API.callAPI('photos.get', {
                     owner_id: `-${shop.properties.group.id}`,
                     album_id: shop.properties.group.album_id || 'wall',
-                    count: 20
+                    count: 20,
+                    rev: 1
                 });
 
                 const { response: { items: addresses } } = await API.callAPI('groups.getAddresses', {
