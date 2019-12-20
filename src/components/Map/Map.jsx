@@ -33,7 +33,6 @@ const setBounds = debounce((bounding, ymaps, map, features) => {
 
             map.setBounds(bounds, {
                 checkZoomRange: true,
-                zoomMargin: 50,
                 duration: 250
             });
         }
