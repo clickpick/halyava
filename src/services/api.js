@@ -31,6 +31,16 @@ class API {
         return response.data.data;
     }
 
+    async getAddress(addressId) {
+        if (!addressId) {
+            throw new Error('Bad address id');
+        }
+
+        const { data: { data } } = await get(`/vk-user/addresses/${addressId}`);
+
+        return data;
+    }
+
     async search(lat, lng, q) {
         let query = '?';
 

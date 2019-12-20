@@ -20,7 +20,7 @@ import { updateMapState } from 'actions/map-actions';
 
 import { getTimezoneOffset, timetableParse } from 'helpers/dates';
 
-import { Panel, PanelHeader, PanelHeaderBack, FixedLayout } from '@vkontakte/vkui';
+import { Panel, PanelHeader, PanelHeaderBack, HeaderButton, FixedLayout } from '@vkontakte/vkui';
 import Wrapper from 'components/Wrapper';
 import ShopCard from 'components/ShopCard';
 import Loader from 'components/Loader';
@@ -46,7 +46,7 @@ function findUserReview(review) {
 
 const VK_USER_ID = Number(parseQueryString(window.location.search).vk_user_id);
 
-const Shop = ({ id, shop, activeTab, goBack }) => {
+const Shop = ({ id, shop, activeTab, textBack, goBack }) => {
     const [tab, setTab] = useState(activeTab);
     const [loading, setLoading] = useState(false);
 
@@ -195,7 +195,13 @@ const Shop = ({ id, shop, activeTab, goBack }) => {
                                             translation_y: 0.08,
                                             relation_width: 0.8,
                                             gravity: 'center_top'
-                                        }
+                                        },
+                                        clickable_zones: [{
+                                            action_type: 'link',
+                                            action: {
+                                                link: `https://vk.com/app${VK_APP_ID}#address=${shop.id}`
+                                            },
+                                        }]
                                     }
                                 },
                                 {
@@ -248,7 +254,12 @@ const Shop = ({ id, shop, activeTab, goBack }) => {
 
     return (
         <Panel id={id} className="Shop">
-            <PanelHeader left={<PanelHeaderBack onClick={goBack} />} noShadow={true} />
+            <PanelHeader
+                left={
+                    (textBack)
+                        ? <HeaderButton children={textBack} onClick={goBack} />
+                        : <PanelHeaderBack onClick={goBack} />}
+                noShadow={true} />
 
             <Wrapper className="Shop__Wrapper">
                 <ShopCard
@@ -396,6 +407,7 @@ Shop.propTypes = {
         })
     }),
     activeTab: oneOf(TABS.map((item) => item.index)),
+    textBack: string,
     goBack: func.isRequired
 };
 
