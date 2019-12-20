@@ -89,14 +89,6 @@ const App = () => {
 					goOrder(orderId);
 				}
 			}
-
-			if (type === 'VKWebAppShowStoryBoxResult') {
-				dispatch(showPopup(POPUP.SHARE_STORY_SUCCESS));
-			}
-
-			if (type === 'VKWebAppShowStoryBoxFailed') {
-				dispatch(closePopup());
-			}
 		});
 
 		const orderId = getHashParam(window.location.href, 'order');

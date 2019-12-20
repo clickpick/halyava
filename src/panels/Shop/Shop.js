@@ -177,63 +177,74 @@ const Shop = ({ id, shop, activeTab, textBack, goBack }) => {
                     action: (e) => {
                         e.currentTarget.disabled = true;
 
-                        connect.send('VKWebAppShowStoryBox', {
-                            background_type: 'none',
-                            attachment: {
-                                text: 'Посмотреть',
-                                type: 'url',
-                                url: `https://vk.com/app${VK_APP_ID}`
-                            },
-                            stickers: [
-                                {
-                                    sticker_type: 'renderable',
-                                    sticker: {
-                                        content_type: 'image',
-                                        url: `https://vkpayer.ezavalishin.ru/reviews/${newReview.id}/story`,
-                                        can_delete: false,
-                                        transform: {
-                                            translation_y: 0.08,
-                                            relation_width: 0.8,
-                                            gravity: 'center_top'
-                                        },
-                                        clickable_zones: [{
-                                            action_type: 'link',
-                                            action: {
-                                                link: `https://vk.com/app${VK_APP_ID}#address=${shop.id}`
-                                            },
-                                        }]
-                                    }
+                        const image = new Image();
+                        image.src = `https://vkpayer.ezavalishin.ru/reviews/${newReview.id}/story`;
+
+                        image.onload = function () {
+                            connect.send('VKWebAppShowStoryBox', {
+                                background_type: 'none',
+                                attachment: {
+                                    text: 'Посмотреть',
+                                    type: 'url',
+                                    url: `https://vk.com/app${VK_APP_ID}`
                                 },
-                                {
-                                    sticker_type: 'renderable',
-                                    sticker: {
-                                        content_type: 'image',
-                                        url: `https://vkpayer.ezavalishin.ru/storage/sign.png`,
-                                        can_delete: false,
-                                        transform: {
-                                            translation_y: -0.08,
-                                            relation_width: 0.8,
-                                            gravity: 'center_bottom'
-                                        },
-                                        clickable_zones: [{
-                                            action_type: 'link',
-                                            action: {
-                                                link: `https://vk.com/app${VK_APP_ID}`
+                                stickers: [
+                                    {
+                                        sticker_type: 'renderable',
+                                        sticker: {
+                                            content_type: 'image',
+                                            url: `https://vkpayer.ezavalishin.ru/reviews/${newReview.id}/story`,
+                                            can_delete: false,
+                                            transform: {
+                                                translation_y: 0.08,
+                                                relation_width: 0.8,
+                                                gravity: 'center_top'
                                             },
-                                            clickable_area: [
-                                                { x: 0, y: 0},
-                                                { x: 1064, y: 0 },
-                                                { x: 1064, y: 208 },
-                                                { x: 0, y: 208 }
-                                            ]
-                                        }]
-                                    }
-                                },
-                            ]
-                        })
+                                            clickable_zones: [{
+                                                action_type: 'link',
+                                                action: {
+                                                    link: `https://vk.com/app${VK_APP_ID}#address=${shop.id}`
+                                                },
+                                                clickable_area: [
+                                                    { x: 0, y: 0 },
+                                                    { x: this.naturalWidth, y: 0 },
+                                                    { x: this.naturalWidth, y: this.naturalHeight },
+                                                    { x: 0, y: this.naturalHeight }
+                                                ]
+                                            }]
+                                        }
+                                    },
+                                    {
+                                        sticker_type: 'renderable',
+                                        sticker: {
+                                            content_type: 'image',
+                                            url: `https://vkpayer.ezavalishin.ru/storage/sign.png`,
+                                            can_delete: false,
+                                            transform: {
+                                                translation_y: -0.08,
+                                                relation_width: 0.8,
+                                                gravity: 'center_bottom'
+                                            },
+                                            clickable_zones: [{
+                                                action_type: 'link',
+                                                action: {
+                                                    link: `https://vk.com/app${VK_APP_ID}`
+                                                },
+                                                clickable_area: [
+                                                    { x: 0, y: 0 },
+                                                    { x: 1064, y: 0 },
+                                                    { x: 1064, y: 208 },
+                                                    { x: 0, y: 208 }
+                                                ]
+                                            }]
+                                        }
+                                    },
+                                ]
+                            });
+                        };
                     }
                 }]
-            }, 0)), POPUP.POPUP_LEAVE);
+            }, 5000)), POPUP.POPUP_LEAVE);
         } catch (e) {
             setShowForm(false);
             setTimeout(() => dispatch(showPopup(POPUP.CREATE_REVIEW_ERROR)), POPUP.POPUP_LEAVE);
