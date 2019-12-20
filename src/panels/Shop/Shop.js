@@ -90,7 +90,7 @@ const Shop = ({ id, shop, activeTab, textBack, goBack }) => {
             try {
                 const { response: { items: photos } } = await API.callAPI('photos.get', {
                     owner_id: `-${shop.properties.group.id}`,
-                    album_id: shop.properties.group.album_id || 'wall',
+                    album_id: shop.properties.address.album_id || 'wall',
                     count: 20,
                     rev: 1
                 });
