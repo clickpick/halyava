@@ -20,3 +20,21 @@ export const getHash = (link) => {
 
     return '';
 };
+
+export const getHashParam = (link, param) => {
+    if (!link || !param) {
+        return null;
+    }
+
+    const params = getHash(link).split('&');
+
+    for (let i = 0; i < params.length; i++) {
+        const [key, value] = params[i].split('=');
+
+        if (key === param) {
+            return value;
+        }
+    }
+
+    return null;
+};
