@@ -32,29 +32,25 @@ const Input = ({ className, name, top, placeholder, value: initialValue, maxLeng
             ? root.current.clientWidth - postfix.current.offsetWidth
             : root.current.clientWidth;
         const getBufferWidth = () => buffer.current.clientWidth;
-        
+
         const setStyleProperty = (node, property, value) => {
             if (node) {
                 node.style[property] = value;
             }
         };
-    
+
         if (value !== '') {
-            let direction = 'DOWN';
             buffer.current.innerHTML = value;
 
             const fontSize = buffer.current.style.fontSize;
-            
             let size = Number(fontSize.substring(0, fontSize.length - 2)) || MAX_FONT_SIZE;
-            
-            if (getMaxWidth() < getBufferWidth()) {                
+
+            if (getMaxWidth() < getBufferWidth()) {
                 while (getMaxWidth() < getBufferWidth()) {
                     setStyleProperty(buffer.current, 'fontSize', `${--size}px`);
                     setStyleProperty(postfix.current, 'fontSize', `${size}px`);
                 }
             } else if (size < MAX_FONT_SIZE) {
-                direction = 'UP';
-
                 while (getBufferWidth() < getMaxWidth() && size < MAX_FONT_SIZE) {
                     setStyleProperty(postfix.current, 'fontSize', `${++size}px`);
                     setStyleProperty(buffer.current, 'fontSize', `${size}px`);
@@ -64,9 +60,7 @@ const Input = ({ className, name, top, placeholder, value: initialValue, maxLeng
             setStyleProperty(
                 input.current,
                 'width',
-                (direction === 'DOWN')
-                    ? `${getBufferWidth()}px`
-                    : `${getBufferWidth() - 50}px`
+                `${getBufferWidth()}px`
             );
             setStyleProperty(input.current, 'fontSize', `${size}px`);
         }
@@ -132,7 +126,7 @@ Input.propTypes = {
     maxLength: number,
     disabled: bool,
     onChange: func
-}; 
+};
 
 Input.defaultProps = {
     maxLength: 12
