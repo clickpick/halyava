@@ -107,7 +107,9 @@ const Shop = ({ id, shop, activeTab, textBack, goBack }) => {
                 const currentAddress = addresses.find((address) => address.id === shop.id);
 
                 if (currentAddress && currentAddress.timetable) {
-                    setTimetable(timetableParse(currentAddress.timetable, currentAddress.time_offset, getTimezoneOffset()));
+                    try {
+                        setTimetable(timetableParse(currentAddress.timetable, currentAddress.time_offset, getTimezoneOffset()));
+                    } catch (e) {}
                 }
 
                 setPhotos(photos);
