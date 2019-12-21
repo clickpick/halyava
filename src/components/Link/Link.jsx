@@ -7,6 +7,7 @@ import './Link.css';
 import { ReactComponent as IconInfo } from 'svg/info.svg';
 import { ReactComponent as IconMessage } from 'svg/message.svg';
 import { ReactComponent as IconPoint } from 'svg/point.svg';
+import { ReactComponent as IconMan } from 'svg/man.svg';
 import { ReactComponent as IconArrow } from 'svg/arrow.svg';
 
 function getIcon(icon) {
@@ -17,6 +18,8 @@ function getIcon(icon) {
             return <IconMessage className="Link__icon" />;
         case 'point':
             return <IconPoint className="Link__icon" />;
+        case 'man':
+            return <IconMan className="Link__icon" />;
         default:
             return null;
     }
@@ -39,7 +42,7 @@ const Link = React.memo(({ className, children, icon, onClick, ...restProps }) =
 Link.propTypes = {
     className: string,
     children: string.isRequired,
-    icon: oneOf(['info', 'message', 'point']),
+    icon: oneOf(['info', 'message', 'point', 'main']),
     onClick: func
 };
 
