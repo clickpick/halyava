@@ -59,7 +59,8 @@ export function timetableParse(timetable, timetableUtcOffset, localUtcOffset) {
         }
 
         if (currentTimetable.long) {
-            breakers.push((nextKey * 24 * 60 + currentTimetable.close_time) % MAX_WEEK_MIN);
+            // breakers.push((nextKey * 24 * 60 + currentTimetable.close_time) % MAX_WEEK_MIN);
+            breakers.push((nextKey * 24 * 60 + currentTimetable.close_time));
         } else {
             breakers.push(key * 24 * 60 + currentTimetable.close_time);
         }
