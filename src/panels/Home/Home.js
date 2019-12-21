@@ -77,7 +77,7 @@ const Home = ({ id, goShop }) => {
 		const tab = e.currentTarget.dataset.tab;
 
 		setShop(null);
-		setTimeout(() => goShop(nextShop, tab), POPUP_LEAVE);
+		setTimeout(() => goShop(nextShop, tab), POPUP_LEAVE + 50);
 	}, [shop, goShop]);
 
 	useEffect(() => {
