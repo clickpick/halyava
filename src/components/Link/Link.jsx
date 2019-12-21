@@ -42,7 +42,7 @@ const Link = React.memo(({ className, children, icon, onClick, ...restProps }) =
 Link.propTypes = {
     className: string,
     children: string.isRequired,
-    icon: oneOf(['info', 'message', 'point', 'main']),
+    icon: oneOf(['info', 'message', 'point', 'man']),
     onClick: func
 };
 
