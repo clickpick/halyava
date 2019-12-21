@@ -117,6 +117,19 @@ class API {
         return response.data.data;
     }
 
+    async getTipPayParams(orderId, value) {
+        if (!orderId) {
+            throw new Error('Bad order id');
+        }
+
+        if (!value) {
+            throw new Error('Bad value');
+        }
+        
+        const response = await post(`/vk-user/orders/${orderId}/tip-params`, { value });
+
+        return response.data.data;
+    }
     async callAPI(method, params) {
         if (!method) {
             throw new Error('Bad method');

@@ -27,7 +27,7 @@ import { CREATED, PAID, ERROR_PAY } from 'constants/order';
 import { gaps } from 'helpers/numbers';
 import { callTaptic, TAPTIC_SUCCESS, TAPTIC_ERROR } from 'helpers/taptic';
 
-const Order = ({ id, orderId, goMain }) => {
+const Order = ({ id, orderId, goGratuity, goMain }) => {
     const [loading, setLoading] = useState(false);
     const [order, setOrder] = useState(null);
     const [status, setStatus] = useState(CREATED);
@@ -143,6 +143,13 @@ const Order = ({ id, orderId, goMain }) => {
                             className="Order__Row"
                             title="Сумма"
                             children={`${gaps(order.value)} ₽`} />
+
+                        <Link
+                            className="Order__Link"
+                            icon="man"
+                            children="Оставить чаевые"
+                            onClick={goGratuity} />
+{/*                             
                         <Link
                             className="Order__Link"
                             icon="info"
@@ -152,7 +159,7 @@ const Order = ({ id, orderId, goMain }) => {
                             className="Order__Link"
                             icon="message"
                             children="Написать отзыв"
-                            data-tab="reviews" />
+                            data-tab="reviews" /> */}
                     </>}
 
                     {(status === ERROR_PAY) && <>
@@ -195,6 +202,7 @@ const Order = ({ id, orderId, goMain }) => {
 Order.propTypes = {
     id: string.isRequired,
     orderId: string,
+    goGratuity: func.isRequired,
     goMain: func.isRequired
 };
 
