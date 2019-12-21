@@ -102,9 +102,7 @@ export function timetableParse(timetable, timetableUtcOffset, localUtcOffset) {
             return chunk[0] > currentMinutes;
         });
 
-        if (nextChangeDate > 0) {
-            nextChangeDate = nextChangeDate[0];
-        }
+        nextChangeDate = nextChangeDate[0]; // todo
     }
 
     let diff;

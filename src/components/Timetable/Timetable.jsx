@@ -22,7 +22,9 @@ const Timetable = ({ className, initialTimetable, groupId: group_id, addressId }
 
                 setTimeout(() => {
                     if (addresses[0] && addresses[0].timetable) {
-                        setTimetable(timetableParse(addresses[0].timetable, addresses[0].time_offset, getTimezoneOffset()));
+                        try {
+                            setTimetable(timetableParse(addresses[0].timetable, addresses[0].time_offset, getTimezoneOffset()));
+                        } catch (e) {}
                     }
 
                     setLoading(false);
