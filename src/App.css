@@ -24,6 +24,7 @@
     --font-size-15: 15px;
     --font-size-17: 17px;
     --font-size-28: 28px;
+    --font-size-52: 52px;
 
     --font-weight-normal: 400;
     --font-weight-medium: 500;
@@ -88,6 +89,14 @@
     --search_color-reset: var(--color-primary);
 
     /**
+     * Inout Component
+     */
+    --input_color-label: var(--color-black);
+    --input_background: var(--color-white);
+    --input_color: var(--color-black);
+    --input_color-placeholder: var(--color-light-gray);
+
+    /**
      * Order Panel
      */
     --order_background-value: var(--color-white);
@@ -128,6 +137,11 @@ body[scheme="space_gray"] {
     --search_background-input: #313131;
     --search_color: var(--color-white);
     --search_color-reset: var(--color-white);
+
+    --input_color-label: var(--color-white);
+    --input_background: #212121;
+    --input_color: var(--color-white);
+    --input_color-placeholder: #313131;
 
     --order_background-value: #212121;
     --order_color-value: var(--color-white);
