@@ -44,12 +44,15 @@ const Order = ({ id, orderId, goGratuity, goMain }) => {
             const payResponse = await connect.sendPromise('VKWebAppOpenPayForm', params);
 
             let status = payResponse.status;
+            let transactionId = payResponse.transaction_id;
+
             if (payResponse.hasOwnProperty('result')) {
                 status = payResponse.result.status;
+                transactionId = payResponse.result.transaction_id;
             }
 
             setDisabled(false);
-            if (status) {
+            if (status && transactionId) {
                 setStatus(PAID);
                 callTaptic(TAPTIC_SUCCESS);
             } else {
