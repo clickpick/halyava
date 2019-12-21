@@ -54,7 +54,7 @@
 
     border: 0;
 
-    background-color: var(--input_background);
+    background-color: transparent;
     color: var(--input_color);
 
     outline: none;

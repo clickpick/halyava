@@ -92,7 +92,6 @@
      * Inout Component
      */
     --input_color-label: var(--color-black);
-    --input_background: var(--color-white);
     --input_color: var(--color-black);
     --input_color-placeholder: var(--color-light-gray);
 
@@ -139,7 +138,6 @@ body[scheme="space_gray"] {
     --search_color-reset: var(--color-white);
 
     --input_color-label: var(--color-white);
-    --input_background: #212121;
     --input_color: var(--color-white);
     --input_color-placeholder: #313131;
 
