@@ -1,7 +1,7 @@
 .Review {
     position: relative;
     display: flex;
-    
+
     padding-top: 15px;
     padding-bottom: 15px;
 }
@@ -24,6 +24,10 @@
     color: var(--color-gray);
 }
 
+.Review__content {
+    overflow: hidden;
+}
+
 .Review__name::before {
     position: absolute;
     top: 0;
@@ -43,6 +47,8 @@
     font-size: var(--font-size-15);
     line-height: 22px;
     letter-spacing: -0.24px;
+
+    overflow: hidden;
 }
 
 .Review__footer {
