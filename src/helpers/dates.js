@@ -80,7 +80,7 @@ export function timetableParse(timetable, timetableUtcOffset, localUtcOffset) {
     let isOpened;
     let nextChangeDate;
 
-    if (workingChunkIndex > 0) {
+    if (workingChunkIndex > -1) {
         isOpened = true;
 
         let breakIndex;
@@ -93,7 +93,7 @@ export function timetableParse(timetable, timetableUtcOffset, localUtcOffset) {
             }
         }
 
-        if (breakIndex) {
+        if (breakIndex > -1) {
             nextChangeDate = chunkedBreakers[breakIndex][1];
         }
     } else {
