@@ -66,7 +66,7 @@ const Gratuity = ({ id, orderId, goBack, goMain }) => {
                             className="Gratuity__Input"
                             name="cash"
                             top="Оставить чаевые"
-                            placeholder="300"
+                            placeholder="100"
                             value={cash}
                             postfix=" ₽"
                             onChange={handleCashChange} />
