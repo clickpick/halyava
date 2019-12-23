@@ -30,7 +30,7 @@ const Timetable = ({ className, initialTimetable, groupId: group_id, addressId }
                     }
 
                     setLoading(false);
-                }, 1500);
+                }, 500);
             }
 
             fetchTimetable();
