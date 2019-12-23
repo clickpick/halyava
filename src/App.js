@@ -96,13 +96,13 @@ const App = () => {
 		const orderId = getHashParam(window.location.href, 'order');
 		const addressId = getHashParam(window.location.href, 'address');
 
-		connect.send('VKWebAppSetLocation', { location: '#' });
-
 		if (orderId) {
+			connect.send('VKWebAppSetLocation', { location: '#' });
 			return goOrder(orderId);
 		}	
 
 		if (addressId) {
+			connect.send('VKWebAppSetLocation', { location: '#' });
 			return goAddress(addressId);
 		}
 
