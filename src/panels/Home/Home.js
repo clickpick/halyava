@@ -148,9 +148,7 @@ const Home = ({ id, goShop }) => {
 				updateMapState={(geo) => dispatch(updateMapState(geo))}
 				onClick={setShop} />
 			
-			<FixedLayout
-				className="Home__FixedLayout"
-				vertical="bottom">
+			<FixedLayout className="Home__FixedLayout" vertical="bottom">
 				<HorizontalScroll className="Home__HorizontalScroll">
 					<ul className="Home__actions">
 						<li className="Home__action">

@@ -31,3 +31,8 @@
     padding-top: 50% !important;
     padding-bottom: 50% !important;
 }
+
+/* Костыль, чтобы кнопки не прыгали вверх-вниз при загрузке */
+.Home__FixedLayout {
+    position: absolute;
+}
