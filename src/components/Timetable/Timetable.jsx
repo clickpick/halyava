@@ -15,12 +15,14 @@ const Timetable = ({ className, initialTimetable, groupId: group_id, addressId }
     const [timetable, setTimetable] = useState(initialTimetable);
 
     useEffect(() => {
+        let timerId = null;
+
         if (!initialTimetable) {
             async function fetchTimetable() {
                 setLoading(true);
                 const { response: { items: addresses } } = await API.callAPI('groups.getAddresses', { group_id, address_ids: [addressId] });
 
-                setTimeout(() => {
+                timerId = setTimeout(() => {
                     if (addresses[0] && addresses[0].timetable) {
                         try {
                             setTimetable(timetableParse(addresses[0].timetable, addresses[0].time_offset, getTimezoneOffset()));
@@ -28,11 +30,17 @@ const Timetable = ({ className, initialTimetable, groupId: group_id, addressId }
                     }
 
                     setLoading(false);
-                }, 500);
+                }, 1500);
             }
 
             fetchTimetable();
         }
+
+        return () => {
+            if (timerId) {
+                clearTimeout(timerId);
+            }
+        };
     }, [initialTimetable, group_id, addressId]);
 
     return (
