@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 
 import API from 'services/api';
 import connect from '@vkontakte/vk-connect';
+
 import { useSelector, useDispatch } from 'react-redux';
 import { getPopup } from 'reducers/popup-reducer';
 import { showPopup, closePopup } from 'actions/popup-actions';
@@ -69,12 +70,13 @@ const App = () => {
 	useEffect(() => {
 		window.addEventListener('hashchange', () => {
 			const orderId = getHashParam(window.location.href, 'order');
+			const addressId = getHashParam(window.location.href, 'address');
+
+			connect.sendPromise('VKWebAppSetLocation', { location: '#' });
 
 			if (orderId) {
 				return goOrder(orderId);
 			}
-
-			const addressId = getHashParam(window.location.href, 'address');
 
 			if (addressId) {
 				return goAddress(addressId);
@@ -92,12 +94,13 @@ const App = () => {
 		});
 
 		const orderId = getHashParam(window.location.href, 'order');
+		const addressId = getHashParam(window.location.href, 'address');
+
+		connect.send('VKWebAppSetLocation', { location: '#' });
 
 		if (orderId) {
 			return goOrder(orderId);
-		}
-
-		const addressId = getHashParam(window.location.href, 'address');		
+		}	
 
 		if (addressId) {
 			return goAddress(addressId);
